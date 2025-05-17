@@ -143,7 +143,7 @@ function PostCard({ post }: { post: any }) {
   const name = author.profile?.displayName || author.username || "Unknown";
   const thumbnail = post.thumbnail || "/blog-thumb-placeholder.jpg";
   return (
-    <Link href={`/${post.slug}`} className="block group">
+    <Link href={`/post/${post.slug}`} className="block group">
       <div className="bg-white/90 dark:bg-[#23272f] rounded-xl shadow-md border border-[#e6e6e6] flex flex-col overflow-hidden hover:shadow-lg transition-shadow group">
         <div className="relative h-40 w-full overflow-hidden">
           <Image

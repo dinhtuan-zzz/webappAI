@@ -30,7 +30,7 @@ export function TrendingPosts({ posts }: { posts: any[] }) {
         {trending.map((post, i) => (
           <Link
             key={post.id}
-            href={`/${post.slug}`}
+            href={`/post/${post.slug}`}
             className={`min-w-[220px] max-w-xs flex-shrink-0 rounded-lg border shadow-sm bg-white/90 dark:bg-[#23272f] p-4 flex flex-col gap-2 hover:shadow-md transition-shadow relative ${
               i === 0
                 ? "ring-2 ring-[#6bb7b7] scale-105 z-10"

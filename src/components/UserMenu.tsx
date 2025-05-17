@@ -12,6 +12,7 @@ export function UserMenu() {
   const avatarUrl = user?.image || user?.avatarUrl;
   const email = user?.email;
   const displayName = user?.name || user?.username || "User";
+  console.log("Session:", session);
 
   if (!user) {
     return (
@@ -36,7 +37,7 @@ export function UserMenu() {
         </div>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
-          <Link href="/profile">Profile</Link>
+          <Link href={`/user/${user.username}`}>Profile</Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
           <Link href="/my-posts">My Posts</Link>
