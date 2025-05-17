@@ -41,3 +41,17 @@ export function CommentThread({
     </div>
   );
 } 
+
+// In CommentThread.tsx
+export type Comment = {
+  id: string;
+  content: string;
+  createdAt: string;
+  parentId?: string;
+  author: {
+    id: string;
+    username: string;
+    profile?: { avatarUrl?: string; displayName?: string };
+  };
+  children?: Comment[];
+};

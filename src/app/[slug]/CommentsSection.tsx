@@ -3,6 +3,7 @@ import { useSession } from "next-auth/react";
 import { useState } from "react";
 import { CommentForm } from "@/components/CommentForm";
 import { CommentThread } from "@/components/CommentThread";
+import Link from "next/link";
 
 export function CommentsSection({ postId, initialComments, currentUserId }: {
   postId: string;
@@ -11,6 +12,7 @@ export function CommentsSection({ postId, initialComments, currentUserId }: {
 }) {
   const { data: session } = useSession();
   const [comments, setComments] = useState(initialComments);
+  const [showLoginModal, setShowLoginModal] = useState(false);
 
   // Handler to add a new top-level comment
   const handleAddComment = async (content: string) => {
@@ -82,9 +84,30 @@ export function CommentsSection({ postId, initialComments, currentUserId }: {
   return (
     <section>
       <h2 className="text-xl font-bold text-[#2a4257] mb-4">Comments</h2>
-      {session?.user && (
-        <div className="mb-4">
-          <CommentForm onSubmit={handleAddComment} submitLabel="Post" />
+      <div className="mb-4">
+        <CommentForm
+          onSubmit={handleAddComment}
+          submitLabel="Post"
+          requireAuth={!session?.user}
+          onRequireAuth={() => setShowLoginModal(true)}
+        />
+      </div>
+      {showLoginModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+          <div className="bg-white rounded-lg shadow-lg p-6 max-w-xs w-full text-center">
+            <div className="mb-4 text-lg font-semibold text-[#2a4257]">You must be logged in to comment.</div>
+            <Link href="/login">
+              <button className="bg-[#6bb7b7] hover:bg-[#4e9a9a] text-white font-semibold px-4 py-2 rounded shadow">
+                Login
+              </button>
+            </Link>
+            <button
+              className="block mt-4 text-gray-500 hover:underline mx-auto"
+              onClick={() => setShowLoginModal(false)}
+            >
+              Cancel
+            </button>
+          </div>
         </div>
       )}
       {comments.length > 0 ? (

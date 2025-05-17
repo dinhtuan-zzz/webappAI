@@ -28,9 +28,14 @@ function nestComments(comments: any[]): CommentType[] {
   return roots;
 }
 
-export default async function BlogDetailPage({ params }: { params: { slug: string } }) {
+export default async function BlogDetailPage(props: { params: { slug: string } } | Promise<{ params: { slug: string } }>) {
+  // Await props if it's a Promise (Next.js 15+)
+  const resolvedProps = await Promise.resolve(props);
+  const params = await Promise.resolve(resolvedProps.params);
+  const { slug } = params;
+
   const post = await prisma.post.findUnique({
-    where: { slug: params.slug },
+    where: { slug },
     select: {
       title: true,
       content: true,
