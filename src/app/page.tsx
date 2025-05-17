@@ -9,6 +9,7 @@ import { SearchBar } from "@/components/SearchBar";
 import { UserMenu } from "@/components/UserMenu";
 import { CategoriesNav, Category } from "@/components/CategoriesNav";
 import useSWR from "swr";
+import { TrendingPosts } from "@/components/TrendingPosts";
 
 const fetcher = (url: string) => fetch(url).then(res => res.json());
 
@@ -18,6 +19,8 @@ export default function HomePageWrapper() {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const { data: postsData, isLoading } = useSWR("/api/posts", fetcher);
   const posts = postsData?.posts || [];
+  const { data: trendingData } = useSWR("/api/posts/trending", fetcher);
+  const trendingPosts = trendingData?.posts || [];
   const [loadingCats, setLoadingCats] = useState(true);
 
   // Fetch categories on mount
@@ -57,10 +60,11 @@ export default function HomePageWrapper() {
     categories={categories}
     selectedCategories={selectedCategories}
     setSelectedCategories={setSelectedCategories}
+    trendingPosts={trendingPosts}
   />;
 }
 
-function Home({ posts, search, setSearch, loading, categories, selectedCategories, setSelectedCategories }: {
+function Home({ posts, search, setSearch, loading, categories, selectedCategories, setSelectedCategories, trendingPosts }: {
   posts: any[];
   search: string;
   setSearch: (v: string) => void;
@@ -68,6 +72,7 @@ function Home({ posts, search, setSearch, loading, categories, selectedCategorie
   categories: Category[];
   selectedCategories: string[];
   setSelectedCategories: (ids: string[]) => void;
+  trendingPosts: any[];
 }) {
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-[#f7fafc] via-[#e6f0f7] to-[#f3f7f4] text-gray-900 dark:text-gray-100 font-sans">
@@ -92,6 +97,7 @@ function Home({ posts, search, setSearch, loading, categories, selectedCategorie
 
       {/* Categories Navigation */}
       <main className="flex-1 w-full max-w-6xl mx-auto px-2 sm:px-6 py-8">
+        <TrendingPosts posts={trendingPosts} />
         <CategoriesNav
           categories={categories}
           selected={selectedCategories}
