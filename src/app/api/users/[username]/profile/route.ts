@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
+import { compare, hash } from "bcryptjs";
 
 export async function GET(req: Request, { params }: { params: { username: string } }) {
   const { username } = params;
@@ -56,8 +57,24 @@ export async function PATCH(req: Request, { params }: { params: { username: stri
   if (user.id !== session.user.id) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
-  const { email, displayName, username: newUsername } = await req.json();
+  const { email, displayName, username: newUsername, currentPassword, newPassword } = await req.json();
   try {
+    // Password change logic
+    if (currentPassword || newPassword) {
+      if (!currentPassword || !newPassword) {
+        return NextResponse.json({ error: "Both current and new password are required." }, { status: 400 });
+      }
+      if (!user.password) {
+        return NextResponse.json({ error: "Password change not supported for this account." }, { status: 400 });
+      }
+      const isValid = await compare(currentPassword, user.password);
+      if (!isValid) {
+        return NextResponse.json({ error: "Current password is incorrect." }, { status: 400 });
+      }
+      const hashed = await hash(newPassword, 10);
+      await prisma.user.update({ where: { id: user.id }, data: { password: hashed } });
+      return NextResponse.json({ success: true, message: "Password changed successfully." });
+    }
     // Check for email or username conflicts
     if (email && email !== user.email) {
       const existing = await prisma.user.findUnique({ where: { email } });
