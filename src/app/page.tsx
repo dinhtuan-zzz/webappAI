@@ -10,6 +10,7 @@ import { UserMenu } from "@/components/UserMenu";
 import { CategoriesNav, Category } from "@/components/CategoriesNav";
 import useSWR from "swr";
 import { TrendingPosts } from "@/components/TrendingPosts";
+import { Avatar } from "@/components/Avatar";
 
 const fetcher = (url: string) => fetch(url).then(res => res.json());
 
@@ -136,8 +137,10 @@ function formatNumber(n: number) {
 }
 
 function PostCard({ post }: { post: any }) {
-  const avatar = post.author?.profile?.avatarUrl || "/avatar-placeholder.png";
-  const authorName = post.author?.profile?.displayName || post.author?.username || "Unknown";
+  const author = post.author || {};
+  const avatarUrl = author.profile?.avatarUrl;
+  const email = author.email;
+  const name = author.profile?.displayName || author.username || "Unknown";
   const thumbnail = post.thumbnail || "/blog-thumb-placeholder.jpg";
   return (
     <Link href={`/${post.slug}`} className="block group">
@@ -157,14 +160,8 @@ function PostCard({ post }: { post: any }) {
           </h2>
           <p className="text-sm text-gray-600 dark:text-gray-300 line-clamp-2 mb-2">{post.summary || post.content?.slice(0, 100) + "..."}</p>
           <div className="flex items-center gap-2 mt-auto">
-            <Image
-              src={avatar}
-              alt={authorName}
-              width={28}
-              height={28}
-              className="rounded-full border border-[#e6e6e6]"
-            />
-            <span className="text-xs text-[#2a4257] font-medium">{authorName}</span>
+            <Avatar avatarUrl={avatarUrl} email={email} name={name} size={28} />
+            <span className="text-xs text-[#2a4257] font-medium">{name}</span>
             <span className="text-xs text-gray-400 ml-auto">{new Date(post.createdAt).toLocaleDateString()}</span>
           </div>
           <div className="flex items-center gap-4 mt-2 text-xs text-gray-500">

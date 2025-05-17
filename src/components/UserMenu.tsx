@@ -4,11 +4,13 @@ import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 import Image from "next/image";
 import Link from "next/link";
+import { Avatar } from "@/components/Avatar";
 
 export function UserMenu() {
   const { data: session } = useSession();
   const user = session?.user;
-  const avatar = user?.image || user?.avatarUrl || "/avatar-placeholder.png";
+  const avatarUrl = user?.image || user?.avatarUrl;
+  const email = user?.email;
   const displayName = user?.name || user?.username || "User";
 
   if (!user) {
@@ -25,7 +27,7 @@ export function UserMenu() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <button className="flex items-center gap-2 focus:outline-none">
-          <Image src={avatar} alt={displayName} width={32} height={32} className="rounded-full border border-[#e6e6e6]" />
+          <Avatar avatarUrl={avatarUrl} email={email} name={displayName} size={32} />
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-48">

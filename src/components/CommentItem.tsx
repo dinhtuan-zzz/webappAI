@@ -4,6 +4,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { CommentForm } from "@/components/CommentForm";
 import MarkdownRenderer from "@/components/MarkdownRenderer";
+import { Avatar } from "@/components/Avatar";
 
 export function CommentItem({
   comment,
@@ -22,13 +23,14 @@ export function CommentItem({
   const [replyMode, setReplyMode] = useState(false);
   const [loading, setLoading] = useState(false);
   const isAuthor = currentUserId && comment.author?.id === currentUserId;
-  const avatar = comment.author?.profile?.avatarUrl || "/avatar-placeholder.png";
+  const avatarUrl = comment.author?.profile?.avatarUrl;
+  const email = comment.author?.email;
   const displayName = comment.author?.profile?.displayName || comment.author?.username || "User";
   const timestamp = new Date(comment.createdAt).toLocaleString();
 
   return (
     <div className="flex gap-3 py-3 border-b border-[#e6e6e6]">
-      <Image src={avatar} alt={displayName} width={32} height={32} className="rounded-full border" />
+      <Avatar avatarUrl={avatarUrl} email={email} name={displayName} size={32} />
       <div className="flex-1">
         <div className="flex items-center gap-2 mb-1">
           <span className="font-semibold text-[#2a4257] text-sm">{displayName}</span>

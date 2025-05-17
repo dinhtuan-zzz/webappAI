@@ -2,7 +2,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { ThumbsUp, MessageSquare, Eye } from "lucide-react";
-
+import { Avatar } from "@/components/Avatar";
 function formatNumber(n: number) {
   return n >= 1000 ? (n / 1000).toFixed(1).replace(/\.0$/, "") + "k" : n.toString();
 }
@@ -16,6 +16,8 @@ function getTrendingScore(post: any) {
 }
 
 export function TrendingPosts({ posts }: { posts: any[] }) {
+  
+
   // Sort by trending score, take top 5
   const trending = [...posts]
     .sort((a, b) => getTrendingScore(b) - getTrendingScore(a))
@@ -39,12 +41,18 @@ export function TrendingPosts({ posts }: { posts: any[] }) {
           >
             <div className="font-semibold text-[#2a4257] line-clamp-2 mb-1">{post.title}</div>
             <div className="flex items-center gap-2 mb-1">
-              <Image
-                src={post.author?.profile?.avatarUrl || "/avatar-placeholder.png"}
+              {/* <Image
+                src={post.author?.profile?.avatarUrl || getGravatarUrl(post.author?.email || "unknown@example.com", 20, "identicon")}
                 alt={post.author?.profile?.displayName || post.author?.username || "User"}
                 width={20}
                 height={20}
                 className="rounded-full border"
+              /> */}
+              <Avatar
+                avatarUrl={post.author?.profile?.avatarUrl}
+                email={post.author?.email}
+                name={post.author?.profile?.displayName || post.author?.username || "User"}
+                size={20}
               />
               <span className="text-xs text-[#2a4257] font-medium">
                 {post.author?.profile?.displayName || post.author?.username || "User"}

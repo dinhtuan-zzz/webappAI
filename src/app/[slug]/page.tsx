@@ -1,17 +1,14 @@
 import { prisma } from "@/lib/prisma";
 import Image from "next/image";
-import { notFound } from "next/navigation";
 import Link from "next/link";
 import { CommentThread, Comment as CommentType } from "@/components/CommentThread";
 import MarkdownRenderer from "@/components/MarkdownRenderer";
 import { PostVote } from "@/components/PostVote";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
-import { useSession } from "next-auth/react";
-import { useState } from "react";
-import { CommentForm } from "@/components/CommentForm";
 import { CommentsSection } from "./CommentsSection";
 import { ViewCount } from "./ViewCount";
+import { Avatar } from "@/components/Avatar";
 
 function nestComments(comments: any[]): CommentType[] {
   const map = new Map();
@@ -43,6 +40,7 @@ export default async function BlogDetailPage(props: { params: { slug: string } }
       createdAt: true,
       author: {
         select: {
+          email: true,
           username: true,
           profile: { select: { avatarUrl: true, displayName: true } },
         },
@@ -55,7 +53,6 @@ export default async function BlogDetailPage(props: { params: { slug: string } }
   });
   if (!post) return <div>Not found</div>;
 
-  const avatar = post.author?.profile?.avatarUrl || "/avatar-placeholder.png";
   const authorName = post.author?.profile?.displayName || post.author?.username || "Unknown";
   const thumbnail = "/blog-thumb-placeholder.jpg";
   const content = typeof post.content === "string" ? post.content : "";
@@ -85,6 +82,7 @@ export default async function BlogDetailPage(props: { params: { slug: string } }
       parentId: true,
       author: {
         select: {
+          email: true,
           username: true,
           profile: { select: { displayName: true, avatarUrl: true } },
           id: true,
@@ -102,7 +100,12 @@ export default async function BlogDetailPage(props: { params: { slug: string } }
         </div>
         <h1 className="text-3xl font-bold text-[#2a4257] mb-2">{post.title}</h1>
         <div className="flex items-center gap-3 mb-2">
-          <Image src={avatar} alt={authorName} width={32} height={32} className="rounded-full border border-[#e6e6e6]" />
+          <Avatar
+            avatarUrl={post.author?.profile?.avatarUrl}
+            email={post.author?.email}
+            name={authorName}
+            size={32}
+          />
           <span className="text-sm text-[#2a4257] font-medium">{authorName}</span>
           <span className="text-xs text-gray-400">{new Date(post.createdAt).toLocaleDateString()}</span>
           <ViewCount postId={post.id} initialCount={post.viewCount || 0} />
