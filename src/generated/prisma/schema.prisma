@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
   output   = "../src/generated/prisma"
@@ -14,51 +8,29 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum UserStatus {
-  ACTIVE
-  SUSPENDED
-  BANNED
-  EMAIL_UNVERIFIED
-}
-
-enum PostStatus {
-  DRAFT
-  PUBLISHED
-  PENDING
-  TRASH
-  DELETED
-}
-
-enum CommentStatus {
-  APPROVED
-  PENDING
-  SPAM
-  TRASH
-  DELETED
-}
-
 model User {
-  id            String       @id @default(uuid())
-  email         String       @unique
-  username      String       @unique
-  password      String?
-  emailVerified DateTime?
-  createdAt     DateTime     @default(now())
-  updatedAt     DateTime     @updatedAt
-  lastLoginAt   DateTime?
-  lastLoginIp   String?
-  status        UserStatus   @default(EMAIL_UNVERIFIED)
-  profile       UserProfile?
-  roles         UserRole[]
-  sessions      Session[]
-  accounts      Account[]
-  posts         Post[]       @relation("UserPosts")
-  comments      Comment[]    @relation("UserComments")
-  votes         Vote[]
-  media         Media[]      @relation("UserMedia")
-  adminNotes    AdminNote[]  @relation("AdminNoteUser")
-  createdNotes  AdminNote[]  @relation("AdminNoteCreatedBy")
-  auditLogs     AuditLog[]
+  id                      String                      @id @default(uuid())
+  email                   String                      @unique
+  username                String                      @unique
+  password                String?
+  emailVerified           DateTime?
+  createdAt               DateTime                    @default(now())
+  updatedAt               DateTime                    @updatedAt
+  lastLoginAt             DateTime?
+  lastLoginIp             String?
+  status                  UserStatus                  @default(ACTIVE)
+  accounts                Account[]
+  createdNotes            AdminNote[]                 @relation("AdminNoteCreatedBy")
+  adminNotes              AdminNote[]                 @relation("AdminNoteUser")
+  auditLogs               AuditLog[]
+  comments                Comment[]                   @relation("UserComments")
+  media                   Media[]                     @relation("UserMedia")
+  posts                   Post[]                      @relation("UserPosts")
+  sessions                Session[]
+  notificationPreferences UserNotificationPreference?
+  profile                 UserProfile?
+  roles                   UserRole[]
+  votes                   Vote[]
 }
 
 model UserProfile {
@@ -76,8 +48,8 @@ model Role {
   id          String           @id @default(uuid())
   name        String           @unique
   description String?
-  users       UserRole[]
   permissions RolePermission[]
+  users       UserRole[]
 }
 
 model Permission {
@@ -90,8 +62,8 @@ model Permission {
 model UserRole {
   userId String
   roleId String
-  user   User   @relation(fields: [userId], references: [id])
   role   Role   @relation(fields: [roleId], references: [id])
+  user   User   @relation(fields: [userId], references: [id])
 
   @@id([userId, roleId])
 }
@@ -99,8 +71,8 @@ model UserRole {
 model RolePermission {
   roleId       String
   permissionId String
-  role         Role       @relation(fields: [roleId], references: [id])
   permission   Permission @relation(fields: [permissionId], references: [id])
+  role         Role       @relation(fields: [roleId], references: [id])
 
   @@id([roleId, permissionId])
 }
@@ -127,14 +99,16 @@ model Account {
   id_token          String?
   session_state     String?
   user              User    @relation(fields: [userId], references: [id])
+
+  @@unique([provider, providerAccountId])
 }
 
 model VerificationToken {
   identifier String
-  token      String
+  token      String   @unique
   expires    DateTime
 
-  @@id([identifier, token])
+  @@unique([identifier, token])
 }
 
 model Post {
@@ -143,7 +117,7 @@ model Post {
   slug        String         @unique
   content     String
   summary     String?
-  status      PostStatus     @default(DRAFT)
+  status      PostStatus     @default(PUBLISHED)
   authorId    String
   createdAt   DateTime       @default(now())
   updatedAt   DateTime       @updatedAt
@@ -152,11 +126,12 @@ model Post {
   version     Int            @default(1)
   isFeatured  Boolean        @default(false)
   viewCount   Int            @default(0)
+  comments    Comment[]
   author      User           @relation("UserPosts", fields: [authorId], references: [id])
   categories  PostCategory[]
   tags        PostTag[]
-  comments    Comment[]
   votes       Vote[]
+  Media       Media[]        @relation("MediaToPost")
 }
 
 model Category {
@@ -174,15 +149,15 @@ model Category {
 model PostCategory {
   postId     String
   categoryId String
-  post       Post     @relation(fields: [postId], references: [id])
   category   Category @relation(fields: [categoryId], references: [id])
+  post       Post     @relation(fields: [postId], references: [id])
 
   @@id([postId, categoryId])
 }
 
 model Tag {
   id          String    @id @default(uuid())
-  name        String
+  name        String    @unique
   slug        String    @unique
   description String?
   posts       PostTag[]
@@ -205,6 +180,7 @@ model Media {
   uploadedById String?
   createdAt    DateTime @default(now())
   uploadedBy   User?    @relation("UserMedia", fields: [uploadedById], references: [id])
+  Post         Post[]   @relation("MediaToPost")
 }
 
 model Comment {
@@ -213,17 +189,17 @@ model Comment {
   authorId  String
   parentId  String?
   content   String
-  status    CommentStatus @default(PENDING)
+  status    CommentStatus @default(APPROVED)
   createdAt DateTime      @default(now())
   updatedAt DateTime      @updatedAt
   deletedAt DateTime?
   ipAddress String?
   isSpam    Boolean       @default(false)
   reported  Boolean       @default(false)
-  post      Post          @relation(fields: [postId], references: [id])
   author    User          @relation("UserComments", fields: [authorId], references: [id])
   parent    Comment?      @relation("CommentParent", fields: [parentId], references: [id])
   children  Comment[]     @relation("CommentParent")
+  post      Post          @relation(fields: [postId], references: [id])
   votes     Vote[]
 }
 
@@ -234,9 +210,11 @@ model Vote {
   commentId String?
   value     Int
   createdAt DateTime @default(now())
-  user      User     @relation(fields: [userId], references: [id])
-  post      Post?    @relation(fields: [postId], references: [id])
   comment   Comment? @relation(fields: [commentId], references: [id])
+  post      Post?    @relation(fields: [postId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@unique([userId, postId, commentId])
 }
 
 model AdminNote {
@@ -246,16 +224,16 @@ model AdminNote {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   createdById String
-  user        User     @relation("AdminNoteUser", fields: [userId], references: [id])
   createdBy   User     @relation("AdminNoteCreatedBy", fields: [createdById], references: [id])
+  user        User     @relation("AdminNoteUser", fields: [userId], references: [id])
 }
 
 model AuditLog {
   id        String   @id @default(uuid())
   userId    String?
   action    String
-  target    String
-  ip        String
+  target    String?
+  ip        String?
   createdAt DateTime @default(now())
   meta      Json?
   user      User?    @relation(fields: [userId], references: [id])
@@ -264,6 +242,40 @@ model AuditLog {
 model SiteSetting {
   key       String   @id
   value     String
-  type      String
+  type      String?
   updatedAt DateTime @updatedAt
+}
+
+model UserNotificationPreference {
+  id              String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId          String  @unique
+  emailComment    Boolean @default(true)
+  emailReply      Boolean @default(true)
+  emailFollower   Boolean @default(false)
+  emailMention    Boolean @default(false)
+  emailNewsletter Boolean @default(false)
+  user            User    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+enum UserStatus {
+  ACTIVE
+  SUSPENDED
+  BANNED
+  EMAIL_UNVERIFIED
+}
+
+enum PostStatus {
+  DRAFT
+  PUBLISHED
+  PENDING
+  TRASH
+  DELETED
+}
+
+enum CommentStatus {
+  APPROVED
+  PENDING
+  SPAM
+  TRASH
+  DELETED
 }

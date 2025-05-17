@@ -295,6 +295,16 @@ exports.Prisma.SiteSettingScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.UserNotificationPreferenceScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  emailComment: 'emailComment',
+  emailReply: 'emailReply',
+  emailFollower: 'emailFollower',
+  emailMention: 'emailMention',
+  emailNewsletter: 'emailNewsletter'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -363,7 +373,8 @@ exports.Prisma.ModelName = {
   Vote: 'Vote',
   AdminNote: 'AdminNote',
   AuditLog: 'AuditLog',
-  SiteSetting: 'SiteSetting'
+  SiteSetting: 'SiteSetting',
+  UserNotificationPreference: 'UserNotificationPreference'
 };
 
 /**

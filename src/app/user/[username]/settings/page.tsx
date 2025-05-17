@@ -1,7 +1,7 @@
 "use client";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { useSession } from "next-auth/react";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
@@ -10,6 +10,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm as usePasswordForm } from "react-hook-form";
 import { z as zPassword, ZodType as ZodTypePassword } from "zod";
 import { zodResolver as zodPasswordResolver } from "@hookform/resolvers/zod";
+import { Switch } from "@/components/ui/switch";
+import useSWR from "swr";
 
 const accountSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
@@ -146,7 +148,7 @@ export default function UserSettingsPage() {
             <PasswordTab username={(user as any)?.username || ""} />
           </TabsContent>
           <TabsContent value="notifications">
-            <div>Notification preferences go here.</div>
+            <NotificationTab username={(user as any)?.username || ""} />
           </TabsContent>
           <TabsContent value="security">
             <div>Security settings go here.</div>
@@ -238,6 +240,136 @@ function PasswordTab({ username }: { username: string }) {
         <Button type="submit" disabled={saving || !isValid || !isChanged}>
           {saving ? <span className="animate-spin mr-2 w-4 h-4 border-2 border-t-transparent border-white rounded-full inline-block" /> : null}
           {saving ? "Saving..." : "Change Password"}
+        </Button>
+        {showCancel && (
+          <Button type="button" variant="outline" onClick={handleCancel} disabled={saving}>Cancel</Button>
+        )}
+      </div>
+      {message && <div className="text-green-600 text-sm mt-2">{message}</div>}
+      {error && <div className="text-red-600 text-sm mt-2">{error}</div>}
+    </form>
+  );
+}
+
+function NotificationTab({ username }: { username: string }) {
+  const [saving, setSaving] = useState(false);
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
+  const [showCancel, setShowCancel] = useState(false);
+  const fetcher = (url: string) => fetch(url).then(res => res.json());
+  const { data, isLoading, mutate } = useSWR(
+    username ? `/api/users/${username}/notifications` : null,
+    fetcher
+  );
+  const initialValues = useRef({
+    emailComment: true,
+    emailReply: true,
+    emailFollower: false,
+    emailMention: false,
+    emailNewsletter: false,
+  });
+  // Set initial values from backend
+  useEffect(() => {
+    if (data?.preferences) {
+      initialValues.current = {
+        emailComment: !!data.preferences.emailComment,
+        emailReply: !!data.preferences.emailReply,
+        emailFollower: !!data.preferences.emailFollower,
+        emailMention: !!data.preferences.emailMention,
+        emailNewsletter: !!data.preferences.emailNewsletter,
+      };
+      reset(initialValues.current, { keepDirty: false });
+    }
+  }, [data]);
+  const {
+    register,
+    handleSubmit,
+    formState: { isDirty },
+    reset,
+    watch,
+    setValue,
+  } = useForm({
+    mode: "onChange",
+    defaultValues: initialValues.current,
+  });
+  const watched = watch();
+  const isChanged = isDirty && Object.keys(initialValues.current).some(
+    key => watched[key] !== initialValues.current[key]
+  );
+  if (isChanged && !showCancel) setShowCancel(true);
+  if (!isChanged && showCancel) setShowCancel(false);
+
+  const onSubmit = async (formData: any) => {
+    setSaving(true);
+    setMessage("");
+    setError("");
+    try {
+      const res = await fetch(`/api/users/${username}/notifications`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+      const result = await res.json();
+      if (res.ok) {
+        setMessage("Preferences saved!");
+        initialValues.current = formData;
+        reset(formData, { keepDirty: false });
+        setShowCancel(false);
+        mutate();
+      } else {
+        setError(result.error || "Failed to update preferences");
+      }
+    } catch (err) {
+      setError("Failed to update preferences");
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleCancel = () => {
+    reset(initialValues.current, { keepDirty: false });
+    setShowCancel(false);
+    setMessage("");
+    setError("");
+  };
+
+  if (isLoading) return <div>Loading preferences...</div>;
+
+  return (
+    <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
+      <div>
+        <h4 className="font-semibold mb-2">Post Activity</h4>
+        <div className="flex items-center gap-2 mb-2">
+          <Switch checked={watched.emailComment} onCheckedChange={v => setValue("emailComment", v, { shouldDirty: true })} />
+          <span>New comment on my post</span>
+        </div>
+        <div className="flex items-center gap-2 mb-2">
+          <Switch checked={watched.emailReply} onCheckedChange={v => setValue("emailReply", v, { shouldDirty: true })} />
+          <span>Reply to my comment</span>
+        </div>
+        <div className="flex items-center gap-2 mb-2">
+          <Switch checked={watched.emailMention} onCheckedChange={v => setValue("emailMention", v, { shouldDirty: true })} />
+          <span>Mentions</span>
+        </div>
+      </div>
+      <div>
+        <h4 className="font-semibold mb-2">Account Activity</h4>
+        <div className="flex items-center gap-2 mb-2">
+          <Switch checked={watched.emailFollower} onCheckedChange={v => setValue("emailFollower", v, { shouldDirty: true })} />
+          <span>New follower</span>
+        </div>
+      </div>
+      <div>
+        <h4 className="font-semibold mb-2">Newsletter</h4>
+        <div className="flex items-center gap-2 mb-2">
+          <Switch checked={watched.emailNewsletter} onCheckedChange={v => setValue("emailNewsletter", v, { shouldDirty: true })} />
+          <span>Newsletter & announcements</span>
+        </div>
+      </div>
+      <div className="flex gap-2 items-center">
+        <Button type="submit" disabled={saving || !isChanged}>
+          {saving ? <span className="animate-spin mr-2 w-4 h-4 border-2 border-t-transparent border-white rounded-full inline-block" /> : null}
+          {saving ? "Saving..." : "Save Changes"}
         </Button>
         {showCancel && (
           <Button type="button" variant="outline" onClick={handleCancel} disabled={saving}>Cancel</Button>

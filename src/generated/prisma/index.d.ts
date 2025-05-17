@@ -113,6 +113,11 @@ export type AuditLog = $Result.DefaultSelection<Prisma.$AuditLogPayload>
  * 
  */
 export type SiteSetting = $Result.DefaultSelection<Prisma.$SiteSettingPayload>
+/**
+ * Model UserNotificationPreference
+ * 
+ */
+export type UserNotificationPreference = $Result.DefaultSelection<Prisma.$UserNotificationPreferencePayload>
 
 /**
  * Enums
@@ -487,6 +492,16 @@ export class PrismaClient<
     * ```
     */
   get siteSetting(): Prisma.SiteSettingDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.userNotificationPreference`: Exposes CRUD operations for the **UserNotificationPreference** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more UserNotificationPreferences
+    * const userNotificationPreferences = await prisma.userNotificationPreference.findMany()
+    * ```
+    */
+  get userNotificationPreference(): Prisma.UserNotificationPreferenceDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -946,7 +961,8 @@ export namespace Prisma {
     Vote: 'Vote',
     AdminNote: 'AdminNote',
     AuditLog: 'AuditLog',
-    SiteSetting: 'SiteSetting'
+    SiteSetting: 'SiteSetting',
+    UserNotificationPreference: 'UserNotificationPreference'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -965,7 +981,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "userProfile" | "role" | "permission" | "userRole" | "rolePermission" | "session" | "account" | "verificationToken" | "post" | "category" | "postCategory" | "tag" | "postTag" | "media" | "comment" | "vote" | "adminNote" | "auditLog" | "siteSetting"
+      modelProps: "user" | "userProfile" | "role" | "permission" | "userRole" | "rolePermission" | "session" | "account" | "verificationToken" | "post" | "category" | "postCategory" | "tag" | "postTag" | "media" | "comment" | "vote" | "adminNote" | "auditLog" | "siteSetting" | "userNotificationPreference"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2449,6 +2465,80 @@ export namespace Prisma {
           }
         }
       }
+      UserNotificationPreference: {
+        payload: Prisma.$UserNotificationPreferencePayload<ExtArgs>
+        fields: Prisma.UserNotificationPreferenceFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.UserNotificationPreferenceFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserNotificationPreferencePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.UserNotificationPreferenceFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserNotificationPreferencePayload>
+          }
+          findFirst: {
+            args: Prisma.UserNotificationPreferenceFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserNotificationPreferencePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.UserNotificationPreferenceFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserNotificationPreferencePayload>
+          }
+          findMany: {
+            args: Prisma.UserNotificationPreferenceFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserNotificationPreferencePayload>[]
+          }
+          create: {
+            args: Prisma.UserNotificationPreferenceCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserNotificationPreferencePayload>
+          }
+          createMany: {
+            args: Prisma.UserNotificationPreferenceCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.UserNotificationPreferenceCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserNotificationPreferencePayload>[]
+          }
+          delete: {
+            args: Prisma.UserNotificationPreferenceDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserNotificationPreferencePayload>
+          }
+          update: {
+            args: Prisma.UserNotificationPreferenceUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserNotificationPreferencePayload>
+          }
+          deleteMany: {
+            args: Prisma.UserNotificationPreferenceDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.UserNotificationPreferenceUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.UserNotificationPreferenceUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserNotificationPreferencePayload>[]
+          }
+          upsert: {
+            args: Prisma.UserNotificationPreferenceUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserNotificationPreferencePayload>
+          }
+          aggregate: {
+            args: Prisma.UserNotificationPreferenceAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateUserNotificationPreference>
+          }
+          groupBy: {
+            args: Prisma.UserNotificationPreferenceGroupByArgs<ExtArgs>
+            result: $Utils.Optional<UserNotificationPreferenceGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.UserNotificationPreferenceCountArgs<ExtArgs>
+            result: $Utils.Optional<UserNotificationPreferenceCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -2553,6 +2643,7 @@ export namespace Prisma {
     adminNote?: AdminNoteOmit
     auditLog?: AuditLogOmit
     siteSetting?: SiteSettingOmit
+    userNotificationPreference?: UserNotificationPreferenceOmit
   }
 
   /* Types for Logging */
@@ -2647,29 +2738,29 @@ export namespace Prisma {
    */
 
   export type UserCountOutputType = {
-    roles: number
-    sessions: number
     accounts: number
-    posts: number
-    comments: number
-    votes: number
-    media: number
-    adminNotes: number
     createdNotes: number
+    adminNotes: number
     auditLogs: number
+    comments: number
+    media: number
+    posts: number
+    sessions: number
+    roles: number
+    votes: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    roles?: boolean | UserCountOutputTypeCountRolesArgs
-    sessions?: boolean | UserCountOutputTypeCountSessionsArgs
     accounts?: boolean | UserCountOutputTypeCountAccountsArgs
-    posts?: boolean | UserCountOutputTypeCountPostsArgs
-    comments?: boolean | UserCountOutputTypeCountCommentsArgs
-    votes?: boolean | UserCountOutputTypeCountVotesArgs
-    media?: boolean | UserCountOutputTypeCountMediaArgs
-    adminNotes?: boolean | UserCountOutputTypeCountAdminNotesArgs
     createdNotes?: boolean | UserCountOutputTypeCountCreatedNotesArgs
+    adminNotes?: boolean | UserCountOutputTypeCountAdminNotesArgs
     auditLogs?: boolean | UserCountOutputTypeCountAuditLogsArgs
+    comments?: boolean | UserCountOutputTypeCountCommentsArgs
+    media?: boolean | UserCountOutputTypeCountMediaArgs
+    posts?: boolean | UserCountOutputTypeCountPostsArgs
+    sessions?: boolean | UserCountOutputTypeCountSessionsArgs
+    roles?: boolean | UserCountOutputTypeCountRolesArgs
+    votes?: boolean | UserCountOutputTypeCountVotesArgs
   }
 
   // Custom InputTypes
@@ -2686,57 +2777,8 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountRolesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: UserRoleWhereInput
-  }
-
-  /**
-   * UserCountOutputType without action
-   */
-  export type UserCountOutputTypeCountSessionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: SessionWhereInput
-  }
-
-  /**
-   * UserCountOutputType without action
-   */
   export type UserCountOutputTypeCountAccountsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: AccountWhereInput
-  }
-
-  /**
-   * UserCountOutputType without action
-   */
-  export type UserCountOutputTypeCountPostsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: PostWhereInput
-  }
-
-  /**
-   * UserCountOutputType without action
-   */
-  export type UserCountOutputTypeCountCommentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: CommentWhereInput
-  }
-
-  /**
-   * UserCountOutputType without action
-   */
-  export type UserCountOutputTypeCountVotesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: VoteWhereInput
-  }
-
-  /**
-   * UserCountOutputType without action
-   */
-  export type UserCountOutputTypeCountMediaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: MediaWhereInput
-  }
-
-  /**
-   * UserCountOutputType without action
-   */
-  export type UserCountOutputTypeCountAdminNotesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: AdminNoteWhereInput
   }
 
   /**
@@ -2749,8 +2791,57 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
+  export type UserCountOutputTypeCountAdminNotesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AdminNoteWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
   export type UserCountOutputTypeCountAuditLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: AuditLogWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountCommentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CommentWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountMediaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MediaWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountPostsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PostWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountSessionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SessionWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountRolesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserRoleWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountVotesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: VoteWhereInput
   }
 
 
@@ -2759,13 +2850,13 @@ export namespace Prisma {
    */
 
   export type RoleCountOutputType = {
-    users: number
     permissions: number
+    users: number
   }
 
   export type RoleCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    users?: boolean | RoleCountOutputTypeCountUsersArgs
     permissions?: boolean | RoleCountOutputTypeCountPermissionsArgs
+    users?: boolean | RoleCountOutputTypeCountUsersArgs
   }
 
   // Custom InputTypes
@@ -2782,15 +2873,15 @@ export namespace Prisma {
   /**
    * RoleCountOutputType without action
    */
-  export type RoleCountOutputTypeCountUsersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: UserRoleWhereInput
+  export type RoleCountOutputTypeCountPermissionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RolePermissionWhereInput
   }
 
   /**
    * RoleCountOutputType without action
    */
-  export type RoleCountOutputTypeCountPermissionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: RolePermissionWhereInput
+  export type RoleCountOutputTypeCountUsersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserRoleWhereInput
   }
 
 
@@ -2830,17 +2921,19 @@ export namespace Prisma {
    */
 
   export type PostCountOutputType = {
+    comments: number
     categories: number
     tags: number
-    comments: number
     votes: number
+    Media: number
   }
 
   export type PostCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    comments?: boolean | PostCountOutputTypeCountCommentsArgs
     categories?: boolean | PostCountOutputTypeCountCategoriesArgs
     tags?: boolean | PostCountOutputTypeCountTagsArgs
-    comments?: boolean | PostCountOutputTypeCountCommentsArgs
     votes?: boolean | PostCountOutputTypeCountVotesArgs
+    Media?: boolean | PostCountOutputTypeCountMediaArgs
   }
 
   // Custom InputTypes
@@ -2852,6 +2945,13 @@ export namespace Prisma {
      * Select specific fields to fetch from the PostCountOutputType
      */
     select?: PostCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * PostCountOutputType without action
+   */
+  export type PostCountOutputTypeCountCommentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CommentWhereInput
   }
 
   /**
@@ -2871,15 +2971,15 @@ export namespace Prisma {
   /**
    * PostCountOutputType without action
    */
-  export type PostCountOutputTypeCountCommentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: CommentWhereInput
+  export type PostCountOutputTypeCountVotesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: VoteWhereInput
   }
 
   /**
    * PostCountOutputType without action
    */
-  export type PostCountOutputTypeCountVotesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: VoteWhereInput
+  export type PostCountOutputTypeCountMediaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MediaWhereInput
   }
 
 
@@ -2951,6 +3051,37 @@ export namespace Prisma {
    */
   export type TagCountOutputTypeCountPostsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PostTagWhereInput
+  }
+
+
+  /**
+   * Count Type MediaCountOutputType
+   */
+
+  export type MediaCountOutputType = {
+    Post: number
+  }
+
+  export type MediaCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    Post?: boolean | MediaCountOutputTypeCountPostArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * MediaCountOutputType without action
+   */
+  export type MediaCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MediaCountOutputType
+     */
+    select?: MediaCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * MediaCountOutputType without action
+   */
+  export type MediaCountOutputTypeCountPostArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PostWhereInput
   }
 
 
@@ -3202,17 +3333,18 @@ export namespace Prisma {
     lastLoginAt?: boolean
     lastLoginIp?: boolean
     status?: boolean
+    accounts?: boolean | User$accountsArgs<ExtArgs>
+    createdNotes?: boolean | User$createdNotesArgs<ExtArgs>
+    adminNotes?: boolean | User$adminNotesArgs<ExtArgs>
+    auditLogs?: boolean | User$auditLogsArgs<ExtArgs>
+    comments?: boolean | User$commentsArgs<ExtArgs>
+    media?: boolean | User$mediaArgs<ExtArgs>
+    posts?: boolean | User$postsArgs<ExtArgs>
+    sessions?: boolean | User$sessionsArgs<ExtArgs>
+    notificationPreferences?: boolean | User$notificationPreferencesArgs<ExtArgs>
     profile?: boolean | User$profileArgs<ExtArgs>
     roles?: boolean | User$rolesArgs<ExtArgs>
-    sessions?: boolean | User$sessionsArgs<ExtArgs>
-    accounts?: boolean | User$accountsArgs<ExtArgs>
-    posts?: boolean | User$postsArgs<ExtArgs>
-    comments?: boolean | User$commentsArgs<ExtArgs>
     votes?: boolean | User$votesArgs<ExtArgs>
-    media?: boolean | User$mediaArgs<ExtArgs>
-    adminNotes?: boolean | User$adminNotesArgs<ExtArgs>
-    createdNotes?: boolean | User$createdNotesArgs<ExtArgs>
-    auditLogs?: boolean | User$auditLogsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -3257,17 +3389,18 @@ export namespace Prisma {
 
   export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "username" | "password" | "emailVerified" | "createdAt" | "updatedAt" | "lastLoginAt" | "lastLoginIp" | "status", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    accounts?: boolean | User$accountsArgs<ExtArgs>
+    createdNotes?: boolean | User$createdNotesArgs<ExtArgs>
+    adminNotes?: boolean | User$adminNotesArgs<ExtArgs>
+    auditLogs?: boolean | User$auditLogsArgs<ExtArgs>
+    comments?: boolean | User$commentsArgs<ExtArgs>
+    media?: boolean | User$mediaArgs<ExtArgs>
+    posts?: boolean | User$postsArgs<ExtArgs>
+    sessions?: boolean | User$sessionsArgs<ExtArgs>
+    notificationPreferences?: boolean | User$notificationPreferencesArgs<ExtArgs>
     profile?: boolean | User$profileArgs<ExtArgs>
     roles?: boolean | User$rolesArgs<ExtArgs>
-    sessions?: boolean | User$sessionsArgs<ExtArgs>
-    accounts?: boolean | User$accountsArgs<ExtArgs>
-    posts?: boolean | User$postsArgs<ExtArgs>
-    comments?: boolean | User$commentsArgs<ExtArgs>
     votes?: boolean | User$votesArgs<ExtArgs>
-    media?: boolean | User$mediaArgs<ExtArgs>
-    adminNotes?: boolean | User$adminNotesArgs<ExtArgs>
-    createdNotes?: boolean | User$createdNotesArgs<ExtArgs>
-    auditLogs?: boolean | User$auditLogsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -3276,17 +3409,18 @@ export namespace Prisma {
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
     objects: {
+      accounts: Prisma.$AccountPayload<ExtArgs>[]
+      createdNotes: Prisma.$AdminNotePayload<ExtArgs>[]
+      adminNotes: Prisma.$AdminNotePayload<ExtArgs>[]
+      auditLogs: Prisma.$AuditLogPayload<ExtArgs>[]
+      comments: Prisma.$CommentPayload<ExtArgs>[]
+      media: Prisma.$MediaPayload<ExtArgs>[]
+      posts: Prisma.$PostPayload<ExtArgs>[]
+      sessions: Prisma.$SessionPayload<ExtArgs>[]
+      notificationPreferences: Prisma.$UserNotificationPreferencePayload<ExtArgs> | null
       profile: Prisma.$UserProfilePayload<ExtArgs> | null
       roles: Prisma.$UserRolePayload<ExtArgs>[]
-      sessions: Prisma.$SessionPayload<ExtArgs>[]
-      accounts: Prisma.$AccountPayload<ExtArgs>[]
-      posts: Prisma.$PostPayload<ExtArgs>[]
-      comments: Prisma.$CommentPayload<ExtArgs>[]
       votes: Prisma.$VotePayload<ExtArgs>[]
-      media: Prisma.$MediaPayload<ExtArgs>[]
-      adminNotes: Prisma.$AdminNotePayload<ExtArgs>[]
-      createdNotes: Prisma.$AdminNotePayload<ExtArgs>[]
-      auditLogs: Prisma.$AuditLogPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3693,17 +3827,18 @@ export namespace Prisma {
    */
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    accounts<T extends User$accountsArgs<ExtArgs> = {}>(args?: Subset<T, User$accountsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    createdNotes<T extends User$createdNotesArgs<ExtArgs> = {}>(args?: Subset<T, User$createdNotesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AdminNotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    adminNotes<T extends User$adminNotesArgs<ExtArgs> = {}>(args?: Subset<T, User$adminNotesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AdminNotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    auditLogs<T extends User$auditLogsArgs<ExtArgs> = {}>(args?: Subset<T, User$auditLogsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuditLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    comments<T extends User$commentsArgs<ExtArgs> = {}>(args?: Subset<T, User$commentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    media<T extends User$mediaArgs<ExtArgs> = {}>(args?: Subset<T, User$mediaArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MediaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    posts<T extends User$postsArgs<ExtArgs> = {}>(args?: Subset<T, User$postsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    sessions<T extends User$sessionsArgs<ExtArgs> = {}>(args?: Subset<T, User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    notificationPreferences<T extends User$notificationPreferencesArgs<ExtArgs> = {}>(args?: Subset<T, User$notificationPreferencesArgs<ExtArgs>>): Prisma__UserNotificationPreferenceClient<$Result.GetResult<Prisma.$UserNotificationPreferencePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     profile<T extends User$profileArgs<ExtArgs> = {}>(args?: Subset<T, User$profileArgs<ExtArgs>>): Prisma__UserProfileClient<$Result.GetResult<Prisma.$UserProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     roles<T extends User$rolesArgs<ExtArgs> = {}>(args?: Subset<T, User$rolesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserRolePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    sessions<T extends User$sessionsArgs<ExtArgs> = {}>(args?: Subset<T, User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    accounts<T extends User$accountsArgs<ExtArgs> = {}>(args?: Subset<T, User$accountsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    posts<T extends User$postsArgs<ExtArgs> = {}>(args?: Subset<T, User$postsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    comments<T extends User$commentsArgs<ExtArgs> = {}>(args?: Subset<T, User$commentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     votes<T extends User$votesArgs<ExtArgs> = {}>(args?: Subset<T, User$votesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    media<T extends User$mediaArgs<ExtArgs> = {}>(args?: Subset<T, User$mediaArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MediaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    adminNotes<T extends User$adminNotesArgs<ExtArgs> = {}>(args?: Subset<T, User$adminNotesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AdminNotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    createdNotes<T extends User$createdNotesArgs<ExtArgs> = {}>(args?: Subset<T, User$createdNotesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AdminNotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    auditLogs<T extends User$auditLogsArgs<ExtArgs> = {}>(args?: Subset<T, User$auditLogsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AuditLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4131,6 +4266,217 @@ export namespace Prisma {
   }
 
   /**
+   * User.accounts
+   */
+  export type User$accountsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Account
+     */
+    select?: AccountSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Account
+     */
+    omit?: AccountOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AccountInclude<ExtArgs> | null
+    where?: AccountWhereInput
+    orderBy?: AccountOrderByWithRelationInput | AccountOrderByWithRelationInput[]
+    cursor?: AccountWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AccountScalarFieldEnum | AccountScalarFieldEnum[]
+  }
+
+  /**
+   * User.createdNotes
+   */
+  export type User$createdNotesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AdminNote
+     */
+    select?: AdminNoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AdminNote
+     */
+    omit?: AdminNoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AdminNoteInclude<ExtArgs> | null
+    where?: AdminNoteWhereInput
+    orderBy?: AdminNoteOrderByWithRelationInput | AdminNoteOrderByWithRelationInput[]
+    cursor?: AdminNoteWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AdminNoteScalarFieldEnum | AdminNoteScalarFieldEnum[]
+  }
+
+  /**
+   * User.adminNotes
+   */
+  export type User$adminNotesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AdminNote
+     */
+    select?: AdminNoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AdminNote
+     */
+    omit?: AdminNoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AdminNoteInclude<ExtArgs> | null
+    where?: AdminNoteWhereInput
+    orderBy?: AdminNoteOrderByWithRelationInput | AdminNoteOrderByWithRelationInput[]
+    cursor?: AdminNoteWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AdminNoteScalarFieldEnum | AdminNoteScalarFieldEnum[]
+  }
+
+  /**
+   * User.auditLogs
+   */
+  export type User$auditLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AuditLog
+     */
+    select?: AuditLogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AuditLog
+     */
+    omit?: AuditLogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AuditLogInclude<ExtArgs> | null
+    where?: AuditLogWhereInput
+    orderBy?: AuditLogOrderByWithRelationInput | AuditLogOrderByWithRelationInput[]
+    cursor?: AuditLogWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AuditLogScalarFieldEnum | AuditLogScalarFieldEnum[]
+  }
+
+  /**
+   * User.comments
+   */
+  export type User$commentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Comment
+     */
+    select?: CommentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Comment
+     */
+    omit?: CommentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommentInclude<ExtArgs> | null
+    where?: CommentWhereInput
+    orderBy?: CommentOrderByWithRelationInput | CommentOrderByWithRelationInput[]
+    cursor?: CommentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CommentScalarFieldEnum | CommentScalarFieldEnum[]
+  }
+
+  /**
+   * User.media
+   */
+  export type User$mediaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Media
+     */
+    select?: MediaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Media
+     */
+    omit?: MediaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MediaInclude<ExtArgs> | null
+    where?: MediaWhereInput
+    orderBy?: MediaOrderByWithRelationInput | MediaOrderByWithRelationInput[]
+    cursor?: MediaWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MediaScalarFieldEnum | MediaScalarFieldEnum[]
+  }
+
+  /**
+   * User.posts
+   */
+  export type User$postsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Post
+     */
+    select?: PostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Post
+     */
+    omit?: PostOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostInclude<ExtArgs> | null
+    where?: PostWhereInput
+    orderBy?: PostOrderByWithRelationInput | PostOrderByWithRelationInput[]
+    cursor?: PostWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PostScalarFieldEnum | PostScalarFieldEnum[]
+  }
+
+  /**
+   * User.sessions
+   */
+  export type User$sessionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Session
+     */
+    select?: SessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Session
+     */
+    omit?: SessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SessionInclude<ExtArgs> | null
+    where?: SessionWhereInput
+    orderBy?: SessionOrderByWithRelationInput | SessionOrderByWithRelationInput[]
+    cursor?: SessionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SessionScalarFieldEnum | SessionScalarFieldEnum[]
+  }
+
+  /**
+   * User.notificationPreferences
+   */
+  export type User$notificationPreferencesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserNotificationPreference
+     */
+    select?: UserNotificationPreferenceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserNotificationPreference
+     */
+    omit?: UserNotificationPreferenceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserNotificationPreferenceInclude<ExtArgs> | null
+    where?: UserNotificationPreferenceWhereInput
+  }
+
+  /**
    * User.profile
    */
   export type User$profileArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4174,102 +4520,6 @@ export namespace Prisma {
   }
 
   /**
-   * User.sessions
-   */
-  export type User$sessionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Session
-     */
-    select?: SessionSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Session
-     */
-    omit?: SessionOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SessionInclude<ExtArgs> | null
-    where?: SessionWhereInput
-    orderBy?: SessionOrderByWithRelationInput | SessionOrderByWithRelationInput[]
-    cursor?: SessionWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: SessionScalarFieldEnum | SessionScalarFieldEnum[]
-  }
-
-  /**
-   * User.accounts
-   */
-  export type User$accountsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Account
-     */
-    select?: AccountSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Account
-     */
-    omit?: AccountOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AccountInclude<ExtArgs> | null
-    where?: AccountWhereInput
-    orderBy?: AccountOrderByWithRelationInput | AccountOrderByWithRelationInput[]
-    cursor?: AccountWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: AccountScalarFieldEnum | AccountScalarFieldEnum[]
-  }
-
-  /**
-   * User.posts
-   */
-  export type User$postsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Post
-     */
-    select?: PostSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Post
-     */
-    omit?: PostOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PostInclude<ExtArgs> | null
-    where?: PostWhereInput
-    orderBy?: PostOrderByWithRelationInput | PostOrderByWithRelationInput[]
-    cursor?: PostWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: PostScalarFieldEnum | PostScalarFieldEnum[]
-  }
-
-  /**
-   * User.comments
-   */
-  export type User$commentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Comment
-     */
-    select?: CommentSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Comment
-     */
-    omit?: CommentOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CommentInclude<ExtArgs> | null
-    where?: CommentWhereInput
-    orderBy?: CommentOrderByWithRelationInput | CommentOrderByWithRelationInput[]
-    cursor?: CommentWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: CommentScalarFieldEnum | CommentScalarFieldEnum[]
-  }
-
-  /**
    * User.votes
    */
   export type User$votesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4291,102 +4541,6 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: VoteScalarFieldEnum | VoteScalarFieldEnum[]
-  }
-
-  /**
-   * User.media
-   */
-  export type User$mediaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Media
-     */
-    select?: MediaSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Media
-     */
-    omit?: MediaOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: MediaInclude<ExtArgs> | null
-    where?: MediaWhereInput
-    orderBy?: MediaOrderByWithRelationInput | MediaOrderByWithRelationInput[]
-    cursor?: MediaWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: MediaScalarFieldEnum | MediaScalarFieldEnum[]
-  }
-
-  /**
-   * User.adminNotes
-   */
-  export type User$adminNotesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the AdminNote
-     */
-    select?: AdminNoteSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the AdminNote
-     */
-    omit?: AdminNoteOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AdminNoteInclude<ExtArgs> | null
-    where?: AdminNoteWhereInput
-    orderBy?: AdminNoteOrderByWithRelationInput | AdminNoteOrderByWithRelationInput[]
-    cursor?: AdminNoteWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: AdminNoteScalarFieldEnum | AdminNoteScalarFieldEnum[]
-  }
-
-  /**
-   * User.createdNotes
-   */
-  export type User$createdNotesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the AdminNote
-     */
-    select?: AdminNoteSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the AdminNote
-     */
-    omit?: AdminNoteOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AdminNoteInclude<ExtArgs> | null
-    where?: AdminNoteWhereInput
-    orderBy?: AdminNoteOrderByWithRelationInput | AdminNoteOrderByWithRelationInput[]
-    cursor?: AdminNoteWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: AdminNoteScalarFieldEnum | AdminNoteScalarFieldEnum[]
-  }
-
-  /**
-   * User.auditLogs
-   */
-  export type User$auditLogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the AuditLog
-     */
-    select?: AuditLogSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the AuditLog
-     */
-    omit?: AuditLogOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: AuditLogInclude<ExtArgs> | null
-    where?: AuditLogWhereInput
-    orderBy?: AuditLogOrderByWithRelationInput | AuditLogOrderByWithRelationInput[]
-    cursor?: AuditLogWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: AuditLogScalarFieldEnum | AuditLogScalarFieldEnum[]
   }
 
   /**
@@ -5636,8 +5790,8 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     description?: boolean
-    users?: boolean | Role$usersArgs<ExtArgs>
     permissions?: boolean | Role$permissionsArgs<ExtArgs>
+    users?: boolean | Role$usersArgs<ExtArgs>
     _count?: boolean | RoleCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["role"]>
 
@@ -5661,8 +5815,8 @@ export namespace Prisma {
 
   export type RoleOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description", ExtArgs["result"]["role"]>
   export type RoleInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    users?: boolean | Role$usersArgs<ExtArgs>
     permissions?: boolean | Role$permissionsArgs<ExtArgs>
+    users?: boolean | Role$usersArgs<ExtArgs>
     _count?: boolean | RoleCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type RoleIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -5671,8 +5825,8 @@ export namespace Prisma {
   export type $RolePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Role"
     objects: {
-      users: Prisma.$UserRolePayload<ExtArgs>[]
       permissions: Prisma.$RolePermissionPayload<ExtArgs>[]
+      users: Prisma.$UserRolePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -6072,8 +6226,8 @@ export namespace Prisma {
    */
   export interface Prisma__RoleClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    users<T extends Role$usersArgs<ExtArgs> = {}>(args?: Subset<T, Role$usersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserRolePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     permissions<T extends Role$permissionsArgs<ExtArgs> = {}>(args?: Subset<T, Role$permissionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RolePermissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    users<T extends Role$usersArgs<ExtArgs> = {}>(args?: Subset<T, Role$usersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserRolePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6494,30 +6648,6 @@ export namespace Prisma {
   }
 
   /**
-   * Role.users
-   */
-  export type Role$usersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the UserRole
-     */
-    select?: UserRoleSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the UserRole
-     */
-    omit?: UserRoleOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UserRoleInclude<ExtArgs> | null
-    where?: UserRoleWhereInput
-    orderBy?: UserRoleOrderByWithRelationInput | UserRoleOrderByWithRelationInput[]
-    cursor?: UserRoleWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: UserRoleScalarFieldEnum | UserRoleScalarFieldEnum[]
-  }
-
-  /**
    * Role.permissions
    */
   export type Role$permissionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6539,6 +6669,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: RolePermissionScalarFieldEnum | RolePermissionScalarFieldEnum[]
+  }
+
+  /**
+   * Role.users
+   */
+  export type Role$usersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserRole
+     */
+    select?: UserRoleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserRole
+     */
+    omit?: UserRoleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserRoleInclude<ExtArgs> | null
+    where?: UserRoleWhereInput
+    orderBy?: UserRoleOrderByWithRelationInput | UserRoleOrderByWithRelationInput[]
+    cursor?: UserRoleWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserRoleScalarFieldEnum | UserRoleScalarFieldEnum[]
   }
 
   /**
@@ -7744,22 +7898,22 @@ export namespace Prisma {
   export type UserRoleSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     userId?: boolean
     roleId?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
     role?: boolean | RoleDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["userRole"]>
 
   export type UserRoleSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     userId?: boolean
     roleId?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
     role?: boolean | RoleDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["userRole"]>
 
   export type UserRoleSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     userId?: boolean
     roleId?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
     role?: boolean | RoleDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["userRole"]>
 
   export type UserRoleSelectScalar = {
@@ -7769,23 +7923,23 @@ export namespace Prisma {
 
   export type UserRoleOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"userId" | "roleId", ExtArgs["result"]["userRole"]>
   export type UserRoleInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
     role?: boolean | RoleDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type UserRoleIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
     role?: boolean | RoleDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type UserRoleIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
     role?: boolean | RoleDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }
 
   export type $UserRolePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "UserRole"
     objects: {
-      user: Prisma.$UserPayload<ExtArgs>
       role: Prisma.$RolePayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       userId: string
@@ -8184,8 +8338,8 @@ export namespace Prisma {
    */
   export interface Prisma__UserRoleClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     role<T extends RoleDefaultArgs<ExtArgs> = {}>(args?: Subset<T, RoleDefaultArgs<ExtArgs>>): Prisma__RoleClient<$Result.GetResult<Prisma.$RolePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8771,22 +8925,22 @@ export namespace Prisma {
   export type RolePermissionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     roleId?: boolean
     permissionId?: boolean
-    role?: boolean | RoleDefaultArgs<ExtArgs>
     permission?: boolean | PermissionDefaultArgs<ExtArgs>
+    role?: boolean | RoleDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["rolePermission"]>
 
   export type RolePermissionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     roleId?: boolean
     permissionId?: boolean
-    role?: boolean | RoleDefaultArgs<ExtArgs>
     permission?: boolean | PermissionDefaultArgs<ExtArgs>
+    role?: boolean | RoleDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["rolePermission"]>
 
   export type RolePermissionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     roleId?: boolean
     permissionId?: boolean
-    role?: boolean | RoleDefaultArgs<ExtArgs>
     permission?: boolean | PermissionDefaultArgs<ExtArgs>
+    role?: boolean | RoleDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["rolePermission"]>
 
   export type RolePermissionSelectScalar = {
@@ -8796,23 +8950,23 @@ export namespace Prisma {
 
   export type RolePermissionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"roleId" | "permissionId", ExtArgs["result"]["rolePermission"]>
   export type RolePermissionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    role?: boolean | RoleDefaultArgs<ExtArgs>
     permission?: boolean | PermissionDefaultArgs<ExtArgs>
+    role?: boolean | RoleDefaultArgs<ExtArgs>
   }
   export type RolePermissionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    role?: boolean | RoleDefaultArgs<ExtArgs>
     permission?: boolean | PermissionDefaultArgs<ExtArgs>
+    role?: boolean | RoleDefaultArgs<ExtArgs>
   }
   export type RolePermissionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    role?: boolean | RoleDefaultArgs<ExtArgs>
     permission?: boolean | PermissionDefaultArgs<ExtArgs>
+    role?: boolean | RoleDefaultArgs<ExtArgs>
   }
 
   export type $RolePermissionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "RolePermission"
     objects: {
-      role: Prisma.$RolePayload<ExtArgs>
       permission: Prisma.$PermissionPayload<ExtArgs>
+      role: Prisma.$RolePayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       roleId: string
@@ -9211,8 +9365,8 @@ export namespace Prisma {
    */
   export interface Prisma__RolePermissionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    role<T extends RoleDefaultArgs<ExtArgs> = {}>(args?: Subset<T, RoleDefaultArgs<ExtArgs>>): Prisma__RoleClient<$Result.GetResult<Prisma.$RolePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     permission<T extends PermissionDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PermissionDefaultArgs<ExtArgs>>): Prisma__PermissionClient<$Result.GetResult<Prisma.$PermissionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    role<T extends RoleDefaultArgs<ExtArgs> = {}>(args?: Subset<T, RoleDefaultArgs<ExtArgs>>): Prisma__RoleClient<$Result.GetResult<Prisma.$RolePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -13129,11 +13283,12 @@ export namespace Prisma {
     version?: boolean
     isFeatured?: boolean
     viewCount?: boolean
+    comments?: boolean | Post$commentsArgs<ExtArgs>
     author?: boolean | UserDefaultArgs<ExtArgs>
     categories?: boolean | Post$categoriesArgs<ExtArgs>
     tags?: boolean | Post$tagsArgs<ExtArgs>
-    comments?: boolean | Post$commentsArgs<ExtArgs>
     votes?: boolean | Post$votesArgs<ExtArgs>
+    Media?: boolean | Post$MediaArgs<ExtArgs>
     _count?: boolean | PostCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["post"]>
 
@@ -13192,11 +13347,12 @@ export namespace Prisma {
 
   export type PostOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "slug" | "content" | "summary" | "status" | "authorId" | "createdAt" | "updatedAt" | "publishedAt" | "deletedAt" | "version" | "isFeatured" | "viewCount", ExtArgs["result"]["post"]>
   export type PostInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    comments?: boolean | Post$commentsArgs<ExtArgs>
     author?: boolean | UserDefaultArgs<ExtArgs>
     categories?: boolean | Post$categoriesArgs<ExtArgs>
     tags?: boolean | Post$tagsArgs<ExtArgs>
-    comments?: boolean | Post$commentsArgs<ExtArgs>
     votes?: boolean | Post$votesArgs<ExtArgs>
+    Media?: boolean | Post$MediaArgs<ExtArgs>
     _count?: boolean | PostCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type PostIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -13209,11 +13365,12 @@ export namespace Prisma {
   export type $PostPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Post"
     objects: {
+      comments: Prisma.$CommentPayload<ExtArgs>[]
       author: Prisma.$UserPayload<ExtArgs>
       categories: Prisma.$PostCategoryPayload<ExtArgs>[]
       tags: Prisma.$PostTagPayload<ExtArgs>[]
-      comments: Prisma.$CommentPayload<ExtArgs>[]
       votes: Prisma.$VotePayload<ExtArgs>[]
+      Media: Prisma.$MediaPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -13624,11 +13781,12 @@ export namespace Prisma {
    */
   export interface Prisma__PostClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    comments<T extends Post$commentsArgs<ExtArgs> = {}>(args?: Subset<T, Post$commentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     author<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     categories<T extends Post$categoriesArgs<ExtArgs> = {}>(args?: Subset<T, Post$categoriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostCategoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     tags<T extends Post$tagsArgs<ExtArgs> = {}>(args?: Subset<T, Post$tagsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostTagPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    comments<T extends Post$commentsArgs<ExtArgs> = {}>(args?: Subset<T, Post$commentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     votes<T extends Post$votesArgs<ExtArgs> = {}>(args?: Subset<T, Post$votesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    Media<T extends Post$MediaArgs<ExtArgs> = {}>(args?: Subset<T, Post$MediaArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MediaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -14068,6 +14226,30 @@ export namespace Prisma {
   }
 
   /**
+   * Post.comments
+   */
+  export type Post$commentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Comment
+     */
+    select?: CommentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Comment
+     */
+    omit?: CommentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommentInclude<ExtArgs> | null
+    where?: CommentWhereInput
+    orderBy?: CommentOrderByWithRelationInput | CommentOrderByWithRelationInput[]
+    cursor?: CommentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CommentScalarFieldEnum | CommentScalarFieldEnum[]
+  }
+
+  /**
    * Post.categories
    */
   export type Post$categoriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -14116,30 +14298,6 @@ export namespace Prisma {
   }
 
   /**
-   * Post.comments
-   */
-  export type Post$commentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Comment
-     */
-    select?: CommentSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Comment
-     */
-    omit?: CommentOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CommentInclude<ExtArgs> | null
-    where?: CommentWhereInput
-    orderBy?: CommentOrderByWithRelationInput | CommentOrderByWithRelationInput[]
-    cursor?: CommentWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: CommentScalarFieldEnum | CommentScalarFieldEnum[]
-  }
-
-  /**
    * Post.votes
    */
   export type Post$votesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -14161,6 +14319,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: VoteScalarFieldEnum | VoteScalarFieldEnum[]
+  }
+
+  /**
+   * Post.Media
+   */
+  export type Post$MediaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Media
+     */
+    select?: MediaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Media
+     */
+    omit?: MediaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MediaInclude<ExtArgs> | null
+    where?: MediaWhereInput
+    orderBy?: MediaOrderByWithRelationInput | MediaOrderByWithRelationInput[]
+    cursor?: MediaWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MediaScalarFieldEnum | MediaScalarFieldEnum[]
   }
 
   /**
@@ -15504,22 +15686,22 @@ export namespace Prisma {
   export type PostCategorySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     postId?: boolean
     categoryId?: boolean
-    post?: boolean | PostDefaultArgs<ExtArgs>
     category?: boolean | CategoryDefaultArgs<ExtArgs>
+    post?: boolean | PostDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["postCategory"]>
 
   export type PostCategorySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     postId?: boolean
     categoryId?: boolean
-    post?: boolean | PostDefaultArgs<ExtArgs>
     category?: boolean | CategoryDefaultArgs<ExtArgs>
+    post?: boolean | PostDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["postCategory"]>
 
   export type PostCategorySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     postId?: boolean
     categoryId?: boolean
-    post?: boolean | PostDefaultArgs<ExtArgs>
     category?: boolean | CategoryDefaultArgs<ExtArgs>
+    post?: boolean | PostDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["postCategory"]>
 
   export type PostCategorySelectScalar = {
@@ -15529,23 +15711,23 @@ export namespace Prisma {
 
   export type PostCategoryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"postId" | "categoryId", ExtArgs["result"]["postCategory"]>
   export type PostCategoryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    post?: boolean | PostDefaultArgs<ExtArgs>
     category?: boolean | CategoryDefaultArgs<ExtArgs>
+    post?: boolean | PostDefaultArgs<ExtArgs>
   }
   export type PostCategoryIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    post?: boolean | PostDefaultArgs<ExtArgs>
     category?: boolean | CategoryDefaultArgs<ExtArgs>
+    post?: boolean | PostDefaultArgs<ExtArgs>
   }
   export type PostCategoryIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    post?: boolean | PostDefaultArgs<ExtArgs>
     category?: boolean | CategoryDefaultArgs<ExtArgs>
+    post?: boolean | PostDefaultArgs<ExtArgs>
   }
 
   export type $PostCategoryPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "PostCategory"
     objects: {
-      post: Prisma.$PostPayload<ExtArgs>
       category: Prisma.$CategoryPayload<ExtArgs>
+      post: Prisma.$PostPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       postId: string
@@ -15944,8 +16126,8 @@ export namespace Prisma {
    */
   export interface Prisma__PostCategoryClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    post<T extends PostDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PostDefaultArgs<ExtArgs>>): Prisma__PostClient<$Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     category<T extends CategoryDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CategoryDefaultArgs<ExtArgs>>): Prisma__CategoryClient<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    post<T extends PostDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PostDefaultArgs<ExtArgs>>): Prisma__PostClient<$Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -18682,6 +18864,8 @@ export namespace Prisma {
     uploadedById?: boolean
     createdAt?: boolean
     uploadedBy?: boolean | Media$uploadedByArgs<ExtArgs>
+    Post?: boolean | Media$PostArgs<ExtArgs>
+    _count?: boolean | MediaCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["media"]>
 
   export type MediaSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -18716,6 +18900,8 @@ export namespace Prisma {
   export type MediaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "url" | "type" | "size" | "uploadedById" | "createdAt", ExtArgs["result"]["media"]>
   export type MediaInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     uploadedBy?: boolean | Media$uploadedByArgs<ExtArgs>
+    Post?: boolean | Media$PostArgs<ExtArgs>
+    _count?: boolean | MediaCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type MediaIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     uploadedBy?: boolean | Media$uploadedByArgs<ExtArgs>
@@ -18728,6 +18914,7 @@ export namespace Prisma {
     name: "Media"
     objects: {
       uploadedBy: Prisma.$UserPayload<ExtArgs> | null
+      Post: Prisma.$PostPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -19131,6 +19318,7 @@ export namespace Prisma {
   export interface Prisma__MediaClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     uploadedBy<T extends Media$uploadedByArgs<ExtArgs> = {}>(args?: Subset<T, Media$uploadedByArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    Post<T extends Media$PostArgs<ExtArgs> = {}>(args?: Subset<T, Media$PostArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -19581,6 +19769,30 @@ export namespace Prisma {
   }
 
   /**
+   * Media.Post
+   */
+  export type Media$PostArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Post
+     */
+    select?: PostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Post
+     */
+    omit?: PostOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostInclude<ExtArgs> | null
+    where?: PostWhereInput
+    orderBy?: PostOrderByWithRelationInput | PostOrderByWithRelationInput[]
+    cursor?: PostWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PostScalarFieldEnum | PostScalarFieldEnum[]
+  }
+
+  /**
    * Media without action
    */
   export type MediaDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -19819,10 +20031,10 @@ export namespace Prisma {
     ipAddress?: boolean
     isSpam?: boolean
     reported?: boolean
-    post?: boolean | PostDefaultArgs<ExtArgs>
     author?: boolean | UserDefaultArgs<ExtArgs>
     parent?: boolean | Comment$parentArgs<ExtArgs>
     children?: boolean | Comment$childrenArgs<ExtArgs>
+    post?: boolean | PostDefaultArgs<ExtArgs>
     votes?: boolean | Comment$votesArgs<ExtArgs>
     _count?: boolean | CommentCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["comment"]>
@@ -19840,9 +20052,9 @@ export namespace Prisma {
     ipAddress?: boolean
     isSpam?: boolean
     reported?: boolean
-    post?: boolean | PostDefaultArgs<ExtArgs>
     author?: boolean | UserDefaultArgs<ExtArgs>
     parent?: boolean | Comment$parentArgs<ExtArgs>
+    post?: boolean | PostDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["comment"]>
 
   export type CommentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -19858,9 +20070,9 @@ export namespace Prisma {
     ipAddress?: boolean
     isSpam?: boolean
     reported?: boolean
-    post?: boolean | PostDefaultArgs<ExtArgs>
     author?: boolean | UserDefaultArgs<ExtArgs>
     parent?: boolean | Comment$parentArgs<ExtArgs>
+    post?: boolean | PostDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["comment"]>
 
   export type CommentSelectScalar = {
@@ -19880,31 +20092,31 @@ export namespace Prisma {
 
   export type CommentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "postId" | "authorId" | "parentId" | "content" | "status" | "createdAt" | "updatedAt" | "deletedAt" | "ipAddress" | "isSpam" | "reported", ExtArgs["result"]["comment"]>
   export type CommentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    post?: boolean | PostDefaultArgs<ExtArgs>
     author?: boolean | UserDefaultArgs<ExtArgs>
     parent?: boolean | Comment$parentArgs<ExtArgs>
     children?: boolean | Comment$childrenArgs<ExtArgs>
+    post?: boolean | PostDefaultArgs<ExtArgs>
     votes?: boolean | Comment$votesArgs<ExtArgs>
     _count?: boolean | CommentCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type CommentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    post?: boolean | PostDefaultArgs<ExtArgs>
     author?: boolean | UserDefaultArgs<ExtArgs>
     parent?: boolean | Comment$parentArgs<ExtArgs>
+    post?: boolean | PostDefaultArgs<ExtArgs>
   }
   export type CommentIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    post?: boolean | PostDefaultArgs<ExtArgs>
     author?: boolean | UserDefaultArgs<ExtArgs>
     parent?: boolean | Comment$parentArgs<ExtArgs>
+    post?: boolean | PostDefaultArgs<ExtArgs>
   }
 
   export type $CommentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Comment"
     objects: {
-      post: Prisma.$PostPayload<ExtArgs>
       author: Prisma.$UserPayload<ExtArgs>
       parent: Prisma.$CommentPayload<ExtArgs> | null
       children: Prisma.$CommentPayload<ExtArgs>[]
+      post: Prisma.$PostPayload<ExtArgs>
       votes: Prisma.$VotePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -20314,10 +20526,10 @@ export namespace Prisma {
    */
   export interface Prisma__CommentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    post<T extends PostDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PostDefaultArgs<ExtArgs>>): Prisma__PostClient<$Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     author<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     parent<T extends Comment$parentArgs<ExtArgs> = {}>(args?: Subset<T, Comment$parentArgs<ExtArgs>>): Prisma__CommentClient<$Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     children<T extends Comment$childrenArgs<ExtArgs> = {}>(args?: Subset<T, Comment$childrenArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    post<T extends PostDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PostDefaultArgs<ExtArgs>>): Prisma__PostClient<$Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     votes<T extends Comment$votesArgs<ExtArgs> = {}>(args?: Subset<T, Comment$votesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -21047,9 +21259,9 @@ export namespace Prisma {
     commentId?: boolean
     value?: boolean
     createdAt?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
-    post?: boolean | Vote$postArgs<ExtArgs>
     comment?: boolean | Vote$commentArgs<ExtArgs>
+    post?: boolean | Vote$postArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["vote"]>
 
   export type VoteSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -21059,9 +21271,9 @@ export namespace Prisma {
     commentId?: boolean
     value?: boolean
     createdAt?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
-    post?: boolean | Vote$postArgs<ExtArgs>
     comment?: boolean | Vote$commentArgs<ExtArgs>
+    post?: boolean | Vote$postArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["vote"]>
 
   export type VoteSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -21071,9 +21283,9 @@ export namespace Prisma {
     commentId?: boolean
     value?: boolean
     createdAt?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
-    post?: boolean | Vote$postArgs<ExtArgs>
     comment?: boolean | Vote$commentArgs<ExtArgs>
+    post?: boolean | Vote$postArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["vote"]>
 
   export type VoteSelectScalar = {
@@ -21087,27 +21299,27 @@ export namespace Prisma {
 
   export type VoteOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "postId" | "commentId" | "value" | "createdAt", ExtArgs["result"]["vote"]>
   export type VoteInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
-    post?: boolean | Vote$postArgs<ExtArgs>
     comment?: boolean | Vote$commentArgs<ExtArgs>
+    post?: boolean | Vote$postArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type VoteIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
-    post?: boolean | Vote$postArgs<ExtArgs>
     comment?: boolean | Vote$commentArgs<ExtArgs>
+    post?: boolean | Vote$postArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type VoteIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
-    post?: boolean | Vote$postArgs<ExtArgs>
     comment?: boolean | Vote$commentArgs<ExtArgs>
+    post?: boolean | Vote$postArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }
 
   export type $VotePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Vote"
     objects: {
-      user: Prisma.$UserPayload<ExtArgs>
-      post: Prisma.$PostPayload<ExtArgs> | null
       comment: Prisma.$CommentPayload<ExtArgs> | null
+      post: Prisma.$PostPayload<ExtArgs> | null
+      user: Prisma.$UserPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -21510,9 +21722,9 @@ export namespace Prisma {
    */
   export interface Prisma__VoteClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    post<T extends Vote$postArgs<ExtArgs> = {}>(args?: Subset<T, Vote$postArgs<ExtArgs>>): Prisma__PostClient<$Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     comment<T extends Vote$commentArgs<ExtArgs> = {}>(args?: Subset<T, Vote$commentArgs<ExtArgs>>): Prisma__CommentClient<$Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    post<T extends Vote$postArgs<ExtArgs> = {}>(args?: Subset<T, Vote$postArgs<ExtArgs>>): Prisma__PostClient<$Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -21944,25 +22156,6 @@ export namespace Prisma {
   }
 
   /**
-   * Vote.post
-   */
-  export type Vote$postArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Post
-     */
-    select?: PostSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Post
-     */
-    omit?: PostOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PostInclude<ExtArgs> | null
-    where?: PostWhereInput
-  }
-
-  /**
    * Vote.comment
    */
   export type Vote$commentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -21979,6 +22172,25 @@ export namespace Prisma {
      */
     include?: CommentInclude<ExtArgs> | null
     where?: CommentWhereInput
+  }
+
+  /**
+   * Vote.post
+   */
+  export type Vote$postArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Post
+     */
+    select?: PostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Post
+     */
+    omit?: PostOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostInclude<ExtArgs> | null
+    where?: PostWhereInput
   }
 
   /**
@@ -22172,8 +22384,8 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     createdById?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
     createdBy?: boolean | UserDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["adminNote"]>
 
   export type AdminNoteSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -22183,8 +22395,8 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     createdById?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
     createdBy?: boolean | UserDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["adminNote"]>
 
   export type AdminNoteSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -22194,8 +22406,8 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     createdById?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
     createdBy?: boolean | UserDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["adminNote"]>
 
   export type AdminNoteSelectScalar = {
@@ -22209,23 +22421,23 @@ export namespace Prisma {
 
   export type AdminNoteOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "note" | "createdAt" | "updatedAt" | "createdById", ExtArgs["result"]["adminNote"]>
   export type AdminNoteInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
     createdBy?: boolean | UserDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type AdminNoteIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
     createdBy?: boolean | UserDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type AdminNoteIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
     createdBy?: boolean | UserDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }
 
   export type $AdminNotePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "AdminNote"
     objects: {
-      user: Prisma.$UserPayload<ExtArgs>
       createdBy: Prisma.$UserPayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -22628,8 +22840,8 @@ export namespace Prisma {
    */
   export interface Prisma__AdminNoteClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     createdBy<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -23224,8 +23436,8 @@ export namespace Prisma {
     id: string
     userId: string | null
     action: string
-    target: string
-    ip: string
+    target: string | null
+    ip: string | null
     createdAt: Date
     meta: JsonValue | null
     _count: AuditLogCountAggregateOutputType | null
@@ -23310,8 +23522,8 @@ export namespace Prisma {
       id: string
       userId: string | null
       action: string
-      target: string
-      ip: string
+      target: string | null
+      ip: string | null
       createdAt: Date
       meta: Prisma.JsonValue | null
     }, ExtArgs["result"]["auditLog"]>
@@ -24308,7 +24520,7 @@ export namespace Prisma {
   export type SiteSettingGroupByOutputType = {
     key: string
     value: string
-    type: string
+    type: string | null
     updatedAt: Date
     _count: SiteSettingCountAggregateOutputType | null
     _min: SiteSettingMinAggregateOutputType | null
@@ -24365,7 +24577,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       key: string
       value: string
-      type: string
+      type: string | null
       updatedAt: Date
     }, ExtArgs["result"]["siteSetting"]>
     composites: {}
@@ -25161,6 +25373,1090 @@ export namespace Prisma {
 
 
   /**
+   * Model UserNotificationPreference
+   */
+
+  export type AggregateUserNotificationPreference = {
+    _count: UserNotificationPreferenceCountAggregateOutputType | null
+    _min: UserNotificationPreferenceMinAggregateOutputType | null
+    _max: UserNotificationPreferenceMaxAggregateOutputType | null
+  }
+
+  export type UserNotificationPreferenceMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    emailComment: boolean | null
+    emailReply: boolean | null
+    emailFollower: boolean | null
+    emailMention: boolean | null
+    emailNewsletter: boolean | null
+  }
+
+  export type UserNotificationPreferenceMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    emailComment: boolean | null
+    emailReply: boolean | null
+    emailFollower: boolean | null
+    emailMention: boolean | null
+    emailNewsletter: boolean | null
+  }
+
+  export type UserNotificationPreferenceCountAggregateOutputType = {
+    id: number
+    userId: number
+    emailComment: number
+    emailReply: number
+    emailFollower: number
+    emailMention: number
+    emailNewsletter: number
+    _all: number
+  }
+
+
+  export type UserNotificationPreferenceMinAggregateInputType = {
+    id?: true
+    userId?: true
+    emailComment?: true
+    emailReply?: true
+    emailFollower?: true
+    emailMention?: true
+    emailNewsletter?: true
+  }
+
+  export type UserNotificationPreferenceMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    emailComment?: true
+    emailReply?: true
+    emailFollower?: true
+    emailMention?: true
+    emailNewsletter?: true
+  }
+
+  export type UserNotificationPreferenceCountAggregateInputType = {
+    id?: true
+    userId?: true
+    emailComment?: true
+    emailReply?: true
+    emailFollower?: true
+    emailMention?: true
+    emailNewsletter?: true
+    _all?: true
+  }
+
+  export type UserNotificationPreferenceAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserNotificationPreference to aggregate.
+     */
+    where?: UserNotificationPreferenceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserNotificationPreferences to fetch.
+     */
+    orderBy?: UserNotificationPreferenceOrderByWithRelationInput | UserNotificationPreferenceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: UserNotificationPreferenceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserNotificationPreferences from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserNotificationPreferences.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned UserNotificationPreferences
+    **/
+    _count?: true | UserNotificationPreferenceCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: UserNotificationPreferenceMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: UserNotificationPreferenceMaxAggregateInputType
+  }
+
+  export type GetUserNotificationPreferenceAggregateType<T extends UserNotificationPreferenceAggregateArgs> = {
+        [P in keyof T & keyof AggregateUserNotificationPreference]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateUserNotificationPreference[P]>
+      : GetScalarType<T[P], AggregateUserNotificationPreference[P]>
+  }
+
+
+
+
+  export type UserNotificationPreferenceGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserNotificationPreferenceWhereInput
+    orderBy?: UserNotificationPreferenceOrderByWithAggregationInput | UserNotificationPreferenceOrderByWithAggregationInput[]
+    by: UserNotificationPreferenceScalarFieldEnum[] | UserNotificationPreferenceScalarFieldEnum
+    having?: UserNotificationPreferenceScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: UserNotificationPreferenceCountAggregateInputType | true
+    _min?: UserNotificationPreferenceMinAggregateInputType
+    _max?: UserNotificationPreferenceMaxAggregateInputType
+  }
+
+  export type UserNotificationPreferenceGroupByOutputType = {
+    id: string
+    userId: string
+    emailComment: boolean
+    emailReply: boolean
+    emailFollower: boolean
+    emailMention: boolean
+    emailNewsletter: boolean
+    _count: UserNotificationPreferenceCountAggregateOutputType | null
+    _min: UserNotificationPreferenceMinAggregateOutputType | null
+    _max: UserNotificationPreferenceMaxAggregateOutputType | null
+  }
+
+  type GetUserNotificationPreferenceGroupByPayload<T extends UserNotificationPreferenceGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<UserNotificationPreferenceGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof UserNotificationPreferenceGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], UserNotificationPreferenceGroupByOutputType[P]>
+            : GetScalarType<T[P], UserNotificationPreferenceGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type UserNotificationPreferenceSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    emailComment?: boolean
+    emailReply?: boolean
+    emailFollower?: boolean
+    emailMention?: boolean
+    emailNewsletter?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userNotificationPreference"]>
+
+  export type UserNotificationPreferenceSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    emailComment?: boolean
+    emailReply?: boolean
+    emailFollower?: boolean
+    emailMention?: boolean
+    emailNewsletter?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userNotificationPreference"]>
+
+  export type UserNotificationPreferenceSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    emailComment?: boolean
+    emailReply?: boolean
+    emailFollower?: boolean
+    emailMention?: boolean
+    emailNewsletter?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userNotificationPreference"]>
+
+  export type UserNotificationPreferenceSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    emailComment?: boolean
+    emailReply?: boolean
+    emailFollower?: boolean
+    emailMention?: boolean
+    emailNewsletter?: boolean
+  }
+
+  export type UserNotificationPreferenceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "emailComment" | "emailReply" | "emailFollower" | "emailMention" | "emailNewsletter", ExtArgs["result"]["userNotificationPreference"]>
+  export type UserNotificationPreferenceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type UserNotificationPreferenceIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type UserNotificationPreferenceIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $UserNotificationPreferencePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "UserNotificationPreference"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      emailComment: boolean
+      emailReply: boolean
+      emailFollower: boolean
+      emailMention: boolean
+      emailNewsletter: boolean
+    }, ExtArgs["result"]["userNotificationPreference"]>
+    composites: {}
+  }
+
+  type UserNotificationPreferenceGetPayload<S extends boolean | null | undefined | UserNotificationPreferenceDefaultArgs> = $Result.GetResult<Prisma.$UserNotificationPreferencePayload, S>
+
+  type UserNotificationPreferenceCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<UserNotificationPreferenceFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: UserNotificationPreferenceCountAggregateInputType | true
+    }
+
+  export interface UserNotificationPreferenceDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['UserNotificationPreference'], meta: { name: 'UserNotificationPreference' } }
+    /**
+     * Find zero or one UserNotificationPreference that matches the filter.
+     * @param {UserNotificationPreferenceFindUniqueArgs} args - Arguments to find a UserNotificationPreference
+     * @example
+     * // Get one UserNotificationPreference
+     * const userNotificationPreference = await prisma.userNotificationPreference.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends UserNotificationPreferenceFindUniqueArgs>(args: SelectSubset<T, UserNotificationPreferenceFindUniqueArgs<ExtArgs>>): Prisma__UserNotificationPreferenceClient<$Result.GetResult<Prisma.$UserNotificationPreferencePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one UserNotificationPreference that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {UserNotificationPreferenceFindUniqueOrThrowArgs} args - Arguments to find a UserNotificationPreference
+     * @example
+     * // Get one UserNotificationPreference
+     * const userNotificationPreference = await prisma.userNotificationPreference.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends UserNotificationPreferenceFindUniqueOrThrowArgs>(args: SelectSubset<T, UserNotificationPreferenceFindUniqueOrThrowArgs<ExtArgs>>): Prisma__UserNotificationPreferenceClient<$Result.GetResult<Prisma.$UserNotificationPreferencePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UserNotificationPreference that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserNotificationPreferenceFindFirstArgs} args - Arguments to find a UserNotificationPreference
+     * @example
+     * // Get one UserNotificationPreference
+     * const userNotificationPreference = await prisma.userNotificationPreference.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends UserNotificationPreferenceFindFirstArgs>(args?: SelectSubset<T, UserNotificationPreferenceFindFirstArgs<ExtArgs>>): Prisma__UserNotificationPreferenceClient<$Result.GetResult<Prisma.$UserNotificationPreferencePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UserNotificationPreference that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserNotificationPreferenceFindFirstOrThrowArgs} args - Arguments to find a UserNotificationPreference
+     * @example
+     * // Get one UserNotificationPreference
+     * const userNotificationPreference = await prisma.userNotificationPreference.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends UserNotificationPreferenceFindFirstOrThrowArgs>(args?: SelectSubset<T, UserNotificationPreferenceFindFirstOrThrowArgs<ExtArgs>>): Prisma__UserNotificationPreferenceClient<$Result.GetResult<Prisma.$UserNotificationPreferencePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more UserNotificationPreferences that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserNotificationPreferenceFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all UserNotificationPreferences
+     * const userNotificationPreferences = await prisma.userNotificationPreference.findMany()
+     * 
+     * // Get first 10 UserNotificationPreferences
+     * const userNotificationPreferences = await prisma.userNotificationPreference.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const userNotificationPreferenceWithIdOnly = await prisma.userNotificationPreference.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends UserNotificationPreferenceFindManyArgs>(args?: SelectSubset<T, UserNotificationPreferenceFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserNotificationPreferencePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a UserNotificationPreference.
+     * @param {UserNotificationPreferenceCreateArgs} args - Arguments to create a UserNotificationPreference.
+     * @example
+     * // Create one UserNotificationPreference
+     * const UserNotificationPreference = await prisma.userNotificationPreference.create({
+     *   data: {
+     *     // ... data to create a UserNotificationPreference
+     *   }
+     * })
+     * 
+     */
+    create<T extends UserNotificationPreferenceCreateArgs>(args: SelectSubset<T, UserNotificationPreferenceCreateArgs<ExtArgs>>): Prisma__UserNotificationPreferenceClient<$Result.GetResult<Prisma.$UserNotificationPreferencePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many UserNotificationPreferences.
+     * @param {UserNotificationPreferenceCreateManyArgs} args - Arguments to create many UserNotificationPreferences.
+     * @example
+     * // Create many UserNotificationPreferences
+     * const userNotificationPreference = await prisma.userNotificationPreference.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends UserNotificationPreferenceCreateManyArgs>(args?: SelectSubset<T, UserNotificationPreferenceCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many UserNotificationPreferences and returns the data saved in the database.
+     * @param {UserNotificationPreferenceCreateManyAndReturnArgs} args - Arguments to create many UserNotificationPreferences.
+     * @example
+     * // Create many UserNotificationPreferences
+     * const userNotificationPreference = await prisma.userNotificationPreference.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many UserNotificationPreferences and only return the `id`
+     * const userNotificationPreferenceWithIdOnly = await prisma.userNotificationPreference.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends UserNotificationPreferenceCreateManyAndReturnArgs>(args?: SelectSubset<T, UserNotificationPreferenceCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserNotificationPreferencePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a UserNotificationPreference.
+     * @param {UserNotificationPreferenceDeleteArgs} args - Arguments to delete one UserNotificationPreference.
+     * @example
+     * // Delete one UserNotificationPreference
+     * const UserNotificationPreference = await prisma.userNotificationPreference.delete({
+     *   where: {
+     *     // ... filter to delete one UserNotificationPreference
+     *   }
+     * })
+     * 
+     */
+    delete<T extends UserNotificationPreferenceDeleteArgs>(args: SelectSubset<T, UserNotificationPreferenceDeleteArgs<ExtArgs>>): Prisma__UserNotificationPreferenceClient<$Result.GetResult<Prisma.$UserNotificationPreferencePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one UserNotificationPreference.
+     * @param {UserNotificationPreferenceUpdateArgs} args - Arguments to update one UserNotificationPreference.
+     * @example
+     * // Update one UserNotificationPreference
+     * const userNotificationPreference = await prisma.userNotificationPreference.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends UserNotificationPreferenceUpdateArgs>(args: SelectSubset<T, UserNotificationPreferenceUpdateArgs<ExtArgs>>): Prisma__UserNotificationPreferenceClient<$Result.GetResult<Prisma.$UserNotificationPreferencePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more UserNotificationPreferences.
+     * @param {UserNotificationPreferenceDeleteManyArgs} args - Arguments to filter UserNotificationPreferences to delete.
+     * @example
+     * // Delete a few UserNotificationPreferences
+     * const { count } = await prisma.userNotificationPreference.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends UserNotificationPreferenceDeleteManyArgs>(args?: SelectSubset<T, UserNotificationPreferenceDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserNotificationPreferences.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserNotificationPreferenceUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many UserNotificationPreferences
+     * const userNotificationPreference = await prisma.userNotificationPreference.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends UserNotificationPreferenceUpdateManyArgs>(args: SelectSubset<T, UserNotificationPreferenceUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserNotificationPreferences and returns the data updated in the database.
+     * @param {UserNotificationPreferenceUpdateManyAndReturnArgs} args - Arguments to update many UserNotificationPreferences.
+     * @example
+     * // Update many UserNotificationPreferences
+     * const userNotificationPreference = await prisma.userNotificationPreference.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more UserNotificationPreferences and only return the `id`
+     * const userNotificationPreferenceWithIdOnly = await prisma.userNotificationPreference.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends UserNotificationPreferenceUpdateManyAndReturnArgs>(args: SelectSubset<T, UserNotificationPreferenceUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserNotificationPreferencePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one UserNotificationPreference.
+     * @param {UserNotificationPreferenceUpsertArgs} args - Arguments to update or create a UserNotificationPreference.
+     * @example
+     * // Update or create a UserNotificationPreference
+     * const userNotificationPreference = await prisma.userNotificationPreference.upsert({
+     *   create: {
+     *     // ... data to create a UserNotificationPreference
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the UserNotificationPreference we want to update
+     *   }
+     * })
+     */
+    upsert<T extends UserNotificationPreferenceUpsertArgs>(args: SelectSubset<T, UserNotificationPreferenceUpsertArgs<ExtArgs>>): Prisma__UserNotificationPreferenceClient<$Result.GetResult<Prisma.$UserNotificationPreferencePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of UserNotificationPreferences.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserNotificationPreferenceCountArgs} args - Arguments to filter UserNotificationPreferences to count.
+     * @example
+     * // Count the number of UserNotificationPreferences
+     * const count = await prisma.userNotificationPreference.count({
+     *   where: {
+     *     // ... the filter for the UserNotificationPreferences we want to count
+     *   }
+     * })
+    **/
+    count<T extends UserNotificationPreferenceCountArgs>(
+      args?: Subset<T, UserNotificationPreferenceCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], UserNotificationPreferenceCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a UserNotificationPreference.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserNotificationPreferenceAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends UserNotificationPreferenceAggregateArgs>(args: Subset<T, UserNotificationPreferenceAggregateArgs>): Prisma.PrismaPromise<GetUserNotificationPreferenceAggregateType<T>>
+
+    /**
+     * Group by UserNotificationPreference.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserNotificationPreferenceGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends UserNotificationPreferenceGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: UserNotificationPreferenceGroupByArgs['orderBy'] }
+        : { orderBy?: UserNotificationPreferenceGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, UserNotificationPreferenceGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUserNotificationPreferenceGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the UserNotificationPreference model
+   */
+  readonly fields: UserNotificationPreferenceFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for UserNotificationPreference.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__UserNotificationPreferenceClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the UserNotificationPreference model
+   */
+  interface UserNotificationPreferenceFieldRefs {
+    readonly id: FieldRef<"UserNotificationPreference", 'String'>
+    readonly userId: FieldRef<"UserNotificationPreference", 'String'>
+    readonly emailComment: FieldRef<"UserNotificationPreference", 'Boolean'>
+    readonly emailReply: FieldRef<"UserNotificationPreference", 'Boolean'>
+    readonly emailFollower: FieldRef<"UserNotificationPreference", 'Boolean'>
+    readonly emailMention: FieldRef<"UserNotificationPreference", 'Boolean'>
+    readonly emailNewsletter: FieldRef<"UserNotificationPreference", 'Boolean'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * UserNotificationPreference findUnique
+   */
+  export type UserNotificationPreferenceFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserNotificationPreference
+     */
+    select?: UserNotificationPreferenceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserNotificationPreference
+     */
+    omit?: UserNotificationPreferenceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserNotificationPreferenceInclude<ExtArgs> | null
+    /**
+     * Filter, which UserNotificationPreference to fetch.
+     */
+    where: UserNotificationPreferenceWhereUniqueInput
+  }
+
+  /**
+   * UserNotificationPreference findUniqueOrThrow
+   */
+  export type UserNotificationPreferenceFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserNotificationPreference
+     */
+    select?: UserNotificationPreferenceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserNotificationPreference
+     */
+    omit?: UserNotificationPreferenceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserNotificationPreferenceInclude<ExtArgs> | null
+    /**
+     * Filter, which UserNotificationPreference to fetch.
+     */
+    where: UserNotificationPreferenceWhereUniqueInput
+  }
+
+  /**
+   * UserNotificationPreference findFirst
+   */
+  export type UserNotificationPreferenceFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserNotificationPreference
+     */
+    select?: UserNotificationPreferenceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserNotificationPreference
+     */
+    omit?: UserNotificationPreferenceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserNotificationPreferenceInclude<ExtArgs> | null
+    /**
+     * Filter, which UserNotificationPreference to fetch.
+     */
+    where?: UserNotificationPreferenceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserNotificationPreferences to fetch.
+     */
+    orderBy?: UserNotificationPreferenceOrderByWithRelationInput | UserNotificationPreferenceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserNotificationPreferences.
+     */
+    cursor?: UserNotificationPreferenceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserNotificationPreferences from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserNotificationPreferences.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserNotificationPreferences.
+     */
+    distinct?: UserNotificationPreferenceScalarFieldEnum | UserNotificationPreferenceScalarFieldEnum[]
+  }
+
+  /**
+   * UserNotificationPreference findFirstOrThrow
+   */
+  export type UserNotificationPreferenceFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserNotificationPreference
+     */
+    select?: UserNotificationPreferenceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserNotificationPreference
+     */
+    omit?: UserNotificationPreferenceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserNotificationPreferenceInclude<ExtArgs> | null
+    /**
+     * Filter, which UserNotificationPreference to fetch.
+     */
+    where?: UserNotificationPreferenceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserNotificationPreferences to fetch.
+     */
+    orderBy?: UserNotificationPreferenceOrderByWithRelationInput | UserNotificationPreferenceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserNotificationPreferences.
+     */
+    cursor?: UserNotificationPreferenceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserNotificationPreferences from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserNotificationPreferences.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserNotificationPreferences.
+     */
+    distinct?: UserNotificationPreferenceScalarFieldEnum | UserNotificationPreferenceScalarFieldEnum[]
+  }
+
+  /**
+   * UserNotificationPreference findMany
+   */
+  export type UserNotificationPreferenceFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserNotificationPreference
+     */
+    select?: UserNotificationPreferenceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserNotificationPreference
+     */
+    omit?: UserNotificationPreferenceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserNotificationPreferenceInclude<ExtArgs> | null
+    /**
+     * Filter, which UserNotificationPreferences to fetch.
+     */
+    where?: UserNotificationPreferenceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserNotificationPreferences to fetch.
+     */
+    orderBy?: UserNotificationPreferenceOrderByWithRelationInput | UserNotificationPreferenceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing UserNotificationPreferences.
+     */
+    cursor?: UserNotificationPreferenceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserNotificationPreferences from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserNotificationPreferences.
+     */
+    skip?: number
+    distinct?: UserNotificationPreferenceScalarFieldEnum | UserNotificationPreferenceScalarFieldEnum[]
+  }
+
+  /**
+   * UserNotificationPreference create
+   */
+  export type UserNotificationPreferenceCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserNotificationPreference
+     */
+    select?: UserNotificationPreferenceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserNotificationPreference
+     */
+    omit?: UserNotificationPreferenceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserNotificationPreferenceInclude<ExtArgs> | null
+    /**
+     * The data needed to create a UserNotificationPreference.
+     */
+    data: XOR<UserNotificationPreferenceCreateInput, UserNotificationPreferenceUncheckedCreateInput>
+  }
+
+  /**
+   * UserNotificationPreference createMany
+   */
+  export type UserNotificationPreferenceCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many UserNotificationPreferences.
+     */
+    data: UserNotificationPreferenceCreateManyInput | UserNotificationPreferenceCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * UserNotificationPreference createManyAndReturn
+   */
+  export type UserNotificationPreferenceCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserNotificationPreference
+     */
+    select?: UserNotificationPreferenceSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserNotificationPreference
+     */
+    omit?: UserNotificationPreferenceOmit<ExtArgs> | null
+    /**
+     * The data used to create many UserNotificationPreferences.
+     */
+    data: UserNotificationPreferenceCreateManyInput | UserNotificationPreferenceCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserNotificationPreferenceIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UserNotificationPreference update
+   */
+  export type UserNotificationPreferenceUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserNotificationPreference
+     */
+    select?: UserNotificationPreferenceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserNotificationPreference
+     */
+    omit?: UserNotificationPreferenceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserNotificationPreferenceInclude<ExtArgs> | null
+    /**
+     * The data needed to update a UserNotificationPreference.
+     */
+    data: XOR<UserNotificationPreferenceUpdateInput, UserNotificationPreferenceUncheckedUpdateInput>
+    /**
+     * Choose, which UserNotificationPreference to update.
+     */
+    where: UserNotificationPreferenceWhereUniqueInput
+  }
+
+  /**
+   * UserNotificationPreference updateMany
+   */
+  export type UserNotificationPreferenceUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update UserNotificationPreferences.
+     */
+    data: XOR<UserNotificationPreferenceUpdateManyMutationInput, UserNotificationPreferenceUncheckedUpdateManyInput>
+    /**
+     * Filter which UserNotificationPreferences to update
+     */
+    where?: UserNotificationPreferenceWhereInput
+    /**
+     * Limit how many UserNotificationPreferences to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * UserNotificationPreference updateManyAndReturn
+   */
+  export type UserNotificationPreferenceUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserNotificationPreference
+     */
+    select?: UserNotificationPreferenceSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserNotificationPreference
+     */
+    omit?: UserNotificationPreferenceOmit<ExtArgs> | null
+    /**
+     * The data used to update UserNotificationPreferences.
+     */
+    data: XOR<UserNotificationPreferenceUpdateManyMutationInput, UserNotificationPreferenceUncheckedUpdateManyInput>
+    /**
+     * Filter which UserNotificationPreferences to update
+     */
+    where?: UserNotificationPreferenceWhereInput
+    /**
+     * Limit how many UserNotificationPreferences to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserNotificationPreferenceIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UserNotificationPreference upsert
+   */
+  export type UserNotificationPreferenceUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserNotificationPreference
+     */
+    select?: UserNotificationPreferenceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserNotificationPreference
+     */
+    omit?: UserNotificationPreferenceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserNotificationPreferenceInclude<ExtArgs> | null
+    /**
+     * The filter to search for the UserNotificationPreference to update in case it exists.
+     */
+    where: UserNotificationPreferenceWhereUniqueInput
+    /**
+     * In case the UserNotificationPreference found by the `where` argument doesn't exist, create a new UserNotificationPreference with this data.
+     */
+    create: XOR<UserNotificationPreferenceCreateInput, UserNotificationPreferenceUncheckedCreateInput>
+    /**
+     * In case the UserNotificationPreference was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<UserNotificationPreferenceUpdateInput, UserNotificationPreferenceUncheckedUpdateInput>
+  }
+
+  /**
+   * UserNotificationPreference delete
+   */
+  export type UserNotificationPreferenceDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserNotificationPreference
+     */
+    select?: UserNotificationPreferenceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserNotificationPreference
+     */
+    omit?: UserNotificationPreferenceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserNotificationPreferenceInclude<ExtArgs> | null
+    /**
+     * Filter which UserNotificationPreference to delete.
+     */
+    where: UserNotificationPreferenceWhereUniqueInput
+  }
+
+  /**
+   * UserNotificationPreference deleteMany
+   */
+  export type UserNotificationPreferenceDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserNotificationPreferences to delete
+     */
+    where?: UserNotificationPreferenceWhereInput
+    /**
+     * Limit how many UserNotificationPreferences to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * UserNotificationPreference without action
+   */
+  export type UserNotificationPreferenceDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserNotificationPreference
+     */
+    select?: UserNotificationPreferenceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserNotificationPreference
+     */
+    omit?: UserNotificationPreferenceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserNotificationPreferenceInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -25409,6 +26705,19 @@ export namespace Prisma {
   export type SiteSettingScalarFieldEnum = (typeof SiteSettingScalarFieldEnum)[keyof typeof SiteSettingScalarFieldEnum]
 
 
+  export const UserNotificationPreferenceScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    emailComment: 'emailComment',
+    emailReply: 'emailReply',
+    emailFollower: 'emailFollower',
+    emailMention: 'emailMention',
+    emailNewsletter: 'emailNewsletter'
+  };
+
+  export type UserNotificationPreferenceScalarFieldEnum = (typeof UserNotificationPreferenceScalarFieldEnum)[keyof typeof UserNotificationPreferenceScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -25591,17 +26900,18 @@ export namespace Prisma {
     lastLoginAt?: DateTimeNullableFilter<"User"> | Date | string | null
     lastLoginIp?: StringNullableFilter<"User"> | string | null
     status?: EnumUserStatusFilter<"User"> | $Enums.UserStatus
+    accounts?: AccountListRelationFilter
+    createdNotes?: AdminNoteListRelationFilter
+    adminNotes?: AdminNoteListRelationFilter
+    auditLogs?: AuditLogListRelationFilter
+    comments?: CommentListRelationFilter
+    media?: MediaListRelationFilter
+    posts?: PostListRelationFilter
+    sessions?: SessionListRelationFilter
+    notificationPreferences?: XOR<UserNotificationPreferenceNullableScalarRelationFilter, UserNotificationPreferenceWhereInput> | null
     profile?: XOR<UserProfileNullableScalarRelationFilter, UserProfileWhereInput> | null
     roles?: UserRoleListRelationFilter
-    sessions?: SessionListRelationFilter
-    accounts?: AccountListRelationFilter
-    posts?: PostListRelationFilter
-    comments?: CommentListRelationFilter
     votes?: VoteListRelationFilter
-    media?: MediaListRelationFilter
-    adminNotes?: AdminNoteListRelationFilter
-    createdNotes?: AdminNoteListRelationFilter
-    auditLogs?: AuditLogListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -25615,17 +26925,18 @@ export namespace Prisma {
     lastLoginAt?: SortOrderInput | SortOrder
     lastLoginIp?: SortOrderInput | SortOrder
     status?: SortOrder
+    accounts?: AccountOrderByRelationAggregateInput
+    createdNotes?: AdminNoteOrderByRelationAggregateInput
+    adminNotes?: AdminNoteOrderByRelationAggregateInput
+    auditLogs?: AuditLogOrderByRelationAggregateInput
+    comments?: CommentOrderByRelationAggregateInput
+    media?: MediaOrderByRelationAggregateInput
+    posts?: PostOrderByRelationAggregateInput
+    sessions?: SessionOrderByRelationAggregateInput
+    notificationPreferences?: UserNotificationPreferenceOrderByWithRelationInput
     profile?: UserProfileOrderByWithRelationInput
     roles?: UserRoleOrderByRelationAggregateInput
-    sessions?: SessionOrderByRelationAggregateInput
-    accounts?: AccountOrderByRelationAggregateInput
-    posts?: PostOrderByRelationAggregateInput
-    comments?: CommentOrderByRelationAggregateInput
     votes?: VoteOrderByRelationAggregateInput
-    media?: MediaOrderByRelationAggregateInput
-    adminNotes?: AdminNoteOrderByRelationAggregateInput
-    createdNotes?: AdminNoteOrderByRelationAggregateInput
-    auditLogs?: AuditLogOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -25642,17 +26953,18 @@ export namespace Prisma {
     lastLoginAt?: DateTimeNullableFilter<"User"> | Date | string | null
     lastLoginIp?: StringNullableFilter<"User"> | string | null
     status?: EnumUserStatusFilter<"User"> | $Enums.UserStatus
+    accounts?: AccountListRelationFilter
+    createdNotes?: AdminNoteListRelationFilter
+    adminNotes?: AdminNoteListRelationFilter
+    auditLogs?: AuditLogListRelationFilter
+    comments?: CommentListRelationFilter
+    media?: MediaListRelationFilter
+    posts?: PostListRelationFilter
+    sessions?: SessionListRelationFilter
+    notificationPreferences?: XOR<UserNotificationPreferenceNullableScalarRelationFilter, UserNotificationPreferenceWhereInput> | null
     profile?: XOR<UserProfileNullableScalarRelationFilter, UserProfileWhereInput> | null
     roles?: UserRoleListRelationFilter
-    sessions?: SessionListRelationFilter
-    accounts?: AccountListRelationFilter
-    posts?: PostListRelationFilter
-    comments?: CommentListRelationFilter
     votes?: VoteListRelationFilter
-    media?: MediaListRelationFilter
-    adminNotes?: AdminNoteListRelationFilter
-    createdNotes?: AdminNoteListRelationFilter
-    auditLogs?: AuditLogListRelationFilter
   }, "id" | "email" | "username">
 
   export type UserOrderByWithAggregationInput = {
@@ -25759,16 +27071,16 @@ export namespace Prisma {
     id?: StringFilter<"Role"> | string
     name?: StringFilter<"Role"> | string
     description?: StringNullableFilter<"Role"> | string | null
-    users?: UserRoleListRelationFilter
     permissions?: RolePermissionListRelationFilter
+    users?: UserRoleListRelationFilter
   }
 
   export type RoleOrderByWithRelationInput = {
     id?: SortOrder
     name?: SortOrder
     description?: SortOrderInput | SortOrder
-    users?: UserRoleOrderByRelationAggregateInput
     permissions?: RolePermissionOrderByRelationAggregateInput
+    users?: UserRoleOrderByRelationAggregateInput
   }
 
   export type RoleWhereUniqueInput = Prisma.AtLeast<{
@@ -25778,8 +27090,8 @@ export namespace Prisma {
     OR?: RoleWhereInput[]
     NOT?: RoleWhereInput | RoleWhereInput[]
     description?: StringNullableFilter<"Role"> | string | null
-    users?: UserRoleListRelationFilter
     permissions?: RolePermissionListRelationFilter
+    users?: UserRoleListRelationFilter
   }, "id" | "name">
 
   export type RoleOrderByWithAggregationInput = {
@@ -25851,15 +27163,15 @@ export namespace Prisma {
     NOT?: UserRoleWhereInput | UserRoleWhereInput[]
     userId?: StringFilter<"UserRole"> | string
     roleId?: StringFilter<"UserRole"> | string
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
     role?: XOR<RoleScalarRelationFilter, RoleWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
   export type UserRoleOrderByWithRelationInput = {
     userId?: SortOrder
     roleId?: SortOrder
-    user?: UserOrderByWithRelationInput
     role?: RoleOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
   }
 
   export type UserRoleWhereUniqueInput = Prisma.AtLeast<{
@@ -25869,8 +27181,8 @@ export namespace Prisma {
     NOT?: UserRoleWhereInput | UserRoleWhereInput[]
     userId?: StringFilter<"UserRole"> | string
     roleId?: StringFilter<"UserRole"> | string
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
     role?: XOR<RoleScalarRelationFilter, RoleWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "userId_roleId">
 
   export type UserRoleOrderByWithAggregationInput = {
@@ -25895,15 +27207,15 @@ export namespace Prisma {
     NOT?: RolePermissionWhereInput | RolePermissionWhereInput[]
     roleId?: StringFilter<"RolePermission"> | string
     permissionId?: StringFilter<"RolePermission"> | string
-    role?: XOR<RoleScalarRelationFilter, RoleWhereInput>
     permission?: XOR<PermissionScalarRelationFilter, PermissionWhereInput>
+    role?: XOR<RoleScalarRelationFilter, RoleWhereInput>
   }
 
   export type RolePermissionOrderByWithRelationInput = {
     roleId?: SortOrder
     permissionId?: SortOrder
-    role?: RoleOrderByWithRelationInput
     permission?: PermissionOrderByWithRelationInput
+    role?: RoleOrderByWithRelationInput
   }
 
   export type RolePermissionWhereUniqueInput = Prisma.AtLeast<{
@@ -25913,8 +27225,8 @@ export namespace Prisma {
     NOT?: RolePermissionWhereInput | RolePermissionWhereInput[]
     roleId?: StringFilter<"RolePermission"> | string
     permissionId?: StringFilter<"RolePermission"> | string
-    role?: XOR<RoleScalarRelationFilter, RoleWhereInput>
     permission?: XOR<PermissionScalarRelationFilter, PermissionWhereInput>
+    role?: XOR<RoleScalarRelationFilter, RoleWhereInput>
   }, "roleId_permissionId">
 
   export type RolePermissionOrderByWithAggregationInput = {
@@ -26020,6 +27332,7 @@ export namespace Prisma {
 
   export type AccountWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    provider_providerAccountId?: AccountProviderProviderAccountIdCompoundUniqueInput
     AND?: AccountWhereInput | AccountWhereInput[]
     OR?: AccountWhereInput[]
     NOT?: AccountWhereInput | AccountWhereInput[]
@@ -26035,7 +27348,7 @@ export namespace Prisma {
     id_token?: StringNullableFilter<"Account"> | string | null
     session_state?: StringNullableFilter<"Account"> | string | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
-  }, "id">
+  }, "id" | "provider_providerAccountId">
 
   export type AccountOrderByWithAggregationInput = {
     id?: SortOrder
@@ -26091,14 +27404,14 @@ export namespace Prisma {
   }
 
   export type VerificationTokenWhereUniqueInput = Prisma.AtLeast<{
+    token?: string
     identifier_token?: VerificationTokenIdentifierTokenCompoundUniqueInput
     AND?: VerificationTokenWhereInput | VerificationTokenWhereInput[]
     OR?: VerificationTokenWhereInput[]
     NOT?: VerificationTokenWhereInput | VerificationTokenWhereInput[]
     identifier?: StringFilter<"VerificationToken"> | string
-    token?: StringFilter<"VerificationToken"> | string
     expires?: DateTimeFilter<"VerificationToken"> | Date | string
-  }, "identifier_token">
+  }, "token" | "identifier_token">
 
   export type VerificationTokenOrderByWithAggregationInput = {
     identifier?: SortOrder
@@ -26136,11 +27449,12 @@ export namespace Prisma {
     version?: IntFilter<"Post"> | number
     isFeatured?: BoolFilter<"Post"> | boolean
     viewCount?: IntFilter<"Post"> | number
+    comments?: CommentListRelationFilter
     author?: XOR<UserScalarRelationFilter, UserWhereInput>
     categories?: PostCategoryListRelationFilter
     tags?: PostTagListRelationFilter
-    comments?: CommentListRelationFilter
     votes?: VoteListRelationFilter
+    Media?: MediaListRelationFilter
   }
 
   export type PostOrderByWithRelationInput = {
@@ -26158,11 +27472,12 @@ export namespace Prisma {
     version?: SortOrder
     isFeatured?: SortOrder
     viewCount?: SortOrder
+    comments?: CommentOrderByRelationAggregateInput
     author?: UserOrderByWithRelationInput
     categories?: PostCategoryOrderByRelationAggregateInput
     tags?: PostTagOrderByRelationAggregateInput
-    comments?: CommentOrderByRelationAggregateInput
     votes?: VoteOrderByRelationAggregateInput
+    Media?: MediaOrderByRelationAggregateInput
   }
 
   export type PostWhereUniqueInput = Prisma.AtLeast<{
@@ -26183,11 +27498,12 @@ export namespace Prisma {
     version?: IntFilter<"Post"> | number
     isFeatured?: BoolFilter<"Post"> | boolean
     viewCount?: IntFilter<"Post"> | number
+    comments?: CommentListRelationFilter
     author?: XOR<UserScalarRelationFilter, UserWhereInput>
     categories?: PostCategoryListRelationFilter
     tags?: PostTagListRelationFilter
-    comments?: CommentListRelationFilter
     votes?: VoteListRelationFilter
+    Media?: MediaListRelationFilter
   }, "id" | "slug">
 
   export type PostOrderByWithAggregationInput = {
@@ -26306,15 +27622,15 @@ export namespace Prisma {
     NOT?: PostCategoryWhereInput | PostCategoryWhereInput[]
     postId?: StringFilter<"PostCategory"> | string
     categoryId?: StringFilter<"PostCategory"> | string
-    post?: XOR<PostScalarRelationFilter, PostWhereInput>
     category?: XOR<CategoryScalarRelationFilter, CategoryWhereInput>
+    post?: XOR<PostScalarRelationFilter, PostWhereInput>
   }
 
   export type PostCategoryOrderByWithRelationInput = {
     postId?: SortOrder
     categoryId?: SortOrder
-    post?: PostOrderByWithRelationInput
     category?: CategoryOrderByWithRelationInput
+    post?: PostOrderByWithRelationInput
   }
 
   export type PostCategoryWhereUniqueInput = Prisma.AtLeast<{
@@ -26324,8 +27640,8 @@ export namespace Prisma {
     NOT?: PostCategoryWhereInput | PostCategoryWhereInput[]
     postId?: StringFilter<"PostCategory"> | string
     categoryId?: StringFilter<"PostCategory"> | string
-    post?: XOR<PostScalarRelationFilter, PostWhereInput>
     category?: XOR<CategoryScalarRelationFilter, CategoryWhereInput>
+    post?: XOR<PostScalarRelationFilter, PostWhereInput>
   }, "postId_categoryId">
 
   export type PostCategoryOrderByWithAggregationInput = {
@@ -26365,14 +27681,14 @@ export namespace Prisma {
 
   export type TagWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    name?: string
     slug?: string
     AND?: TagWhereInput | TagWhereInput[]
     OR?: TagWhereInput[]
     NOT?: TagWhereInput | TagWhereInput[]
-    name?: StringFilter<"Tag"> | string
     description?: StringNullableFilter<"Tag"> | string | null
     posts?: PostTagListRelationFilter
-  }, "id" | "slug">
+  }, "id" | "name" | "slug">
 
   export type TagOrderByWithAggregationInput = {
     id?: SortOrder
@@ -26449,6 +27765,7 @@ export namespace Prisma {
     uploadedById?: StringNullableFilter<"Media"> | string | null
     createdAt?: DateTimeFilter<"Media"> | Date | string
     uploadedBy?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    Post?: PostListRelationFilter
   }
 
   export type MediaOrderByWithRelationInput = {
@@ -26459,6 +27776,7 @@ export namespace Prisma {
     uploadedById?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     uploadedBy?: UserOrderByWithRelationInput
+    Post?: PostOrderByRelationAggregateInput
   }
 
   export type MediaWhereUniqueInput = Prisma.AtLeast<{
@@ -26472,6 +27790,7 @@ export namespace Prisma {
     uploadedById?: StringNullableFilter<"Media"> | string | null
     createdAt?: DateTimeFilter<"Media"> | Date | string
     uploadedBy?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    Post?: PostListRelationFilter
   }, "id">
 
   export type MediaOrderByWithAggregationInput = {
@@ -26516,10 +27835,10 @@ export namespace Prisma {
     ipAddress?: StringNullableFilter<"Comment"> | string | null
     isSpam?: BoolFilter<"Comment"> | boolean
     reported?: BoolFilter<"Comment"> | boolean
-    post?: XOR<PostScalarRelationFilter, PostWhereInput>
     author?: XOR<UserScalarRelationFilter, UserWhereInput>
     parent?: XOR<CommentNullableScalarRelationFilter, CommentWhereInput> | null
     children?: CommentListRelationFilter
+    post?: XOR<PostScalarRelationFilter, PostWhereInput>
     votes?: VoteListRelationFilter
   }
 
@@ -26536,10 +27855,10 @@ export namespace Prisma {
     ipAddress?: SortOrderInput | SortOrder
     isSpam?: SortOrder
     reported?: SortOrder
-    post?: PostOrderByWithRelationInput
     author?: UserOrderByWithRelationInput
     parent?: CommentOrderByWithRelationInput
     children?: CommentOrderByRelationAggregateInput
+    post?: PostOrderByWithRelationInput
     votes?: VoteOrderByRelationAggregateInput
   }
 
@@ -26559,10 +27878,10 @@ export namespace Prisma {
     ipAddress?: StringNullableFilter<"Comment"> | string | null
     isSpam?: BoolFilter<"Comment"> | boolean
     reported?: BoolFilter<"Comment"> | boolean
-    post?: XOR<PostScalarRelationFilter, PostWhereInput>
     author?: XOR<UserScalarRelationFilter, UserWhereInput>
     parent?: XOR<CommentNullableScalarRelationFilter, CommentWhereInput> | null
     children?: CommentListRelationFilter
+    post?: XOR<PostScalarRelationFilter, PostWhereInput>
     votes?: VoteListRelationFilter
   }, "id">
 
@@ -26612,9 +27931,9 @@ export namespace Prisma {
     commentId?: StringNullableFilter<"Vote"> | string | null
     value?: IntFilter<"Vote"> | number
     createdAt?: DateTimeFilter<"Vote"> | Date | string
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
-    post?: XOR<PostNullableScalarRelationFilter, PostWhereInput> | null
     comment?: XOR<CommentNullableScalarRelationFilter, CommentWhereInput> | null
+    post?: XOR<PostNullableScalarRelationFilter, PostWhereInput> | null
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
   export type VoteOrderByWithRelationInput = {
@@ -26624,13 +27943,14 @@ export namespace Prisma {
     commentId?: SortOrderInput | SortOrder
     value?: SortOrder
     createdAt?: SortOrder
-    user?: UserOrderByWithRelationInput
-    post?: PostOrderByWithRelationInput
     comment?: CommentOrderByWithRelationInput
+    post?: PostOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
   }
 
   export type VoteWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    userId_postId_commentId?: VoteUserIdPostIdCommentIdCompoundUniqueInput
     AND?: VoteWhereInput | VoteWhereInput[]
     OR?: VoteWhereInput[]
     NOT?: VoteWhereInput | VoteWhereInput[]
@@ -26639,10 +27959,10 @@ export namespace Prisma {
     commentId?: StringNullableFilter<"Vote"> | string | null
     value?: IntFilter<"Vote"> | number
     createdAt?: DateTimeFilter<"Vote"> | Date | string
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
-    post?: XOR<PostNullableScalarRelationFilter, PostWhereInput> | null
     comment?: XOR<CommentNullableScalarRelationFilter, CommentWhereInput> | null
-  }, "id">
+    post?: XOR<PostNullableScalarRelationFilter, PostWhereInput> | null
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "userId_postId_commentId">
 
   export type VoteOrderByWithAggregationInput = {
     id?: SortOrder
@@ -26680,8 +28000,8 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"AdminNote"> | Date | string
     updatedAt?: DateTimeFilter<"AdminNote"> | Date | string
     createdById?: StringFilter<"AdminNote"> | string
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
     createdBy?: XOR<UserScalarRelationFilter, UserWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
   export type AdminNoteOrderByWithRelationInput = {
@@ -26691,8 +28011,8 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     createdById?: SortOrder
-    user?: UserOrderByWithRelationInput
     createdBy?: UserOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
   }
 
   export type AdminNoteWhereUniqueInput = Prisma.AtLeast<{
@@ -26705,8 +28025,8 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"AdminNote"> | Date | string
     updatedAt?: DateTimeFilter<"AdminNote"> | Date | string
     createdById?: StringFilter<"AdminNote"> | string
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
     createdBy?: XOR<UserScalarRelationFilter, UserWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id">
 
   export type AdminNoteOrderByWithAggregationInput = {
@@ -26740,8 +28060,8 @@ export namespace Prisma {
     id?: StringFilter<"AuditLog"> | string
     userId?: StringNullableFilter<"AuditLog"> | string | null
     action?: StringFilter<"AuditLog"> | string
-    target?: StringFilter<"AuditLog"> | string
-    ip?: StringFilter<"AuditLog"> | string
+    target?: StringNullableFilter<"AuditLog"> | string | null
+    ip?: StringNullableFilter<"AuditLog"> | string | null
     createdAt?: DateTimeFilter<"AuditLog"> | Date | string
     meta?: JsonNullableFilter<"AuditLog">
     user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
@@ -26751,8 +28071,8 @@ export namespace Prisma {
     id?: SortOrder
     userId?: SortOrderInput | SortOrder
     action?: SortOrder
-    target?: SortOrder
-    ip?: SortOrder
+    target?: SortOrderInput | SortOrder
+    ip?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     meta?: SortOrderInput | SortOrder
     user?: UserOrderByWithRelationInput
@@ -26765,8 +28085,8 @@ export namespace Prisma {
     NOT?: AuditLogWhereInput | AuditLogWhereInput[]
     userId?: StringNullableFilter<"AuditLog"> | string | null
     action?: StringFilter<"AuditLog"> | string
-    target?: StringFilter<"AuditLog"> | string
-    ip?: StringFilter<"AuditLog"> | string
+    target?: StringNullableFilter<"AuditLog"> | string | null
+    ip?: StringNullableFilter<"AuditLog"> | string | null
     createdAt?: DateTimeFilter<"AuditLog"> | Date | string
     meta?: JsonNullableFilter<"AuditLog">
     user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
@@ -26776,8 +28096,8 @@ export namespace Prisma {
     id?: SortOrder
     userId?: SortOrderInput | SortOrder
     action?: SortOrder
-    target?: SortOrder
-    ip?: SortOrder
+    target?: SortOrderInput | SortOrder
+    ip?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     meta?: SortOrderInput | SortOrder
     _count?: AuditLogCountOrderByAggregateInput
@@ -26792,8 +28112,8 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"AuditLog"> | string
     userId?: StringNullableWithAggregatesFilter<"AuditLog"> | string | null
     action?: StringWithAggregatesFilter<"AuditLog"> | string
-    target?: StringWithAggregatesFilter<"AuditLog"> | string
-    ip?: StringWithAggregatesFilter<"AuditLog"> | string
+    target?: StringNullableWithAggregatesFilter<"AuditLog"> | string | null
+    ip?: StringNullableWithAggregatesFilter<"AuditLog"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"AuditLog"> | Date | string
     meta?: JsonNullableWithAggregatesFilter<"AuditLog">
   }
@@ -26804,14 +28124,14 @@ export namespace Prisma {
     NOT?: SiteSettingWhereInput | SiteSettingWhereInput[]
     key?: StringFilter<"SiteSetting"> | string
     value?: StringFilter<"SiteSetting"> | string
-    type?: StringFilter<"SiteSetting"> | string
+    type?: StringNullableFilter<"SiteSetting"> | string | null
     updatedAt?: DateTimeFilter<"SiteSetting"> | Date | string
   }
 
   export type SiteSettingOrderByWithRelationInput = {
     key?: SortOrder
     value?: SortOrder
-    type?: SortOrder
+    type?: SortOrderInput | SortOrder
     updatedAt?: SortOrder
   }
 
@@ -26821,14 +28141,14 @@ export namespace Prisma {
     OR?: SiteSettingWhereInput[]
     NOT?: SiteSettingWhereInput | SiteSettingWhereInput[]
     value?: StringFilter<"SiteSetting"> | string
-    type?: StringFilter<"SiteSetting"> | string
+    type?: StringNullableFilter<"SiteSetting"> | string | null
     updatedAt?: DateTimeFilter<"SiteSetting"> | Date | string
   }, "key">
 
   export type SiteSettingOrderByWithAggregationInput = {
     key?: SortOrder
     value?: SortOrder
-    type?: SortOrder
+    type?: SortOrderInput | SortOrder
     updatedAt?: SortOrder
     _count?: SiteSettingCountOrderByAggregateInput
     _max?: SiteSettingMaxOrderByAggregateInput
@@ -26841,8 +28161,73 @@ export namespace Prisma {
     NOT?: SiteSettingScalarWhereWithAggregatesInput | SiteSettingScalarWhereWithAggregatesInput[]
     key?: StringWithAggregatesFilter<"SiteSetting"> | string
     value?: StringWithAggregatesFilter<"SiteSetting"> | string
-    type?: StringWithAggregatesFilter<"SiteSetting"> | string
+    type?: StringNullableWithAggregatesFilter<"SiteSetting"> | string | null
     updatedAt?: DateTimeWithAggregatesFilter<"SiteSetting"> | Date | string
+  }
+
+  export type UserNotificationPreferenceWhereInput = {
+    AND?: UserNotificationPreferenceWhereInput | UserNotificationPreferenceWhereInput[]
+    OR?: UserNotificationPreferenceWhereInput[]
+    NOT?: UserNotificationPreferenceWhereInput | UserNotificationPreferenceWhereInput[]
+    id?: UuidFilter<"UserNotificationPreference"> | string
+    userId?: StringFilter<"UserNotificationPreference"> | string
+    emailComment?: BoolFilter<"UserNotificationPreference"> | boolean
+    emailReply?: BoolFilter<"UserNotificationPreference"> | boolean
+    emailFollower?: BoolFilter<"UserNotificationPreference"> | boolean
+    emailMention?: BoolFilter<"UserNotificationPreference"> | boolean
+    emailNewsletter?: BoolFilter<"UserNotificationPreference"> | boolean
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type UserNotificationPreferenceOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    emailComment?: SortOrder
+    emailReply?: SortOrder
+    emailFollower?: SortOrder
+    emailMention?: SortOrder
+    emailNewsletter?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type UserNotificationPreferenceWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId?: string
+    AND?: UserNotificationPreferenceWhereInput | UserNotificationPreferenceWhereInput[]
+    OR?: UserNotificationPreferenceWhereInput[]
+    NOT?: UserNotificationPreferenceWhereInput | UserNotificationPreferenceWhereInput[]
+    emailComment?: BoolFilter<"UserNotificationPreference"> | boolean
+    emailReply?: BoolFilter<"UserNotificationPreference"> | boolean
+    emailFollower?: BoolFilter<"UserNotificationPreference"> | boolean
+    emailMention?: BoolFilter<"UserNotificationPreference"> | boolean
+    emailNewsletter?: BoolFilter<"UserNotificationPreference"> | boolean
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "userId">
+
+  export type UserNotificationPreferenceOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    emailComment?: SortOrder
+    emailReply?: SortOrder
+    emailFollower?: SortOrder
+    emailMention?: SortOrder
+    emailNewsletter?: SortOrder
+    _count?: UserNotificationPreferenceCountOrderByAggregateInput
+    _max?: UserNotificationPreferenceMaxOrderByAggregateInput
+    _min?: UserNotificationPreferenceMinOrderByAggregateInput
+  }
+
+  export type UserNotificationPreferenceScalarWhereWithAggregatesInput = {
+    AND?: UserNotificationPreferenceScalarWhereWithAggregatesInput | UserNotificationPreferenceScalarWhereWithAggregatesInput[]
+    OR?: UserNotificationPreferenceScalarWhereWithAggregatesInput[]
+    NOT?: UserNotificationPreferenceScalarWhereWithAggregatesInput | UserNotificationPreferenceScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"UserNotificationPreference"> | string
+    userId?: StringWithAggregatesFilter<"UserNotificationPreference"> | string
+    emailComment?: BoolWithAggregatesFilter<"UserNotificationPreference"> | boolean
+    emailReply?: BoolWithAggregatesFilter<"UserNotificationPreference"> | boolean
+    emailFollower?: BoolWithAggregatesFilter<"UserNotificationPreference"> | boolean
+    emailMention?: BoolWithAggregatesFilter<"UserNotificationPreference"> | boolean
+    emailNewsletter?: BoolWithAggregatesFilter<"UserNotificationPreference"> | boolean
   }
 
   export type UserCreateInput = {
@@ -26856,17 +28241,18 @@ export namespace Prisma {
     lastLoginAt?: Date | string | null
     lastLoginIp?: string | null
     status?: $Enums.UserStatus
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    createdNotes?: AdminNoteCreateNestedManyWithoutCreatedByInput
+    adminNotes?: AdminNoteCreateNestedManyWithoutUserInput
+    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    comments?: CommentCreateNestedManyWithoutAuthorInput
+    media?: MediaCreateNestedManyWithoutUploadedByInput
+    posts?: PostCreateNestedManyWithoutAuthorInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    notificationPreferences?: UserNotificationPreferenceCreateNestedOneWithoutUserInput
     profile?: UserProfileCreateNestedOneWithoutUserInput
     roles?: UserRoleCreateNestedManyWithoutUserInput
-    sessions?: SessionCreateNestedManyWithoutUserInput
-    accounts?: AccountCreateNestedManyWithoutUserInput
-    posts?: PostCreateNestedManyWithoutAuthorInput
-    comments?: CommentCreateNestedManyWithoutAuthorInput
     votes?: VoteCreateNestedManyWithoutUserInput
-    media?: MediaCreateNestedManyWithoutUploadedByInput
-    adminNotes?: AdminNoteCreateNestedManyWithoutUserInput
-    createdNotes?: AdminNoteCreateNestedManyWithoutCreatedByInput
-    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -26880,17 +28266,18 @@ export namespace Prisma {
     lastLoginAt?: Date | string | null
     lastLoginIp?: string | null
     status?: $Enums.UserStatus
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    createdNotes?: AdminNoteUncheckedCreateNestedManyWithoutCreatedByInput
+    adminNotes?: AdminNoteUncheckedCreateNestedManyWithoutUserInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
+    media?: MediaUncheckedCreateNestedManyWithoutUploadedByInput
+    posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    notificationPreferences?: UserNotificationPreferenceUncheckedCreateNestedOneWithoutUserInput
     profile?: UserProfileUncheckedCreateNestedOneWithoutUserInput
     roles?: UserRoleUncheckedCreateNestedManyWithoutUserInput
-    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
-    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
-    comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
     votes?: VoteUncheckedCreateNestedManyWithoutUserInput
-    media?: MediaUncheckedCreateNestedManyWithoutUploadedByInput
-    adminNotes?: AdminNoteUncheckedCreateNestedManyWithoutUserInput
-    createdNotes?: AdminNoteUncheckedCreateNestedManyWithoutCreatedByInput
-    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -26904,17 +28291,18 @@ export namespace Prisma {
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastLoginIp?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    createdNotes?: AdminNoteUpdateManyWithoutCreatedByNestedInput
+    adminNotes?: AdminNoteUpdateManyWithoutUserNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    comments?: CommentUpdateManyWithoutAuthorNestedInput
+    media?: MediaUpdateManyWithoutUploadedByNestedInput
+    posts?: PostUpdateManyWithoutAuthorNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    notificationPreferences?: UserNotificationPreferenceUpdateOneWithoutUserNestedInput
     profile?: UserProfileUpdateOneWithoutUserNestedInput
     roles?: UserRoleUpdateManyWithoutUserNestedInput
-    sessions?: SessionUpdateManyWithoutUserNestedInput
-    accounts?: AccountUpdateManyWithoutUserNestedInput
-    posts?: PostUpdateManyWithoutAuthorNestedInput
-    comments?: CommentUpdateManyWithoutAuthorNestedInput
     votes?: VoteUpdateManyWithoutUserNestedInput
-    media?: MediaUpdateManyWithoutUploadedByNestedInput
-    adminNotes?: AdminNoteUpdateManyWithoutUserNestedInput
-    createdNotes?: AdminNoteUpdateManyWithoutCreatedByNestedInput
-    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -26928,17 +28316,18 @@ export namespace Prisma {
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastLoginIp?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    createdNotes?: AdminNoteUncheckedUpdateManyWithoutCreatedByNestedInput
+    adminNotes?: AdminNoteUncheckedUpdateManyWithoutUserNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
+    media?: MediaUncheckedUpdateManyWithoutUploadedByNestedInput
+    posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    notificationPreferences?: UserNotificationPreferenceUncheckedUpdateOneWithoutUserNestedInput
     profile?: UserProfileUncheckedUpdateOneWithoutUserNestedInput
     roles?: UserRoleUncheckedUpdateManyWithoutUserNestedInput
-    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
-    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
-    comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
     votes?: VoteUncheckedUpdateManyWithoutUserNestedInput
-    media?: MediaUncheckedUpdateManyWithoutUploadedByNestedInput
-    adminNotes?: AdminNoteUncheckedUpdateManyWithoutUserNestedInput
-    createdNotes?: AdminNoteUncheckedUpdateManyWithoutCreatedByNestedInput
-    auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -27053,32 +28442,32 @@ export namespace Prisma {
     id?: string
     name: string
     description?: string | null
-    users?: UserRoleCreateNestedManyWithoutRoleInput
     permissions?: RolePermissionCreateNestedManyWithoutRoleInput
+    users?: UserRoleCreateNestedManyWithoutRoleInput
   }
 
   export type RoleUncheckedCreateInput = {
     id?: string
     name: string
     description?: string | null
-    users?: UserRoleUncheckedCreateNestedManyWithoutRoleInput
     permissions?: RolePermissionUncheckedCreateNestedManyWithoutRoleInput
+    users?: UserRoleUncheckedCreateNestedManyWithoutRoleInput
   }
 
   export type RoleUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    users?: UserRoleUpdateManyWithoutRoleNestedInput
     permissions?: RolePermissionUpdateManyWithoutRoleNestedInput
+    users?: UserRoleUpdateManyWithoutRoleNestedInput
   }
 
   export type RoleUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    users?: UserRoleUncheckedUpdateManyWithoutRoleNestedInput
     permissions?: RolePermissionUncheckedUpdateManyWithoutRoleNestedInput
+    users?: UserRoleUncheckedUpdateManyWithoutRoleNestedInput
   }
 
   export type RoleCreateManyInput = {
@@ -27146,8 +28535,8 @@ export namespace Prisma {
   }
 
   export type UserRoleCreateInput = {
-    user: UserCreateNestedOneWithoutRolesInput
     role: RoleCreateNestedOneWithoutUsersInput
+    user: UserCreateNestedOneWithoutRolesInput
   }
 
   export type UserRoleUncheckedCreateInput = {
@@ -27156,8 +28545,8 @@ export namespace Prisma {
   }
 
   export type UserRoleUpdateInput = {
-    user?: UserUpdateOneRequiredWithoutRolesNestedInput
     role?: RoleUpdateOneRequiredWithoutUsersNestedInput
+    user?: UserUpdateOneRequiredWithoutRolesNestedInput
   }
 
   export type UserRoleUncheckedUpdateInput = {
@@ -27180,8 +28569,8 @@ export namespace Prisma {
   }
 
   export type RolePermissionCreateInput = {
-    role: RoleCreateNestedOneWithoutPermissionsInput
     permission: PermissionCreateNestedOneWithoutRolesInput
+    role: RoleCreateNestedOneWithoutPermissionsInput
   }
 
   export type RolePermissionUncheckedCreateInput = {
@@ -27190,8 +28579,8 @@ export namespace Prisma {
   }
 
   export type RolePermissionUpdateInput = {
-    role?: RoleUpdateOneRequiredWithoutPermissionsNestedInput
     permission?: PermissionUpdateOneRequiredWithoutRolesNestedInput
+    role?: RoleUpdateOneRequiredWithoutPermissionsNestedInput
   }
 
   export type RolePermissionUncheckedUpdateInput = {
@@ -27421,11 +28810,12 @@ export namespace Prisma {
     version?: number
     isFeatured?: boolean
     viewCount?: number
+    comments?: CommentCreateNestedManyWithoutPostInput
     author: UserCreateNestedOneWithoutPostsInput
     categories?: PostCategoryCreateNestedManyWithoutPostInput
     tags?: PostTagCreateNestedManyWithoutPostInput
-    comments?: CommentCreateNestedManyWithoutPostInput
     votes?: VoteCreateNestedManyWithoutPostInput
+    Media?: MediaCreateNestedManyWithoutPostInput
   }
 
   export type PostUncheckedCreateInput = {
@@ -27443,10 +28833,11 @@ export namespace Prisma {
     version?: number
     isFeatured?: boolean
     viewCount?: number
+    comments?: CommentUncheckedCreateNestedManyWithoutPostInput
     categories?: PostCategoryUncheckedCreateNestedManyWithoutPostInput
     tags?: PostTagUncheckedCreateNestedManyWithoutPostInput
-    comments?: CommentUncheckedCreateNestedManyWithoutPostInput
     votes?: VoteUncheckedCreateNestedManyWithoutPostInput
+    Media?: MediaUncheckedCreateNestedManyWithoutPostInput
   }
 
   export type PostUpdateInput = {
@@ -27463,11 +28854,12 @@ export namespace Prisma {
     version?: IntFieldUpdateOperationsInput | number
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     viewCount?: IntFieldUpdateOperationsInput | number
+    comments?: CommentUpdateManyWithoutPostNestedInput
     author?: UserUpdateOneRequiredWithoutPostsNestedInput
     categories?: PostCategoryUpdateManyWithoutPostNestedInput
     tags?: PostTagUpdateManyWithoutPostNestedInput
-    comments?: CommentUpdateManyWithoutPostNestedInput
     votes?: VoteUpdateManyWithoutPostNestedInput
+    Media?: MediaUpdateManyWithoutPostNestedInput
   }
 
   export type PostUncheckedUpdateInput = {
@@ -27485,10 +28877,11 @@ export namespace Prisma {
     version?: IntFieldUpdateOperationsInput | number
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     viewCount?: IntFieldUpdateOperationsInput | number
+    comments?: CommentUncheckedUpdateManyWithoutPostNestedInput
     categories?: PostCategoryUncheckedUpdateManyWithoutPostNestedInput
     tags?: PostTagUncheckedUpdateManyWithoutPostNestedInput
-    comments?: CommentUncheckedUpdateManyWithoutPostNestedInput
     votes?: VoteUncheckedUpdateManyWithoutPostNestedInput
+    Media?: MediaUncheckedUpdateManyWithoutPostNestedInput
   }
 
   export type PostCreateManyInput = {
@@ -27612,8 +29005,8 @@ export namespace Prisma {
   }
 
   export type PostCategoryCreateInput = {
-    post: PostCreateNestedOneWithoutCategoriesInput
     category: CategoryCreateNestedOneWithoutPostsInput
+    post: PostCreateNestedOneWithoutCategoriesInput
   }
 
   export type PostCategoryUncheckedCreateInput = {
@@ -27622,8 +29015,8 @@ export namespace Prisma {
   }
 
   export type PostCategoryUpdateInput = {
-    post?: PostUpdateOneRequiredWithoutCategoriesNestedInput
     category?: CategoryUpdateOneRequiredWithoutPostsNestedInput
+    post?: PostUpdateOneRequiredWithoutCategoriesNestedInput
   }
 
   export type PostCategoryUncheckedUpdateInput = {
@@ -27739,6 +29132,7 @@ export namespace Prisma {
     size: number
     createdAt?: Date | string
     uploadedBy?: UserCreateNestedOneWithoutMediaInput
+    Post?: PostCreateNestedManyWithoutMediaInput
   }
 
   export type MediaUncheckedCreateInput = {
@@ -27748,6 +29142,7 @@ export namespace Prisma {
     size: number
     uploadedById?: string | null
     createdAt?: Date | string
+    Post?: PostUncheckedCreateNestedManyWithoutMediaInput
   }
 
   export type MediaUpdateInput = {
@@ -27757,6 +29152,7 @@ export namespace Prisma {
     size?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     uploadedBy?: UserUpdateOneWithoutMediaNestedInput
+    Post?: PostUpdateManyWithoutMediaNestedInput
   }
 
   export type MediaUncheckedUpdateInput = {
@@ -27766,6 +29162,7 @@ export namespace Prisma {
     size?: IntFieldUpdateOperationsInput | number
     uploadedById?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    Post?: PostUncheckedUpdateManyWithoutMediaNestedInput
   }
 
   export type MediaCreateManyInput = {
@@ -27804,10 +29201,10 @@ export namespace Prisma {
     ipAddress?: string | null
     isSpam?: boolean
     reported?: boolean
-    post: PostCreateNestedOneWithoutCommentsInput
     author: UserCreateNestedOneWithoutCommentsInput
     parent?: CommentCreateNestedOneWithoutChildrenInput
     children?: CommentCreateNestedManyWithoutParentInput
+    post: PostCreateNestedOneWithoutCommentsInput
     votes?: VoteCreateNestedManyWithoutCommentInput
   }
 
@@ -27838,10 +29235,10 @@ export namespace Prisma {
     ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
     isSpam?: BoolFieldUpdateOperationsInput | boolean
     reported?: BoolFieldUpdateOperationsInput | boolean
-    post?: PostUpdateOneRequiredWithoutCommentsNestedInput
     author?: UserUpdateOneRequiredWithoutCommentsNestedInput
     parent?: CommentUpdateOneWithoutChildrenNestedInput
     children?: CommentUpdateManyWithoutParentNestedInput
+    post?: PostUpdateOneRequiredWithoutCommentsNestedInput
     votes?: VoteUpdateManyWithoutCommentNestedInput
   }
 
@@ -27908,9 +29305,9 @@ export namespace Prisma {
     id?: string
     value: number
     createdAt?: Date | string
-    user: UserCreateNestedOneWithoutVotesInput
-    post?: PostCreateNestedOneWithoutVotesInput
     comment?: CommentCreateNestedOneWithoutVotesInput
+    post?: PostCreateNestedOneWithoutVotesInput
+    user: UserCreateNestedOneWithoutVotesInput
   }
 
   export type VoteUncheckedCreateInput = {
@@ -27926,9 +29323,9 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     value?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutVotesNestedInput
-    post?: PostUpdateOneWithoutVotesNestedInput
     comment?: CommentUpdateOneWithoutVotesNestedInput
+    post?: PostUpdateOneWithoutVotesNestedInput
+    user?: UserUpdateOneRequiredWithoutVotesNestedInput
   }
 
   export type VoteUncheckedUpdateInput = {
@@ -27969,8 +29366,8 @@ export namespace Prisma {
     note: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    user: UserCreateNestedOneWithoutAdminNotesInput
     createdBy: UserCreateNestedOneWithoutCreatedNotesInput
+    user: UserCreateNestedOneWithoutAdminNotesInput
   }
 
   export type AdminNoteUncheckedCreateInput = {
@@ -27987,8 +29384,8 @@ export namespace Prisma {
     note?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutAdminNotesNestedInput
     createdBy?: UserUpdateOneRequiredWithoutCreatedNotesNestedInput
+    user?: UserUpdateOneRequiredWithoutAdminNotesNestedInput
   }
 
   export type AdminNoteUncheckedUpdateInput = {
@@ -28028,8 +29425,8 @@ export namespace Prisma {
   export type AuditLogCreateInput = {
     id?: string
     action: string
-    target: string
-    ip: string
+    target?: string | null
+    ip?: string | null
     createdAt?: Date | string
     meta?: NullableJsonNullValueInput | InputJsonValue
     user?: UserCreateNestedOneWithoutAuditLogsInput
@@ -28039,8 +29436,8 @@ export namespace Prisma {
     id?: string
     userId?: string | null
     action: string
-    target: string
-    ip: string
+    target?: string | null
+    ip?: string | null
     createdAt?: Date | string
     meta?: NullableJsonNullValueInput | InputJsonValue
   }
@@ -28048,8 +29445,8 @@ export namespace Prisma {
   export type AuditLogUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     action?: StringFieldUpdateOperationsInput | string
-    target?: StringFieldUpdateOperationsInput | string
-    ip?: StringFieldUpdateOperationsInput | string
+    target?: NullableStringFieldUpdateOperationsInput | string | null
+    ip?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     meta?: NullableJsonNullValueInput | InputJsonValue
     user?: UserUpdateOneWithoutAuditLogsNestedInput
@@ -28059,8 +29456,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     userId?: NullableStringFieldUpdateOperationsInput | string | null
     action?: StringFieldUpdateOperationsInput | string
-    target?: StringFieldUpdateOperationsInput | string
-    ip?: StringFieldUpdateOperationsInput | string
+    target?: NullableStringFieldUpdateOperationsInput | string | null
+    ip?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     meta?: NullableJsonNullValueInput | InputJsonValue
   }
@@ -28069,8 +29466,8 @@ export namespace Prisma {
     id?: string
     userId?: string | null
     action: string
-    target: string
-    ip: string
+    target?: string | null
+    ip?: string | null
     createdAt?: Date | string
     meta?: NullableJsonNullValueInput | InputJsonValue
   }
@@ -28078,8 +29475,8 @@ export namespace Prisma {
   export type AuditLogUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     action?: StringFieldUpdateOperationsInput | string
-    target?: StringFieldUpdateOperationsInput | string
-    ip?: StringFieldUpdateOperationsInput | string
+    target?: NullableStringFieldUpdateOperationsInput | string | null
+    ip?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     meta?: NullableJsonNullValueInput | InputJsonValue
   }
@@ -28088,8 +29485,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     userId?: NullableStringFieldUpdateOperationsInput | string | null
     action?: StringFieldUpdateOperationsInput | string
-    target?: StringFieldUpdateOperationsInput | string
-    ip?: StringFieldUpdateOperationsInput | string
+    target?: NullableStringFieldUpdateOperationsInput | string | null
+    ip?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     meta?: NullableJsonNullValueInput | InputJsonValue
   }
@@ -28097,50 +29494,119 @@ export namespace Prisma {
   export type SiteSettingCreateInput = {
     key: string
     value: string
-    type: string
+    type?: string | null
     updatedAt?: Date | string
   }
 
   export type SiteSettingUncheckedCreateInput = {
     key: string
     value: string
-    type: string
+    type?: string | null
     updatedAt?: Date | string
   }
 
   export type SiteSettingUpdateInput = {
     key?: StringFieldUpdateOperationsInput | string
     value?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
+    type?: NullableStringFieldUpdateOperationsInput | string | null
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type SiteSettingUncheckedUpdateInput = {
     key?: StringFieldUpdateOperationsInput | string
     value?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
+    type?: NullableStringFieldUpdateOperationsInput | string | null
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type SiteSettingCreateManyInput = {
     key: string
     value: string
-    type: string
+    type?: string | null
     updatedAt?: Date | string
   }
 
   export type SiteSettingUpdateManyMutationInput = {
     key?: StringFieldUpdateOperationsInput | string
     value?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
+    type?: NullableStringFieldUpdateOperationsInput | string | null
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type SiteSettingUncheckedUpdateManyInput = {
     key?: StringFieldUpdateOperationsInput | string
     value?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
+    type?: NullableStringFieldUpdateOperationsInput | string | null
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserNotificationPreferenceCreateInput = {
+    id?: string
+    emailComment?: boolean
+    emailReply?: boolean
+    emailFollower?: boolean
+    emailMention?: boolean
+    emailNewsletter?: boolean
+    user: UserCreateNestedOneWithoutNotificationPreferencesInput
+  }
+
+  export type UserNotificationPreferenceUncheckedCreateInput = {
+    id?: string
+    userId: string
+    emailComment?: boolean
+    emailReply?: boolean
+    emailFollower?: boolean
+    emailMention?: boolean
+    emailNewsletter?: boolean
+  }
+
+  export type UserNotificationPreferenceUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    emailComment?: BoolFieldUpdateOperationsInput | boolean
+    emailReply?: BoolFieldUpdateOperationsInput | boolean
+    emailFollower?: BoolFieldUpdateOperationsInput | boolean
+    emailMention?: BoolFieldUpdateOperationsInput | boolean
+    emailNewsletter?: BoolFieldUpdateOperationsInput | boolean
+    user?: UserUpdateOneRequiredWithoutNotificationPreferencesNestedInput
+  }
+
+  export type UserNotificationPreferenceUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    emailComment?: BoolFieldUpdateOperationsInput | boolean
+    emailReply?: BoolFieldUpdateOperationsInput | boolean
+    emailFollower?: BoolFieldUpdateOperationsInput | boolean
+    emailMention?: BoolFieldUpdateOperationsInput | boolean
+    emailNewsletter?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type UserNotificationPreferenceCreateManyInput = {
+    id?: string
+    userId: string
+    emailComment?: boolean
+    emailReply?: boolean
+    emailFollower?: boolean
+    emailMention?: boolean
+    emailNewsletter?: boolean
+  }
+
+  export type UserNotificationPreferenceUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    emailComment?: BoolFieldUpdateOperationsInput | boolean
+    emailReply?: BoolFieldUpdateOperationsInput | boolean
+    emailFollower?: BoolFieldUpdateOperationsInput | boolean
+    emailMention?: BoolFieldUpdateOperationsInput | boolean
+    emailNewsletter?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type UserNotificationPreferenceUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    emailComment?: BoolFieldUpdateOperationsInput | boolean
+    emailReply?: BoolFieldUpdateOperationsInput | boolean
+    emailFollower?: BoolFieldUpdateOperationsInput | boolean
+    emailMention?: BoolFieldUpdateOperationsInput | boolean
+    emailNewsletter?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -28202,51 +29668,10 @@ export namespace Prisma {
     not?: NestedEnumUserStatusFilter<$PrismaModel> | $Enums.UserStatus
   }
 
-  export type UserProfileNullableScalarRelationFilter = {
-    is?: UserProfileWhereInput | null
-    isNot?: UserProfileWhereInput | null
-  }
-
-  export type UserRoleListRelationFilter = {
-    every?: UserRoleWhereInput
-    some?: UserRoleWhereInput
-    none?: UserRoleWhereInput
-  }
-
-  export type SessionListRelationFilter = {
-    every?: SessionWhereInput
-    some?: SessionWhereInput
-    none?: SessionWhereInput
-  }
-
   export type AccountListRelationFilter = {
     every?: AccountWhereInput
     some?: AccountWhereInput
     none?: AccountWhereInput
-  }
-
-  export type PostListRelationFilter = {
-    every?: PostWhereInput
-    some?: PostWhereInput
-    none?: PostWhereInput
-  }
-
-  export type CommentListRelationFilter = {
-    every?: CommentWhereInput
-    some?: CommentWhereInput
-    none?: CommentWhereInput
-  }
-
-  export type VoteListRelationFilter = {
-    every?: VoteWhereInput
-    some?: VoteWhereInput
-    none?: VoteWhereInput
-  }
-
-  export type MediaListRelationFilter = {
-    every?: MediaWhereInput
-    some?: MediaWhereInput
-    none?: MediaWhereInput
   }
 
   export type AdminNoteListRelationFilter = {
@@ -28261,36 +29686,58 @@ export namespace Prisma {
     none?: AuditLogWhereInput
   }
 
+  export type CommentListRelationFilter = {
+    every?: CommentWhereInput
+    some?: CommentWhereInput
+    none?: CommentWhereInput
+  }
+
+  export type MediaListRelationFilter = {
+    every?: MediaWhereInput
+    some?: MediaWhereInput
+    none?: MediaWhereInput
+  }
+
+  export type PostListRelationFilter = {
+    every?: PostWhereInput
+    some?: PostWhereInput
+    none?: PostWhereInput
+  }
+
+  export type SessionListRelationFilter = {
+    every?: SessionWhereInput
+    some?: SessionWhereInput
+    none?: SessionWhereInput
+  }
+
+  export type UserNotificationPreferenceNullableScalarRelationFilter = {
+    is?: UserNotificationPreferenceWhereInput | null
+    isNot?: UserNotificationPreferenceWhereInput | null
+  }
+
+  export type UserProfileNullableScalarRelationFilter = {
+    is?: UserProfileWhereInput | null
+    isNot?: UserProfileWhereInput | null
+  }
+
+  export type UserRoleListRelationFilter = {
+    every?: UserRoleWhereInput
+    some?: UserRoleWhereInput
+    none?: UserRoleWhereInput
+  }
+
+  export type VoteListRelationFilter = {
+    every?: VoteWhereInput
+    some?: VoteWhereInput
+    none?: VoteWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
   }
 
-  export type UserRoleOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type SessionOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
   export type AccountOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type PostOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type CommentOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type VoteOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type MediaOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -28299,6 +29746,30 @@ export namespace Prisma {
   }
 
   export type AuditLogOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type CommentOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type MediaOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PostOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type SessionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type UserRoleOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type VoteOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -28625,6 +30096,11 @@ export namespace Prisma {
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
+  export type AccountProviderProviderAccountIdCompoundUniqueInput = {
+    provider: string
+    providerAccountId: string
+  }
+
   export type AccountCountOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
@@ -28905,14 +30381,14 @@ export namespace Prisma {
     order?: SortOrder
   }
 
-  export type PostScalarRelationFilter = {
-    is?: PostWhereInput
-    isNot?: PostWhereInput
-  }
-
   export type CategoryScalarRelationFilter = {
     is?: CategoryWhereInput
     isNot?: CategoryWhereInput
+  }
+
+  export type PostScalarRelationFilter = {
+    is?: PostWhereInput
+    isNot?: PostWhereInput
   }
 
   export type PostCategoryPostIdCategoryIdCompoundUniqueInput = {
@@ -29093,6 +30569,12 @@ export namespace Prisma {
     isNot?: PostWhereInput | null
   }
 
+  export type VoteUserIdPostIdCommentIdCompoundUniqueInput = {
+    userId: string
+    postId: string
+    commentId: string
+  }
+
   export type VoteCountOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
@@ -29204,6 +30686,125 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
+  export type UuidFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedUuidFilter<$PrismaModel> | string
+  }
+
+  export type UserNotificationPreferenceCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    emailComment?: SortOrder
+    emailReply?: SortOrder
+    emailFollower?: SortOrder
+    emailMention?: SortOrder
+    emailNewsletter?: SortOrder
+  }
+
+  export type UserNotificationPreferenceMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    emailComment?: SortOrder
+    emailReply?: SortOrder
+    emailFollower?: SortOrder
+    emailMention?: SortOrder
+    emailNewsletter?: SortOrder
+  }
+
+  export type UserNotificationPreferenceMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    emailComment?: SortOrder
+    emailReply?: SortOrder
+    emailFollower?: SortOrder
+    emailMention?: SortOrder
+    emailNewsletter?: SortOrder
+  }
+
+  export type UuidWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedUuidWithAggregatesFilter<$PrismaModel> | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedStringFilter<$PrismaModel>
+    _max?: NestedStringFilter<$PrismaModel>
+  }
+
+  export type AccountCreateNestedManyWithoutUserInput = {
+    create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
+    createMany?: AccountCreateManyUserInputEnvelope
+    connect?: AccountWhereUniqueInput | AccountWhereUniqueInput[]
+  }
+
+  export type AdminNoteCreateNestedManyWithoutCreatedByInput = {
+    create?: XOR<AdminNoteCreateWithoutCreatedByInput, AdminNoteUncheckedCreateWithoutCreatedByInput> | AdminNoteCreateWithoutCreatedByInput[] | AdminNoteUncheckedCreateWithoutCreatedByInput[]
+    connectOrCreate?: AdminNoteCreateOrConnectWithoutCreatedByInput | AdminNoteCreateOrConnectWithoutCreatedByInput[]
+    createMany?: AdminNoteCreateManyCreatedByInputEnvelope
+    connect?: AdminNoteWhereUniqueInput | AdminNoteWhereUniqueInput[]
+  }
+
+  export type AdminNoteCreateNestedManyWithoutUserInput = {
+    create?: XOR<AdminNoteCreateWithoutUserInput, AdminNoteUncheckedCreateWithoutUserInput> | AdminNoteCreateWithoutUserInput[] | AdminNoteUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AdminNoteCreateOrConnectWithoutUserInput | AdminNoteCreateOrConnectWithoutUserInput[]
+    createMany?: AdminNoteCreateManyUserInputEnvelope
+    connect?: AdminNoteWhereUniqueInput | AdminNoteWhereUniqueInput[]
+  }
+
+  export type AuditLogCreateNestedManyWithoutUserInput = {
+    create?: XOR<AuditLogCreateWithoutUserInput, AuditLogUncheckedCreateWithoutUserInput> | AuditLogCreateWithoutUserInput[] | AuditLogUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AuditLogCreateOrConnectWithoutUserInput | AuditLogCreateOrConnectWithoutUserInput[]
+    createMany?: AuditLogCreateManyUserInputEnvelope
+    connect?: AuditLogWhereUniqueInput | AuditLogWhereUniqueInput[]
+  }
+
+  export type CommentCreateNestedManyWithoutAuthorInput = {
+    create?: XOR<CommentCreateWithoutAuthorInput, CommentUncheckedCreateWithoutAuthorInput> | CommentCreateWithoutAuthorInput[] | CommentUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: CommentCreateOrConnectWithoutAuthorInput | CommentCreateOrConnectWithoutAuthorInput[]
+    createMany?: CommentCreateManyAuthorInputEnvelope
+    connect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+  }
+
+  export type MediaCreateNestedManyWithoutUploadedByInput = {
+    create?: XOR<MediaCreateWithoutUploadedByInput, MediaUncheckedCreateWithoutUploadedByInput> | MediaCreateWithoutUploadedByInput[] | MediaUncheckedCreateWithoutUploadedByInput[]
+    connectOrCreate?: MediaCreateOrConnectWithoutUploadedByInput | MediaCreateOrConnectWithoutUploadedByInput[]
+    createMany?: MediaCreateManyUploadedByInputEnvelope
+    connect?: MediaWhereUniqueInput | MediaWhereUniqueInput[]
+  }
+
+  export type PostCreateNestedManyWithoutAuthorInput = {
+    create?: XOR<PostCreateWithoutAuthorInput, PostUncheckedCreateWithoutAuthorInput> | PostCreateWithoutAuthorInput[] | PostUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: PostCreateOrConnectWithoutAuthorInput | PostCreateOrConnectWithoutAuthorInput[]
+    createMany?: PostCreateManyAuthorInputEnvelope
+    connect?: PostWhereUniqueInput | PostWhereUniqueInput[]
+  }
+
+  export type SessionCreateNestedManyWithoutUserInput = {
+    create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
+    createMany?: SessionCreateManyUserInputEnvelope
+    connect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
+  }
+
+  export type UserNotificationPreferenceCreateNestedOneWithoutUserInput = {
+    create?: XOR<UserNotificationPreferenceCreateWithoutUserInput, UserNotificationPreferenceUncheckedCreateWithoutUserInput>
+    connectOrCreate?: UserNotificationPreferenceCreateOrConnectWithoutUserInput
+    connect?: UserNotificationPreferenceWhereUniqueInput
+  }
+
   export type UserProfileCreateNestedOneWithoutUserInput = {
     create?: XOR<UserProfileCreateWithoutUserInput, UserProfileUncheckedCreateWithoutUserInput>
     connectOrCreate?: UserProfileCreateOrConnectWithoutUserInput
@@ -29217,34 +30818,6 @@ export namespace Prisma {
     connect?: UserRoleWhereUniqueInput | UserRoleWhereUniqueInput[]
   }
 
-  export type SessionCreateNestedManyWithoutUserInput = {
-    create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
-    createMany?: SessionCreateManyUserInputEnvelope
-    connect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
-  }
-
-  export type AccountCreateNestedManyWithoutUserInput = {
-    create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
-    createMany?: AccountCreateManyUserInputEnvelope
-    connect?: AccountWhereUniqueInput | AccountWhereUniqueInput[]
-  }
-
-  export type PostCreateNestedManyWithoutAuthorInput = {
-    create?: XOR<PostCreateWithoutAuthorInput, PostUncheckedCreateWithoutAuthorInput> | PostCreateWithoutAuthorInput[] | PostUncheckedCreateWithoutAuthorInput[]
-    connectOrCreate?: PostCreateOrConnectWithoutAuthorInput | PostCreateOrConnectWithoutAuthorInput[]
-    createMany?: PostCreateManyAuthorInputEnvelope
-    connect?: PostWhereUniqueInput | PostWhereUniqueInput[]
-  }
-
-  export type CommentCreateNestedManyWithoutAuthorInput = {
-    create?: XOR<CommentCreateWithoutAuthorInput, CommentUncheckedCreateWithoutAuthorInput> | CommentCreateWithoutAuthorInput[] | CommentUncheckedCreateWithoutAuthorInput[]
-    connectOrCreate?: CommentCreateOrConnectWithoutAuthorInput | CommentCreateOrConnectWithoutAuthorInput[]
-    createMany?: CommentCreateManyAuthorInputEnvelope
-    connect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
-  }
-
   export type VoteCreateNestedManyWithoutUserInput = {
     create?: XOR<VoteCreateWithoutUserInput, VoteUncheckedCreateWithoutUserInput> | VoteCreateWithoutUserInput[] | VoteUncheckedCreateWithoutUserInput[]
     connectOrCreate?: VoteCreateOrConnectWithoutUserInput | VoteCreateOrConnectWithoutUserInput[]
@@ -29252,32 +30825,66 @@ export namespace Prisma {
     connect?: VoteWhereUniqueInput | VoteWhereUniqueInput[]
   }
 
-  export type MediaCreateNestedManyWithoutUploadedByInput = {
-    create?: XOR<MediaCreateWithoutUploadedByInput, MediaUncheckedCreateWithoutUploadedByInput> | MediaCreateWithoutUploadedByInput[] | MediaUncheckedCreateWithoutUploadedByInput[]
-    connectOrCreate?: MediaCreateOrConnectWithoutUploadedByInput | MediaCreateOrConnectWithoutUploadedByInput[]
-    createMany?: MediaCreateManyUploadedByInputEnvelope
-    connect?: MediaWhereUniqueInput | MediaWhereUniqueInput[]
+  export type AccountUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
+    createMany?: AccountCreateManyUserInputEnvelope
+    connect?: AccountWhereUniqueInput | AccountWhereUniqueInput[]
   }
 
-  export type AdminNoteCreateNestedManyWithoutUserInput = {
-    create?: XOR<AdminNoteCreateWithoutUserInput, AdminNoteUncheckedCreateWithoutUserInput> | AdminNoteCreateWithoutUserInput[] | AdminNoteUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: AdminNoteCreateOrConnectWithoutUserInput | AdminNoteCreateOrConnectWithoutUserInput[]
-    createMany?: AdminNoteCreateManyUserInputEnvelope
-    connect?: AdminNoteWhereUniqueInput | AdminNoteWhereUniqueInput[]
-  }
-
-  export type AdminNoteCreateNestedManyWithoutCreatedByInput = {
+  export type AdminNoteUncheckedCreateNestedManyWithoutCreatedByInput = {
     create?: XOR<AdminNoteCreateWithoutCreatedByInput, AdminNoteUncheckedCreateWithoutCreatedByInput> | AdminNoteCreateWithoutCreatedByInput[] | AdminNoteUncheckedCreateWithoutCreatedByInput[]
     connectOrCreate?: AdminNoteCreateOrConnectWithoutCreatedByInput | AdminNoteCreateOrConnectWithoutCreatedByInput[]
     createMany?: AdminNoteCreateManyCreatedByInputEnvelope
     connect?: AdminNoteWhereUniqueInput | AdminNoteWhereUniqueInput[]
   }
 
-  export type AuditLogCreateNestedManyWithoutUserInput = {
+  export type AdminNoteUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<AdminNoteCreateWithoutUserInput, AdminNoteUncheckedCreateWithoutUserInput> | AdminNoteCreateWithoutUserInput[] | AdminNoteUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AdminNoteCreateOrConnectWithoutUserInput | AdminNoteCreateOrConnectWithoutUserInput[]
+    createMany?: AdminNoteCreateManyUserInputEnvelope
+    connect?: AdminNoteWhereUniqueInput | AdminNoteWhereUniqueInput[]
+  }
+
+  export type AuditLogUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<AuditLogCreateWithoutUserInput, AuditLogUncheckedCreateWithoutUserInput> | AuditLogCreateWithoutUserInput[] | AuditLogUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AuditLogCreateOrConnectWithoutUserInput | AuditLogCreateOrConnectWithoutUserInput[]
     createMany?: AuditLogCreateManyUserInputEnvelope
     connect?: AuditLogWhereUniqueInput | AuditLogWhereUniqueInput[]
+  }
+
+  export type CommentUncheckedCreateNestedManyWithoutAuthorInput = {
+    create?: XOR<CommentCreateWithoutAuthorInput, CommentUncheckedCreateWithoutAuthorInput> | CommentCreateWithoutAuthorInput[] | CommentUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: CommentCreateOrConnectWithoutAuthorInput | CommentCreateOrConnectWithoutAuthorInput[]
+    createMany?: CommentCreateManyAuthorInputEnvelope
+    connect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+  }
+
+  export type MediaUncheckedCreateNestedManyWithoutUploadedByInput = {
+    create?: XOR<MediaCreateWithoutUploadedByInput, MediaUncheckedCreateWithoutUploadedByInput> | MediaCreateWithoutUploadedByInput[] | MediaUncheckedCreateWithoutUploadedByInput[]
+    connectOrCreate?: MediaCreateOrConnectWithoutUploadedByInput | MediaCreateOrConnectWithoutUploadedByInput[]
+    createMany?: MediaCreateManyUploadedByInputEnvelope
+    connect?: MediaWhereUniqueInput | MediaWhereUniqueInput[]
+  }
+
+  export type PostUncheckedCreateNestedManyWithoutAuthorInput = {
+    create?: XOR<PostCreateWithoutAuthorInput, PostUncheckedCreateWithoutAuthorInput> | PostCreateWithoutAuthorInput[] | PostUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: PostCreateOrConnectWithoutAuthorInput | PostCreateOrConnectWithoutAuthorInput[]
+    createMany?: PostCreateManyAuthorInputEnvelope
+    connect?: PostWhereUniqueInput | PostWhereUniqueInput[]
+  }
+
+  export type SessionUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
+    createMany?: SessionCreateManyUserInputEnvelope
+    connect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
+  }
+
+  export type UserNotificationPreferenceUncheckedCreateNestedOneWithoutUserInput = {
+    create?: XOR<UserNotificationPreferenceCreateWithoutUserInput, UserNotificationPreferenceUncheckedCreateWithoutUserInput>
+    connectOrCreate?: UserNotificationPreferenceCreateOrConnectWithoutUserInput
+    connect?: UserNotificationPreferenceWhereUniqueInput
   }
 
   export type UserProfileUncheckedCreateNestedOneWithoutUserInput = {
@@ -29293,67 +30900,11 @@ export namespace Prisma {
     connect?: UserRoleWhereUniqueInput | UserRoleWhereUniqueInput[]
   }
 
-  export type SessionUncheckedCreateNestedManyWithoutUserInput = {
-    create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
-    createMany?: SessionCreateManyUserInputEnvelope
-    connect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
-  }
-
-  export type AccountUncheckedCreateNestedManyWithoutUserInput = {
-    create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
-    createMany?: AccountCreateManyUserInputEnvelope
-    connect?: AccountWhereUniqueInput | AccountWhereUniqueInput[]
-  }
-
-  export type PostUncheckedCreateNestedManyWithoutAuthorInput = {
-    create?: XOR<PostCreateWithoutAuthorInput, PostUncheckedCreateWithoutAuthorInput> | PostCreateWithoutAuthorInput[] | PostUncheckedCreateWithoutAuthorInput[]
-    connectOrCreate?: PostCreateOrConnectWithoutAuthorInput | PostCreateOrConnectWithoutAuthorInput[]
-    createMany?: PostCreateManyAuthorInputEnvelope
-    connect?: PostWhereUniqueInput | PostWhereUniqueInput[]
-  }
-
-  export type CommentUncheckedCreateNestedManyWithoutAuthorInput = {
-    create?: XOR<CommentCreateWithoutAuthorInput, CommentUncheckedCreateWithoutAuthorInput> | CommentCreateWithoutAuthorInput[] | CommentUncheckedCreateWithoutAuthorInput[]
-    connectOrCreate?: CommentCreateOrConnectWithoutAuthorInput | CommentCreateOrConnectWithoutAuthorInput[]
-    createMany?: CommentCreateManyAuthorInputEnvelope
-    connect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
-  }
-
   export type VoteUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<VoteCreateWithoutUserInput, VoteUncheckedCreateWithoutUserInput> | VoteCreateWithoutUserInput[] | VoteUncheckedCreateWithoutUserInput[]
     connectOrCreate?: VoteCreateOrConnectWithoutUserInput | VoteCreateOrConnectWithoutUserInput[]
     createMany?: VoteCreateManyUserInputEnvelope
     connect?: VoteWhereUniqueInput | VoteWhereUniqueInput[]
-  }
-
-  export type MediaUncheckedCreateNestedManyWithoutUploadedByInput = {
-    create?: XOR<MediaCreateWithoutUploadedByInput, MediaUncheckedCreateWithoutUploadedByInput> | MediaCreateWithoutUploadedByInput[] | MediaUncheckedCreateWithoutUploadedByInput[]
-    connectOrCreate?: MediaCreateOrConnectWithoutUploadedByInput | MediaCreateOrConnectWithoutUploadedByInput[]
-    createMany?: MediaCreateManyUploadedByInputEnvelope
-    connect?: MediaWhereUniqueInput | MediaWhereUniqueInput[]
-  }
-
-  export type AdminNoteUncheckedCreateNestedManyWithoutUserInput = {
-    create?: XOR<AdminNoteCreateWithoutUserInput, AdminNoteUncheckedCreateWithoutUserInput> | AdminNoteCreateWithoutUserInput[] | AdminNoteUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: AdminNoteCreateOrConnectWithoutUserInput | AdminNoteCreateOrConnectWithoutUserInput[]
-    createMany?: AdminNoteCreateManyUserInputEnvelope
-    connect?: AdminNoteWhereUniqueInput | AdminNoteWhereUniqueInput[]
-  }
-
-  export type AdminNoteUncheckedCreateNestedManyWithoutCreatedByInput = {
-    create?: XOR<AdminNoteCreateWithoutCreatedByInput, AdminNoteUncheckedCreateWithoutCreatedByInput> | AdminNoteCreateWithoutCreatedByInput[] | AdminNoteUncheckedCreateWithoutCreatedByInput[]
-    connectOrCreate?: AdminNoteCreateOrConnectWithoutCreatedByInput | AdminNoteCreateOrConnectWithoutCreatedByInput[]
-    createMany?: AdminNoteCreateManyCreatedByInputEnvelope
-    connect?: AdminNoteWhereUniqueInput | AdminNoteWhereUniqueInput[]
-  }
-
-  export type AuditLogUncheckedCreateNestedManyWithoutUserInput = {
-    create?: XOR<AuditLogCreateWithoutUserInput, AuditLogUncheckedCreateWithoutUserInput> | AuditLogCreateWithoutUserInput[] | AuditLogUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: AuditLogCreateOrConnectWithoutUserInput | AuditLogCreateOrConnectWithoutUserInput[]
-    createMany?: AuditLogCreateManyUserInputEnvelope
-    connect?: AuditLogWhereUniqueInput | AuditLogWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -29374,6 +30925,128 @@ export namespace Prisma {
 
   export type EnumUserStatusFieldUpdateOperationsInput = {
     set?: $Enums.UserStatus
+  }
+
+  export type AccountUpdateManyWithoutUserNestedInput = {
+    create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
+    upsert?: AccountUpsertWithWhereUniqueWithoutUserInput | AccountUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: AccountCreateManyUserInputEnvelope
+    set?: AccountWhereUniqueInput | AccountWhereUniqueInput[]
+    disconnect?: AccountWhereUniqueInput | AccountWhereUniqueInput[]
+    delete?: AccountWhereUniqueInput | AccountWhereUniqueInput[]
+    connect?: AccountWhereUniqueInput | AccountWhereUniqueInput[]
+    update?: AccountUpdateWithWhereUniqueWithoutUserInput | AccountUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: AccountUpdateManyWithWhereWithoutUserInput | AccountUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: AccountScalarWhereInput | AccountScalarWhereInput[]
+  }
+
+  export type AdminNoteUpdateManyWithoutCreatedByNestedInput = {
+    create?: XOR<AdminNoteCreateWithoutCreatedByInput, AdminNoteUncheckedCreateWithoutCreatedByInput> | AdminNoteCreateWithoutCreatedByInput[] | AdminNoteUncheckedCreateWithoutCreatedByInput[]
+    connectOrCreate?: AdminNoteCreateOrConnectWithoutCreatedByInput | AdminNoteCreateOrConnectWithoutCreatedByInput[]
+    upsert?: AdminNoteUpsertWithWhereUniqueWithoutCreatedByInput | AdminNoteUpsertWithWhereUniqueWithoutCreatedByInput[]
+    createMany?: AdminNoteCreateManyCreatedByInputEnvelope
+    set?: AdminNoteWhereUniqueInput | AdminNoteWhereUniqueInput[]
+    disconnect?: AdminNoteWhereUniqueInput | AdminNoteWhereUniqueInput[]
+    delete?: AdminNoteWhereUniqueInput | AdminNoteWhereUniqueInput[]
+    connect?: AdminNoteWhereUniqueInput | AdminNoteWhereUniqueInput[]
+    update?: AdminNoteUpdateWithWhereUniqueWithoutCreatedByInput | AdminNoteUpdateWithWhereUniqueWithoutCreatedByInput[]
+    updateMany?: AdminNoteUpdateManyWithWhereWithoutCreatedByInput | AdminNoteUpdateManyWithWhereWithoutCreatedByInput[]
+    deleteMany?: AdminNoteScalarWhereInput | AdminNoteScalarWhereInput[]
+  }
+
+  export type AdminNoteUpdateManyWithoutUserNestedInput = {
+    create?: XOR<AdminNoteCreateWithoutUserInput, AdminNoteUncheckedCreateWithoutUserInput> | AdminNoteCreateWithoutUserInput[] | AdminNoteUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AdminNoteCreateOrConnectWithoutUserInput | AdminNoteCreateOrConnectWithoutUserInput[]
+    upsert?: AdminNoteUpsertWithWhereUniqueWithoutUserInput | AdminNoteUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: AdminNoteCreateManyUserInputEnvelope
+    set?: AdminNoteWhereUniqueInput | AdminNoteWhereUniqueInput[]
+    disconnect?: AdminNoteWhereUniqueInput | AdminNoteWhereUniqueInput[]
+    delete?: AdminNoteWhereUniqueInput | AdminNoteWhereUniqueInput[]
+    connect?: AdminNoteWhereUniqueInput | AdminNoteWhereUniqueInput[]
+    update?: AdminNoteUpdateWithWhereUniqueWithoutUserInput | AdminNoteUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: AdminNoteUpdateManyWithWhereWithoutUserInput | AdminNoteUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: AdminNoteScalarWhereInput | AdminNoteScalarWhereInput[]
+  }
+
+  export type AuditLogUpdateManyWithoutUserNestedInput = {
+    create?: XOR<AuditLogCreateWithoutUserInput, AuditLogUncheckedCreateWithoutUserInput> | AuditLogCreateWithoutUserInput[] | AuditLogUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AuditLogCreateOrConnectWithoutUserInput | AuditLogCreateOrConnectWithoutUserInput[]
+    upsert?: AuditLogUpsertWithWhereUniqueWithoutUserInput | AuditLogUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: AuditLogCreateManyUserInputEnvelope
+    set?: AuditLogWhereUniqueInput | AuditLogWhereUniqueInput[]
+    disconnect?: AuditLogWhereUniqueInput | AuditLogWhereUniqueInput[]
+    delete?: AuditLogWhereUniqueInput | AuditLogWhereUniqueInput[]
+    connect?: AuditLogWhereUniqueInput | AuditLogWhereUniqueInput[]
+    update?: AuditLogUpdateWithWhereUniqueWithoutUserInput | AuditLogUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: AuditLogUpdateManyWithWhereWithoutUserInput | AuditLogUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: AuditLogScalarWhereInput | AuditLogScalarWhereInput[]
+  }
+
+  export type CommentUpdateManyWithoutAuthorNestedInput = {
+    create?: XOR<CommentCreateWithoutAuthorInput, CommentUncheckedCreateWithoutAuthorInput> | CommentCreateWithoutAuthorInput[] | CommentUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: CommentCreateOrConnectWithoutAuthorInput | CommentCreateOrConnectWithoutAuthorInput[]
+    upsert?: CommentUpsertWithWhereUniqueWithoutAuthorInput | CommentUpsertWithWhereUniqueWithoutAuthorInput[]
+    createMany?: CommentCreateManyAuthorInputEnvelope
+    set?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+    disconnect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+    delete?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+    connect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+    update?: CommentUpdateWithWhereUniqueWithoutAuthorInput | CommentUpdateWithWhereUniqueWithoutAuthorInput[]
+    updateMany?: CommentUpdateManyWithWhereWithoutAuthorInput | CommentUpdateManyWithWhereWithoutAuthorInput[]
+    deleteMany?: CommentScalarWhereInput | CommentScalarWhereInput[]
+  }
+
+  export type MediaUpdateManyWithoutUploadedByNestedInput = {
+    create?: XOR<MediaCreateWithoutUploadedByInput, MediaUncheckedCreateWithoutUploadedByInput> | MediaCreateWithoutUploadedByInput[] | MediaUncheckedCreateWithoutUploadedByInput[]
+    connectOrCreate?: MediaCreateOrConnectWithoutUploadedByInput | MediaCreateOrConnectWithoutUploadedByInput[]
+    upsert?: MediaUpsertWithWhereUniqueWithoutUploadedByInput | MediaUpsertWithWhereUniqueWithoutUploadedByInput[]
+    createMany?: MediaCreateManyUploadedByInputEnvelope
+    set?: MediaWhereUniqueInput | MediaWhereUniqueInput[]
+    disconnect?: MediaWhereUniqueInput | MediaWhereUniqueInput[]
+    delete?: MediaWhereUniqueInput | MediaWhereUniqueInput[]
+    connect?: MediaWhereUniqueInput | MediaWhereUniqueInput[]
+    update?: MediaUpdateWithWhereUniqueWithoutUploadedByInput | MediaUpdateWithWhereUniqueWithoutUploadedByInput[]
+    updateMany?: MediaUpdateManyWithWhereWithoutUploadedByInput | MediaUpdateManyWithWhereWithoutUploadedByInput[]
+    deleteMany?: MediaScalarWhereInput | MediaScalarWhereInput[]
+  }
+
+  export type PostUpdateManyWithoutAuthorNestedInput = {
+    create?: XOR<PostCreateWithoutAuthorInput, PostUncheckedCreateWithoutAuthorInput> | PostCreateWithoutAuthorInput[] | PostUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: PostCreateOrConnectWithoutAuthorInput | PostCreateOrConnectWithoutAuthorInput[]
+    upsert?: PostUpsertWithWhereUniqueWithoutAuthorInput | PostUpsertWithWhereUniqueWithoutAuthorInput[]
+    createMany?: PostCreateManyAuthorInputEnvelope
+    set?: PostWhereUniqueInput | PostWhereUniqueInput[]
+    disconnect?: PostWhereUniqueInput | PostWhereUniqueInput[]
+    delete?: PostWhereUniqueInput | PostWhereUniqueInput[]
+    connect?: PostWhereUniqueInput | PostWhereUniqueInput[]
+    update?: PostUpdateWithWhereUniqueWithoutAuthorInput | PostUpdateWithWhereUniqueWithoutAuthorInput[]
+    updateMany?: PostUpdateManyWithWhereWithoutAuthorInput | PostUpdateManyWithWhereWithoutAuthorInput[]
+    deleteMany?: PostScalarWhereInput | PostScalarWhereInput[]
+  }
+
+  export type SessionUpdateManyWithoutUserNestedInput = {
+    create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
+    upsert?: SessionUpsertWithWhereUniqueWithoutUserInput | SessionUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: SessionCreateManyUserInputEnvelope
+    set?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
+    disconnect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
+    delete?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
+    connect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
+    update?: SessionUpdateWithWhereUniqueWithoutUserInput | SessionUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: SessionUpdateManyWithWhereWithoutUserInput | SessionUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: SessionScalarWhereInput | SessionScalarWhereInput[]
+  }
+
+  export type UserNotificationPreferenceUpdateOneWithoutUserNestedInput = {
+    create?: XOR<UserNotificationPreferenceCreateWithoutUserInput, UserNotificationPreferenceUncheckedCreateWithoutUserInput>
+    connectOrCreate?: UserNotificationPreferenceCreateOrConnectWithoutUserInput
+    upsert?: UserNotificationPreferenceUpsertWithoutUserInput
+    disconnect?: UserNotificationPreferenceWhereInput | boolean
+    delete?: UserNotificationPreferenceWhereInput | boolean
+    connect?: UserNotificationPreferenceWhereUniqueInput
+    update?: XOR<XOR<UserNotificationPreferenceUpdateToOneWithWhereWithoutUserInput, UserNotificationPreferenceUpdateWithoutUserInput>, UserNotificationPreferenceUncheckedUpdateWithoutUserInput>
   }
 
   export type UserProfileUpdateOneWithoutUserNestedInput = {
@@ -29400,62 +31073,6 @@ export namespace Prisma {
     deleteMany?: UserRoleScalarWhereInput | UserRoleScalarWhereInput[]
   }
 
-  export type SessionUpdateManyWithoutUserNestedInput = {
-    create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
-    upsert?: SessionUpsertWithWhereUniqueWithoutUserInput | SessionUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: SessionCreateManyUserInputEnvelope
-    set?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
-    disconnect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
-    delete?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
-    connect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
-    update?: SessionUpdateWithWhereUniqueWithoutUserInput | SessionUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: SessionUpdateManyWithWhereWithoutUserInput | SessionUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: SessionScalarWhereInput | SessionScalarWhereInput[]
-  }
-
-  export type AccountUpdateManyWithoutUserNestedInput = {
-    create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
-    upsert?: AccountUpsertWithWhereUniqueWithoutUserInput | AccountUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: AccountCreateManyUserInputEnvelope
-    set?: AccountWhereUniqueInput | AccountWhereUniqueInput[]
-    disconnect?: AccountWhereUniqueInput | AccountWhereUniqueInput[]
-    delete?: AccountWhereUniqueInput | AccountWhereUniqueInput[]
-    connect?: AccountWhereUniqueInput | AccountWhereUniqueInput[]
-    update?: AccountUpdateWithWhereUniqueWithoutUserInput | AccountUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: AccountUpdateManyWithWhereWithoutUserInput | AccountUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: AccountScalarWhereInput | AccountScalarWhereInput[]
-  }
-
-  export type PostUpdateManyWithoutAuthorNestedInput = {
-    create?: XOR<PostCreateWithoutAuthorInput, PostUncheckedCreateWithoutAuthorInput> | PostCreateWithoutAuthorInput[] | PostUncheckedCreateWithoutAuthorInput[]
-    connectOrCreate?: PostCreateOrConnectWithoutAuthorInput | PostCreateOrConnectWithoutAuthorInput[]
-    upsert?: PostUpsertWithWhereUniqueWithoutAuthorInput | PostUpsertWithWhereUniqueWithoutAuthorInput[]
-    createMany?: PostCreateManyAuthorInputEnvelope
-    set?: PostWhereUniqueInput | PostWhereUniqueInput[]
-    disconnect?: PostWhereUniqueInput | PostWhereUniqueInput[]
-    delete?: PostWhereUniqueInput | PostWhereUniqueInput[]
-    connect?: PostWhereUniqueInput | PostWhereUniqueInput[]
-    update?: PostUpdateWithWhereUniqueWithoutAuthorInput | PostUpdateWithWhereUniqueWithoutAuthorInput[]
-    updateMany?: PostUpdateManyWithWhereWithoutAuthorInput | PostUpdateManyWithWhereWithoutAuthorInput[]
-    deleteMany?: PostScalarWhereInput | PostScalarWhereInput[]
-  }
-
-  export type CommentUpdateManyWithoutAuthorNestedInput = {
-    create?: XOR<CommentCreateWithoutAuthorInput, CommentUncheckedCreateWithoutAuthorInput> | CommentCreateWithoutAuthorInput[] | CommentUncheckedCreateWithoutAuthorInput[]
-    connectOrCreate?: CommentCreateOrConnectWithoutAuthorInput | CommentCreateOrConnectWithoutAuthorInput[]
-    upsert?: CommentUpsertWithWhereUniqueWithoutAuthorInput | CommentUpsertWithWhereUniqueWithoutAuthorInput[]
-    createMany?: CommentCreateManyAuthorInputEnvelope
-    set?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
-    disconnect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
-    delete?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
-    connect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
-    update?: CommentUpdateWithWhereUniqueWithoutAuthorInput | CommentUpdateWithWhereUniqueWithoutAuthorInput[]
-    updateMany?: CommentUpdateManyWithWhereWithoutAuthorInput | CommentUpdateManyWithWhereWithoutAuthorInput[]
-    deleteMany?: CommentScalarWhereInput | CommentScalarWhereInput[]
-  }
-
   export type VoteUpdateManyWithoutUserNestedInput = {
     create?: XOR<VoteCreateWithoutUserInput, VoteUncheckedCreateWithoutUserInput> | VoteCreateWithoutUserInput[] | VoteUncheckedCreateWithoutUserInput[]
     connectOrCreate?: VoteCreateOrConnectWithoutUserInput | VoteCreateOrConnectWithoutUserInput[]
@@ -29470,35 +31087,21 @@ export namespace Prisma {
     deleteMany?: VoteScalarWhereInput | VoteScalarWhereInput[]
   }
 
-  export type MediaUpdateManyWithoutUploadedByNestedInput = {
-    create?: XOR<MediaCreateWithoutUploadedByInput, MediaUncheckedCreateWithoutUploadedByInput> | MediaCreateWithoutUploadedByInput[] | MediaUncheckedCreateWithoutUploadedByInput[]
-    connectOrCreate?: MediaCreateOrConnectWithoutUploadedByInput | MediaCreateOrConnectWithoutUploadedByInput[]
-    upsert?: MediaUpsertWithWhereUniqueWithoutUploadedByInput | MediaUpsertWithWhereUniqueWithoutUploadedByInput[]
-    createMany?: MediaCreateManyUploadedByInputEnvelope
-    set?: MediaWhereUniqueInput | MediaWhereUniqueInput[]
-    disconnect?: MediaWhereUniqueInput | MediaWhereUniqueInput[]
-    delete?: MediaWhereUniqueInput | MediaWhereUniqueInput[]
-    connect?: MediaWhereUniqueInput | MediaWhereUniqueInput[]
-    update?: MediaUpdateWithWhereUniqueWithoutUploadedByInput | MediaUpdateWithWhereUniqueWithoutUploadedByInput[]
-    updateMany?: MediaUpdateManyWithWhereWithoutUploadedByInput | MediaUpdateManyWithWhereWithoutUploadedByInput[]
-    deleteMany?: MediaScalarWhereInput | MediaScalarWhereInput[]
+  export type AccountUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
+    upsert?: AccountUpsertWithWhereUniqueWithoutUserInput | AccountUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: AccountCreateManyUserInputEnvelope
+    set?: AccountWhereUniqueInput | AccountWhereUniqueInput[]
+    disconnect?: AccountWhereUniqueInput | AccountWhereUniqueInput[]
+    delete?: AccountWhereUniqueInput | AccountWhereUniqueInput[]
+    connect?: AccountWhereUniqueInput | AccountWhereUniqueInput[]
+    update?: AccountUpdateWithWhereUniqueWithoutUserInput | AccountUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: AccountUpdateManyWithWhereWithoutUserInput | AccountUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: AccountScalarWhereInput | AccountScalarWhereInput[]
   }
 
-  export type AdminNoteUpdateManyWithoutUserNestedInput = {
-    create?: XOR<AdminNoteCreateWithoutUserInput, AdminNoteUncheckedCreateWithoutUserInput> | AdminNoteCreateWithoutUserInput[] | AdminNoteUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: AdminNoteCreateOrConnectWithoutUserInput | AdminNoteCreateOrConnectWithoutUserInput[]
-    upsert?: AdminNoteUpsertWithWhereUniqueWithoutUserInput | AdminNoteUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: AdminNoteCreateManyUserInputEnvelope
-    set?: AdminNoteWhereUniqueInput | AdminNoteWhereUniqueInput[]
-    disconnect?: AdminNoteWhereUniqueInput | AdminNoteWhereUniqueInput[]
-    delete?: AdminNoteWhereUniqueInput | AdminNoteWhereUniqueInput[]
-    connect?: AdminNoteWhereUniqueInput | AdminNoteWhereUniqueInput[]
-    update?: AdminNoteUpdateWithWhereUniqueWithoutUserInput | AdminNoteUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: AdminNoteUpdateManyWithWhereWithoutUserInput | AdminNoteUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: AdminNoteScalarWhereInput | AdminNoteScalarWhereInput[]
-  }
-
-  export type AdminNoteUpdateManyWithoutCreatedByNestedInput = {
+  export type AdminNoteUncheckedUpdateManyWithoutCreatedByNestedInput = {
     create?: XOR<AdminNoteCreateWithoutCreatedByInput, AdminNoteUncheckedCreateWithoutCreatedByInput> | AdminNoteCreateWithoutCreatedByInput[] | AdminNoteUncheckedCreateWithoutCreatedByInput[]
     connectOrCreate?: AdminNoteCreateOrConnectWithoutCreatedByInput | AdminNoteCreateOrConnectWithoutCreatedByInput[]
     upsert?: AdminNoteUpsertWithWhereUniqueWithoutCreatedByInput | AdminNoteUpsertWithWhereUniqueWithoutCreatedByInput[]
@@ -29512,7 +31115,21 @@ export namespace Prisma {
     deleteMany?: AdminNoteScalarWhereInput | AdminNoteScalarWhereInput[]
   }
 
-  export type AuditLogUpdateManyWithoutUserNestedInput = {
+  export type AdminNoteUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<AdminNoteCreateWithoutUserInput, AdminNoteUncheckedCreateWithoutUserInput> | AdminNoteCreateWithoutUserInput[] | AdminNoteUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AdminNoteCreateOrConnectWithoutUserInput | AdminNoteCreateOrConnectWithoutUserInput[]
+    upsert?: AdminNoteUpsertWithWhereUniqueWithoutUserInput | AdminNoteUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: AdminNoteCreateManyUserInputEnvelope
+    set?: AdminNoteWhereUniqueInput | AdminNoteWhereUniqueInput[]
+    disconnect?: AdminNoteWhereUniqueInput | AdminNoteWhereUniqueInput[]
+    delete?: AdminNoteWhereUniqueInput | AdminNoteWhereUniqueInput[]
+    connect?: AdminNoteWhereUniqueInput | AdminNoteWhereUniqueInput[]
+    update?: AdminNoteUpdateWithWhereUniqueWithoutUserInput | AdminNoteUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: AdminNoteUpdateManyWithWhereWithoutUserInput | AdminNoteUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: AdminNoteScalarWhereInput | AdminNoteScalarWhereInput[]
+  }
+
+  export type AuditLogUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<AuditLogCreateWithoutUserInput, AuditLogUncheckedCreateWithoutUserInput> | AuditLogCreateWithoutUserInput[] | AuditLogUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AuditLogCreateOrConnectWithoutUserInput | AuditLogCreateOrConnectWithoutUserInput[]
     upsert?: AuditLogUpsertWithWhereUniqueWithoutUserInput | AuditLogUpsertWithWhereUniqueWithoutUserInput[]
@@ -29524,6 +31141,72 @@ export namespace Prisma {
     update?: AuditLogUpdateWithWhereUniqueWithoutUserInput | AuditLogUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: AuditLogUpdateManyWithWhereWithoutUserInput | AuditLogUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: AuditLogScalarWhereInput | AuditLogScalarWhereInput[]
+  }
+
+  export type CommentUncheckedUpdateManyWithoutAuthorNestedInput = {
+    create?: XOR<CommentCreateWithoutAuthorInput, CommentUncheckedCreateWithoutAuthorInput> | CommentCreateWithoutAuthorInput[] | CommentUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: CommentCreateOrConnectWithoutAuthorInput | CommentCreateOrConnectWithoutAuthorInput[]
+    upsert?: CommentUpsertWithWhereUniqueWithoutAuthorInput | CommentUpsertWithWhereUniqueWithoutAuthorInput[]
+    createMany?: CommentCreateManyAuthorInputEnvelope
+    set?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+    disconnect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+    delete?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+    connect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+    update?: CommentUpdateWithWhereUniqueWithoutAuthorInput | CommentUpdateWithWhereUniqueWithoutAuthorInput[]
+    updateMany?: CommentUpdateManyWithWhereWithoutAuthorInput | CommentUpdateManyWithWhereWithoutAuthorInput[]
+    deleteMany?: CommentScalarWhereInput | CommentScalarWhereInput[]
+  }
+
+  export type MediaUncheckedUpdateManyWithoutUploadedByNestedInput = {
+    create?: XOR<MediaCreateWithoutUploadedByInput, MediaUncheckedCreateWithoutUploadedByInput> | MediaCreateWithoutUploadedByInput[] | MediaUncheckedCreateWithoutUploadedByInput[]
+    connectOrCreate?: MediaCreateOrConnectWithoutUploadedByInput | MediaCreateOrConnectWithoutUploadedByInput[]
+    upsert?: MediaUpsertWithWhereUniqueWithoutUploadedByInput | MediaUpsertWithWhereUniqueWithoutUploadedByInput[]
+    createMany?: MediaCreateManyUploadedByInputEnvelope
+    set?: MediaWhereUniqueInput | MediaWhereUniqueInput[]
+    disconnect?: MediaWhereUniqueInput | MediaWhereUniqueInput[]
+    delete?: MediaWhereUniqueInput | MediaWhereUniqueInput[]
+    connect?: MediaWhereUniqueInput | MediaWhereUniqueInput[]
+    update?: MediaUpdateWithWhereUniqueWithoutUploadedByInput | MediaUpdateWithWhereUniqueWithoutUploadedByInput[]
+    updateMany?: MediaUpdateManyWithWhereWithoutUploadedByInput | MediaUpdateManyWithWhereWithoutUploadedByInput[]
+    deleteMany?: MediaScalarWhereInput | MediaScalarWhereInput[]
+  }
+
+  export type PostUncheckedUpdateManyWithoutAuthorNestedInput = {
+    create?: XOR<PostCreateWithoutAuthorInput, PostUncheckedCreateWithoutAuthorInput> | PostCreateWithoutAuthorInput[] | PostUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: PostCreateOrConnectWithoutAuthorInput | PostCreateOrConnectWithoutAuthorInput[]
+    upsert?: PostUpsertWithWhereUniqueWithoutAuthorInput | PostUpsertWithWhereUniqueWithoutAuthorInput[]
+    createMany?: PostCreateManyAuthorInputEnvelope
+    set?: PostWhereUniqueInput | PostWhereUniqueInput[]
+    disconnect?: PostWhereUniqueInput | PostWhereUniqueInput[]
+    delete?: PostWhereUniqueInput | PostWhereUniqueInput[]
+    connect?: PostWhereUniqueInput | PostWhereUniqueInput[]
+    update?: PostUpdateWithWhereUniqueWithoutAuthorInput | PostUpdateWithWhereUniqueWithoutAuthorInput[]
+    updateMany?: PostUpdateManyWithWhereWithoutAuthorInput | PostUpdateManyWithWhereWithoutAuthorInput[]
+    deleteMany?: PostScalarWhereInput | PostScalarWhereInput[]
+  }
+
+  export type SessionUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
+    upsert?: SessionUpsertWithWhereUniqueWithoutUserInput | SessionUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: SessionCreateManyUserInputEnvelope
+    set?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
+    disconnect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
+    delete?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
+    connect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
+    update?: SessionUpdateWithWhereUniqueWithoutUserInput | SessionUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: SessionUpdateManyWithWhereWithoutUserInput | SessionUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: SessionScalarWhereInput | SessionScalarWhereInput[]
+  }
+
+  export type UserNotificationPreferenceUncheckedUpdateOneWithoutUserNestedInput = {
+    create?: XOR<UserNotificationPreferenceCreateWithoutUserInput, UserNotificationPreferenceUncheckedCreateWithoutUserInput>
+    connectOrCreate?: UserNotificationPreferenceCreateOrConnectWithoutUserInput
+    upsert?: UserNotificationPreferenceUpsertWithoutUserInput
+    disconnect?: UserNotificationPreferenceWhereInput | boolean
+    delete?: UserNotificationPreferenceWhereInput | boolean
+    connect?: UserNotificationPreferenceWhereUniqueInput
+    update?: XOR<XOR<UserNotificationPreferenceUpdateToOneWithWhereWithoutUserInput, UserNotificationPreferenceUpdateWithoutUserInput>, UserNotificationPreferenceUncheckedUpdateWithoutUserInput>
   }
 
   export type UserProfileUncheckedUpdateOneWithoutUserNestedInput = {
@@ -29550,62 +31233,6 @@ export namespace Prisma {
     deleteMany?: UserRoleScalarWhereInput | UserRoleScalarWhereInput[]
   }
 
-  export type SessionUncheckedUpdateManyWithoutUserNestedInput = {
-    create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
-    upsert?: SessionUpsertWithWhereUniqueWithoutUserInput | SessionUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: SessionCreateManyUserInputEnvelope
-    set?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
-    disconnect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
-    delete?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
-    connect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
-    update?: SessionUpdateWithWhereUniqueWithoutUserInput | SessionUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: SessionUpdateManyWithWhereWithoutUserInput | SessionUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: SessionScalarWhereInput | SessionScalarWhereInput[]
-  }
-
-  export type AccountUncheckedUpdateManyWithoutUserNestedInput = {
-    create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
-    upsert?: AccountUpsertWithWhereUniqueWithoutUserInput | AccountUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: AccountCreateManyUserInputEnvelope
-    set?: AccountWhereUniqueInput | AccountWhereUniqueInput[]
-    disconnect?: AccountWhereUniqueInput | AccountWhereUniqueInput[]
-    delete?: AccountWhereUniqueInput | AccountWhereUniqueInput[]
-    connect?: AccountWhereUniqueInput | AccountWhereUniqueInput[]
-    update?: AccountUpdateWithWhereUniqueWithoutUserInput | AccountUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: AccountUpdateManyWithWhereWithoutUserInput | AccountUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: AccountScalarWhereInput | AccountScalarWhereInput[]
-  }
-
-  export type PostUncheckedUpdateManyWithoutAuthorNestedInput = {
-    create?: XOR<PostCreateWithoutAuthorInput, PostUncheckedCreateWithoutAuthorInput> | PostCreateWithoutAuthorInput[] | PostUncheckedCreateWithoutAuthorInput[]
-    connectOrCreate?: PostCreateOrConnectWithoutAuthorInput | PostCreateOrConnectWithoutAuthorInput[]
-    upsert?: PostUpsertWithWhereUniqueWithoutAuthorInput | PostUpsertWithWhereUniqueWithoutAuthorInput[]
-    createMany?: PostCreateManyAuthorInputEnvelope
-    set?: PostWhereUniqueInput | PostWhereUniqueInput[]
-    disconnect?: PostWhereUniqueInput | PostWhereUniqueInput[]
-    delete?: PostWhereUniqueInput | PostWhereUniqueInput[]
-    connect?: PostWhereUniqueInput | PostWhereUniqueInput[]
-    update?: PostUpdateWithWhereUniqueWithoutAuthorInput | PostUpdateWithWhereUniqueWithoutAuthorInput[]
-    updateMany?: PostUpdateManyWithWhereWithoutAuthorInput | PostUpdateManyWithWhereWithoutAuthorInput[]
-    deleteMany?: PostScalarWhereInput | PostScalarWhereInput[]
-  }
-
-  export type CommentUncheckedUpdateManyWithoutAuthorNestedInput = {
-    create?: XOR<CommentCreateWithoutAuthorInput, CommentUncheckedCreateWithoutAuthorInput> | CommentCreateWithoutAuthorInput[] | CommentUncheckedCreateWithoutAuthorInput[]
-    connectOrCreate?: CommentCreateOrConnectWithoutAuthorInput | CommentCreateOrConnectWithoutAuthorInput[]
-    upsert?: CommentUpsertWithWhereUniqueWithoutAuthorInput | CommentUpsertWithWhereUniqueWithoutAuthorInput[]
-    createMany?: CommentCreateManyAuthorInputEnvelope
-    set?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
-    disconnect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
-    delete?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
-    connect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
-    update?: CommentUpdateWithWhereUniqueWithoutAuthorInput | CommentUpdateWithWhereUniqueWithoutAuthorInput[]
-    updateMany?: CommentUpdateManyWithWhereWithoutAuthorInput | CommentUpdateManyWithWhereWithoutAuthorInput[]
-    deleteMany?: CommentScalarWhereInput | CommentScalarWhereInput[]
-  }
-
   export type VoteUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<VoteCreateWithoutUserInput, VoteUncheckedCreateWithoutUserInput> | VoteCreateWithoutUserInput[] | VoteUncheckedCreateWithoutUserInput[]
     connectOrCreate?: VoteCreateOrConnectWithoutUserInput | VoteCreateOrConnectWithoutUserInput[]
@@ -29618,62 +31245,6 @@ export namespace Prisma {
     update?: VoteUpdateWithWhereUniqueWithoutUserInput | VoteUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: VoteUpdateManyWithWhereWithoutUserInput | VoteUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: VoteScalarWhereInput | VoteScalarWhereInput[]
-  }
-
-  export type MediaUncheckedUpdateManyWithoutUploadedByNestedInput = {
-    create?: XOR<MediaCreateWithoutUploadedByInput, MediaUncheckedCreateWithoutUploadedByInput> | MediaCreateWithoutUploadedByInput[] | MediaUncheckedCreateWithoutUploadedByInput[]
-    connectOrCreate?: MediaCreateOrConnectWithoutUploadedByInput | MediaCreateOrConnectWithoutUploadedByInput[]
-    upsert?: MediaUpsertWithWhereUniqueWithoutUploadedByInput | MediaUpsertWithWhereUniqueWithoutUploadedByInput[]
-    createMany?: MediaCreateManyUploadedByInputEnvelope
-    set?: MediaWhereUniqueInput | MediaWhereUniqueInput[]
-    disconnect?: MediaWhereUniqueInput | MediaWhereUniqueInput[]
-    delete?: MediaWhereUniqueInput | MediaWhereUniqueInput[]
-    connect?: MediaWhereUniqueInput | MediaWhereUniqueInput[]
-    update?: MediaUpdateWithWhereUniqueWithoutUploadedByInput | MediaUpdateWithWhereUniqueWithoutUploadedByInput[]
-    updateMany?: MediaUpdateManyWithWhereWithoutUploadedByInput | MediaUpdateManyWithWhereWithoutUploadedByInput[]
-    deleteMany?: MediaScalarWhereInput | MediaScalarWhereInput[]
-  }
-
-  export type AdminNoteUncheckedUpdateManyWithoutUserNestedInput = {
-    create?: XOR<AdminNoteCreateWithoutUserInput, AdminNoteUncheckedCreateWithoutUserInput> | AdminNoteCreateWithoutUserInput[] | AdminNoteUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: AdminNoteCreateOrConnectWithoutUserInput | AdminNoteCreateOrConnectWithoutUserInput[]
-    upsert?: AdminNoteUpsertWithWhereUniqueWithoutUserInput | AdminNoteUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: AdminNoteCreateManyUserInputEnvelope
-    set?: AdminNoteWhereUniqueInput | AdminNoteWhereUniqueInput[]
-    disconnect?: AdminNoteWhereUniqueInput | AdminNoteWhereUniqueInput[]
-    delete?: AdminNoteWhereUniqueInput | AdminNoteWhereUniqueInput[]
-    connect?: AdminNoteWhereUniqueInput | AdminNoteWhereUniqueInput[]
-    update?: AdminNoteUpdateWithWhereUniqueWithoutUserInput | AdminNoteUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: AdminNoteUpdateManyWithWhereWithoutUserInput | AdminNoteUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: AdminNoteScalarWhereInput | AdminNoteScalarWhereInput[]
-  }
-
-  export type AdminNoteUncheckedUpdateManyWithoutCreatedByNestedInput = {
-    create?: XOR<AdminNoteCreateWithoutCreatedByInput, AdminNoteUncheckedCreateWithoutCreatedByInput> | AdminNoteCreateWithoutCreatedByInput[] | AdminNoteUncheckedCreateWithoutCreatedByInput[]
-    connectOrCreate?: AdminNoteCreateOrConnectWithoutCreatedByInput | AdminNoteCreateOrConnectWithoutCreatedByInput[]
-    upsert?: AdminNoteUpsertWithWhereUniqueWithoutCreatedByInput | AdminNoteUpsertWithWhereUniqueWithoutCreatedByInput[]
-    createMany?: AdminNoteCreateManyCreatedByInputEnvelope
-    set?: AdminNoteWhereUniqueInput | AdminNoteWhereUniqueInput[]
-    disconnect?: AdminNoteWhereUniqueInput | AdminNoteWhereUniqueInput[]
-    delete?: AdminNoteWhereUniqueInput | AdminNoteWhereUniqueInput[]
-    connect?: AdminNoteWhereUniqueInput | AdminNoteWhereUniqueInput[]
-    update?: AdminNoteUpdateWithWhereUniqueWithoutCreatedByInput | AdminNoteUpdateWithWhereUniqueWithoutCreatedByInput[]
-    updateMany?: AdminNoteUpdateManyWithWhereWithoutCreatedByInput | AdminNoteUpdateManyWithWhereWithoutCreatedByInput[]
-    deleteMany?: AdminNoteScalarWhereInput | AdminNoteScalarWhereInput[]
-  }
-
-  export type AuditLogUncheckedUpdateManyWithoutUserNestedInput = {
-    create?: XOR<AuditLogCreateWithoutUserInput, AuditLogUncheckedCreateWithoutUserInput> | AuditLogCreateWithoutUserInput[] | AuditLogUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: AuditLogCreateOrConnectWithoutUserInput | AuditLogCreateOrConnectWithoutUserInput[]
-    upsert?: AuditLogUpsertWithWhereUniqueWithoutUserInput | AuditLogUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: AuditLogCreateManyUserInputEnvelope
-    set?: AuditLogWhereUniqueInput | AuditLogWhereUniqueInput[]
-    disconnect?: AuditLogWhereUniqueInput | AuditLogWhereUniqueInput[]
-    delete?: AuditLogWhereUniqueInput | AuditLogWhereUniqueInput[]
-    connect?: AuditLogWhereUniqueInput | AuditLogWhereUniqueInput[]
-    update?: AuditLogUpdateWithWhereUniqueWithoutUserInput | AuditLogUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: AuditLogUpdateManyWithWhereWithoutUserInput | AuditLogUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: AuditLogScalarWhereInput | AuditLogScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutProfileInput = {
@@ -29690,13 +31261,6 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutProfileInput, UserUpdateWithoutProfileInput>, UserUncheckedUpdateWithoutProfileInput>
   }
 
-  export type UserRoleCreateNestedManyWithoutRoleInput = {
-    create?: XOR<UserRoleCreateWithoutRoleInput, UserRoleUncheckedCreateWithoutRoleInput> | UserRoleCreateWithoutRoleInput[] | UserRoleUncheckedCreateWithoutRoleInput[]
-    connectOrCreate?: UserRoleCreateOrConnectWithoutRoleInput | UserRoleCreateOrConnectWithoutRoleInput[]
-    createMany?: UserRoleCreateManyRoleInputEnvelope
-    connect?: UserRoleWhereUniqueInput | UserRoleWhereUniqueInput[]
-  }
-
   export type RolePermissionCreateNestedManyWithoutRoleInput = {
     create?: XOR<RolePermissionCreateWithoutRoleInput, RolePermissionUncheckedCreateWithoutRoleInput> | RolePermissionCreateWithoutRoleInput[] | RolePermissionUncheckedCreateWithoutRoleInput[]
     connectOrCreate?: RolePermissionCreateOrConnectWithoutRoleInput | RolePermissionCreateOrConnectWithoutRoleInput[]
@@ -29704,7 +31268,7 @@ export namespace Prisma {
     connect?: RolePermissionWhereUniqueInput | RolePermissionWhereUniqueInput[]
   }
 
-  export type UserRoleUncheckedCreateNestedManyWithoutRoleInput = {
+  export type UserRoleCreateNestedManyWithoutRoleInput = {
     create?: XOR<UserRoleCreateWithoutRoleInput, UserRoleUncheckedCreateWithoutRoleInput> | UserRoleCreateWithoutRoleInput[] | UserRoleUncheckedCreateWithoutRoleInput[]
     connectOrCreate?: UserRoleCreateOrConnectWithoutRoleInput | UserRoleCreateOrConnectWithoutRoleInput[]
     createMany?: UserRoleCreateManyRoleInputEnvelope
@@ -29718,18 +31282,11 @@ export namespace Prisma {
     connect?: RolePermissionWhereUniqueInput | RolePermissionWhereUniqueInput[]
   }
 
-  export type UserRoleUpdateManyWithoutRoleNestedInput = {
+  export type UserRoleUncheckedCreateNestedManyWithoutRoleInput = {
     create?: XOR<UserRoleCreateWithoutRoleInput, UserRoleUncheckedCreateWithoutRoleInput> | UserRoleCreateWithoutRoleInput[] | UserRoleUncheckedCreateWithoutRoleInput[]
     connectOrCreate?: UserRoleCreateOrConnectWithoutRoleInput | UserRoleCreateOrConnectWithoutRoleInput[]
-    upsert?: UserRoleUpsertWithWhereUniqueWithoutRoleInput | UserRoleUpsertWithWhereUniqueWithoutRoleInput[]
     createMany?: UserRoleCreateManyRoleInputEnvelope
-    set?: UserRoleWhereUniqueInput | UserRoleWhereUniqueInput[]
-    disconnect?: UserRoleWhereUniqueInput | UserRoleWhereUniqueInput[]
-    delete?: UserRoleWhereUniqueInput | UserRoleWhereUniqueInput[]
     connect?: UserRoleWhereUniqueInput | UserRoleWhereUniqueInput[]
-    update?: UserRoleUpdateWithWhereUniqueWithoutRoleInput | UserRoleUpdateWithWhereUniqueWithoutRoleInput[]
-    updateMany?: UserRoleUpdateManyWithWhereWithoutRoleInput | UserRoleUpdateManyWithWhereWithoutRoleInput[]
-    deleteMany?: UserRoleScalarWhereInput | UserRoleScalarWhereInput[]
   }
 
   export type RolePermissionUpdateManyWithoutRoleNestedInput = {
@@ -29746,7 +31303,7 @@ export namespace Prisma {
     deleteMany?: RolePermissionScalarWhereInput | RolePermissionScalarWhereInput[]
   }
 
-  export type UserRoleUncheckedUpdateManyWithoutRoleNestedInput = {
+  export type UserRoleUpdateManyWithoutRoleNestedInput = {
     create?: XOR<UserRoleCreateWithoutRoleInput, UserRoleUncheckedCreateWithoutRoleInput> | UserRoleCreateWithoutRoleInput[] | UserRoleUncheckedCreateWithoutRoleInput[]
     connectOrCreate?: UserRoleCreateOrConnectWithoutRoleInput | UserRoleCreateOrConnectWithoutRoleInput[]
     upsert?: UserRoleUpsertWithWhereUniqueWithoutRoleInput | UserRoleUpsertWithWhereUniqueWithoutRoleInput[]
@@ -29772,6 +31329,20 @@ export namespace Prisma {
     update?: RolePermissionUpdateWithWhereUniqueWithoutRoleInput | RolePermissionUpdateWithWhereUniqueWithoutRoleInput[]
     updateMany?: RolePermissionUpdateManyWithWhereWithoutRoleInput | RolePermissionUpdateManyWithWhereWithoutRoleInput[]
     deleteMany?: RolePermissionScalarWhereInput | RolePermissionScalarWhereInput[]
+  }
+
+  export type UserRoleUncheckedUpdateManyWithoutRoleNestedInput = {
+    create?: XOR<UserRoleCreateWithoutRoleInput, UserRoleUncheckedCreateWithoutRoleInput> | UserRoleCreateWithoutRoleInput[] | UserRoleUncheckedCreateWithoutRoleInput[]
+    connectOrCreate?: UserRoleCreateOrConnectWithoutRoleInput | UserRoleCreateOrConnectWithoutRoleInput[]
+    upsert?: UserRoleUpsertWithWhereUniqueWithoutRoleInput | UserRoleUpsertWithWhereUniqueWithoutRoleInput[]
+    createMany?: UserRoleCreateManyRoleInputEnvelope
+    set?: UserRoleWhereUniqueInput | UserRoleWhereUniqueInput[]
+    disconnect?: UserRoleWhereUniqueInput | UserRoleWhereUniqueInput[]
+    delete?: UserRoleWhereUniqueInput | UserRoleWhereUniqueInput[]
+    connect?: UserRoleWhereUniqueInput | UserRoleWhereUniqueInput[]
+    update?: UserRoleUpdateWithWhereUniqueWithoutRoleInput | UserRoleUpdateWithWhereUniqueWithoutRoleInput[]
+    updateMany?: UserRoleUpdateManyWithWhereWithoutRoleInput | UserRoleUpdateManyWithWhereWithoutRoleInput[]
+    deleteMany?: UserRoleScalarWhereInput | UserRoleScalarWhereInput[]
   }
 
   export type RolePermissionCreateNestedManyWithoutPermissionInput = {
@@ -29816,24 +31387,16 @@ export namespace Prisma {
     deleteMany?: RolePermissionScalarWhereInput | RolePermissionScalarWhereInput[]
   }
 
-  export type UserCreateNestedOneWithoutRolesInput = {
-    create?: XOR<UserCreateWithoutRolesInput, UserUncheckedCreateWithoutRolesInput>
-    connectOrCreate?: UserCreateOrConnectWithoutRolesInput
-    connect?: UserWhereUniqueInput
-  }
-
   export type RoleCreateNestedOneWithoutUsersInput = {
     create?: XOR<RoleCreateWithoutUsersInput, RoleUncheckedCreateWithoutUsersInput>
     connectOrCreate?: RoleCreateOrConnectWithoutUsersInput
     connect?: RoleWhereUniqueInput
   }
 
-  export type UserUpdateOneRequiredWithoutRolesNestedInput = {
+  export type UserCreateNestedOneWithoutRolesInput = {
     create?: XOR<UserCreateWithoutRolesInput, UserUncheckedCreateWithoutRolesInput>
     connectOrCreate?: UserCreateOrConnectWithoutRolesInput
-    upsert?: UserUpsertWithoutRolesInput
     connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutRolesInput, UserUpdateWithoutRolesInput>, UserUncheckedUpdateWithoutRolesInput>
   }
 
   export type RoleUpdateOneRequiredWithoutUsersNestedInput = {
@@ -29844,10 +31407,12 @@ export namespace Prisma {
     update?: XOR<XOR<RoleUpdateToOneWithWhereWithoutUsersInput, RoleUpdateWithoutUsersInput>, RoleUncheckedUpdateWithoutUsersInput>
   }
 
-  export type RoleCreateNestedOneWithoutPermissionsInput = {
-    create?: XOR<RoleCreateWithoutPermissionsInput, RoleUncheckedCreateWithoutPermissionsInput>
-    connectOrCreate?: RoleCreateOrConnectWithoutPermissionsInput
-    connect?: RoleWhereUniqueInput
+  export type UserUpdateOneRequiredWithoutRolesNestedInput = {
+    create?: XOR<UserCreateWithoutRolesInput, UserUncheckedCreateWithoutRolesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutRolesInput
+    upsert?: UserUpsertWithoutRolesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutRolesInput, UserUpdateWithoutRolesInput>, UserUncheckedUpdateWithoutRolesInput>
   }
 
   export type PermissionCreateNestedOneWithoutRolesInput = {
@@ -29856,12 +31421,10 @@ export namespace Prisma {
     connect?: PermissionWhereUniqueInput
   }
 
-  export type RoleUpdateOneRequiredWithoutPermissionsNestedInput = {
+  export type RoleCreateNestedOneWithoutPermissionsInput = {
     create?: XOR<RoleCreateWithoutPermissionsInput, RoleUncheckedCreateWithoutPermissionsInput>
     connectOrCreate?: RoleCreateOrConnectWithoutPermissionsInput
-    upsert?: RoleUpsertWithoutPermissionsInput
     connect?: RoleWhereUniqueInput
-    update?: XOR<XOR<RoleUpdateToOneWithWhereWithoutPermissionsInput, RoleUpdateWithoutPermissionsInput>, RoleUncheckedUpdateWithoutPermissionsInput>
   }
 
   export type PermissionUpdateOneRequiredWithoutRolesNestedInput = {
@@ -29870,6 +31433,14 @@ export namespace Prisma {
     upsert?: PermissionUpsertWithoutRolesInput
     connect?: PermissionWhereUniqueInput
     update?: XOR<XOR<PermissionUpdateToOneWithWhereWithoutRolesInput, PermissionUpdateWithoutRolesInput>, PermissionUncheckedUpdateWithoutRolesInput>
+  }
+
+  export type RoleUpdateOneRequiredWithoutPermissionsNestedInput = {
+    create?: XOR<RoleCreateWithoutPermissionsInput, RoleUncheckedCreateWithoutPermissionsInput>
+    connectOrCreate?: RoleCreateOrConnectWithoutPermissionsInput
+    upsert?: RoleUpsertWithoutPermissionsInput
+    connect?: RoleWhereUniqueInput
+    update?: XOR<XOR<RoleUpdateToOneWithWhereWithoutPermissionsInput, RoleUpdateWithoutPermissionsInput>, RoleUncheckedUpdateWithoutPermissionsInput>
   }
 
   export type UserCreateNestedOneWithoutSessionsInput = {
@@ -29908,6 +31479,13 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAccountsInput, UserUpdateWithoutAccountsInput>, UserUncheckedUpdateWithoutAccountsInput>
   }
 
+  export type CommentCreateNestedManyWithoutPostInput = {
+    create?: XOR<CommentCreateWithoutPostInput, CommentUncheckedCreateWithoutPostInput> | CommentCreateWithoutPostInput[] | CommentUncheckedCreateWithoutPostInput[]
+    connectOrCreate?: CommentCreateOrConnectWithoutPostInput | CommentCreateOrConnectWithoutPostInput[]
+    createMany?: CommentCreateManyPostInputEnvelope
+    connect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+  }
+
   export type UserCreateNestedOneWithoutPostsInput = {
     create?: XOR<UserCreateWithoutPostsInput, UserUncheckedCreateWithoutPostsInput>
     connectOrCreate?: UserCreateOrConnectWithoutPostsInput
@@ -29928,18 +31506,24 @@ export namespace Prisma {
     connect?: PostTagWhereUniqueInput | PostTagWhereUniqueInput[]
   }
 
-  export type CommentCreateNestedManyWithoutPostInput = {
-    create?: XOR<CommentCreateWithoutPostInput, CommentUncheckedCreateWithoutPostInput> | CommentCreateWithoutPostInput[] | CommentUncheckedCreateWithoutPostInput[]
-    connectOrCreate?: CommentCreateOrConnectWithoutPostInput | CommentCreateOrConnectWithoutPostInput[]
-    createMany?: CommentCreateManyPostInputEnvelope
-    connect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
-  }
-
   export type VoteCreateNestedManyWithoutPostInput = {
     create?: XOR<VoteCreateWithoutPostInput, VoteUncheckedCreateWithoutPostInput> | VoteCreateWithoutPostInput[] | VoteUncheckedCreateWithoutPostInput[]
     connectOrCreate?: VoteCreateOrConnectWithoutPostInput | VoteCreateOrConnectWithoutPostInput[]
     createMany?: VoteCreateManyPostInputEnvelope
     connect?: VoteWhereUniqueInput | VoteWhereUniqueInput[]
+  }
+
+  export type MediaCreateNestedManyWithoutPostInput = {
+    create?: XOR<MediaCreateWithoutPostInput, MediaUncheckedCreateWithoutPostInput> | MediaCreateWithoutPostInput[] | MediaUncheckedCreateWithoutPostInput[]
+    connectOrCreate?: MediaCreateOrConnectWithoutPostInput | MediaCreateOrConnectWithoutPostInput[]
+    connect?: MediaWhereUniqueInput | MediaWhereUniqueInput[]
+  }
+
+  export type CommentUncheckedCreateNestedManyWithoutPostInput = {
+    create?: XOR<CommentCreateWithoutPostInput, CommentUncheckedCreateWithoutPostInput> | CommentCreateWithoutPostInput[] | CommentUncheckedCreateWithoutPostInput[]
+    connectOrCreate?: CommentCreateOrConnectWithoutPostInput | CommentCreateOrConnectWithoutPostInput[]
+    createMany?: CommentCreateManyPostInputEnvelope
+    connect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
   }
 
   export type PostCategoryUncheckedCreateNestedManyWithoutPostInput = {
@@ -29956,18 +31540,17 @@ export namespace Prisma {
     connect?: PostTagWhereUniqueInput | PostTagWhereUniqueInput[]
   }
 
-  export type CommentUncheckedCreateNestedManyWithoutPostInput = {
-    create?: XOR<CommentCreateWithoutPostInput, CommentUncheckedCreateWithoutPostInput> | CommentCreateWithoutPostInput[] | CommentUncheckedCreateWithoutPostInput[]
-    connectOrCreate?: CommentCreateOrConnectWithoutPostInput | CommentCreateOrConnectWithoutPostInput[]
-    createMany?: CommentCreateManyPostInputEnvelope
-    connect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
-  }
-
   export type VoteUncheckedCreateNestedManyWithoutPostInput = {
     create?: XOR<VoteCreateWithoutPostInput, VoteUncheckedCreateWithoutPostInput> | VoteCreateWithoutPostInput[] | VoteUncheckedCreateWithoutPostInput[]
     connectOrCreate?: VoteCreateOrConnectWithoutPostInput | VoteCreateOrConnectWithoutPostInput[]
     createMany?: VoteCreateManyPostInputEnvelope
     connect?: VoteWhereUniqueInput | VoteWhereUniqueInput[]
+  }
+
+  export type MediaUncheckedCreateNestedManyWithoutPostInput = {
+    create?: XOR<MediaCreateWithoutPostInput, MediaUncheckedCreateWithoutPostInput> | MediaCreateWithoutPostInput[] | MediaUncheckedCreateWithoutPostInput[]
+    connectOrCreate?: MediaCreateOrConnectWithoutPostInput | MediaCreateOrConnectWithoutPostInput[]
+    connect?: MediaWhereUniqueInput | MediaWhereUniqueInput[]
   }
 
   export type EnumPostStatusFieldUpdateOperationsInput = {
@@ -29984,6 +31567,20 @@ export namespace Prisma {
 
   export type BoolFieldUpdateOperationsInput = {
     set?: boolean
+  }
+
+  export type CommentUpdateManyWithoutPostNestedInput = {
+    create?: XOR<CommentCreateWithoutPostInput, CommentUncheckedCreateWithoutPostInput> | CommentCreateWithoutPostInput[] | CommentUncheckedCreateWithoutPostInput[]
+    connectOrCreate?: CommentCreateOrConnectWithoutPostInput | CommentCreateOrConnectWithoutPostInput[]
+    upsert?: CommentUpsertWithWhereUniqueWithoutPostInput | CommentUpsertWithWhereUniqueWithoutPostInput[]
+    createMany?: CommentCreateManyPostInputEnvelope
+    set?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+    disconnect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+    delete?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+    connect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+    update?: CommentUpdateWithWhereUniqueWithoutPostInput | CommentUpdateWithWhereUniqueWithoutPostInput[]
+    updateMany?: CommentUpdateManyWithWhereWithoutPostInput | CommentUpdateManyWithWhereWithoutPostInput[]
+    deleteMany?: CommentScalarWhereInput | CommentScalarWhereInput[]
   }
 
   export type UserUpdateOneRequiredWithoutPostsNestedInput = {
@@ -30022,20 +31619,6 @@ export namespace Prisma {
     deleteMany?: PostTagScalarWhereInput | PostTagScalarWhereInput[]
   }
 
-  export type CommentUpdateManyWithoutPostNestedInput = {
-    create?: XOR<CommentCreateWithoutPostInput, CommentUncheckedCreateWithoutPostInput> | CommentCreateWithoutPostInput[] | CommentUncheckedCreateWithoutPostInput[]
-    connectOrCreate?: CommentCreateOrConnectWithoutPostInput | CommentCreateOrConnectWithoutPostInput[]
-    upsert?: CommentUpsertWithWhereUniqueWithoutPostInput | CommentUpsertWithWhereUniqueWithoutPostInput[]
-    createMany?: CommentCreateManyPostInputEnvelope
-    set?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
-    disconnect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
-    delete?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
-    connect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
-    update?: CommentUpdateWithWhereUniqueWithoutPostInput | CommentUpdateWithWhereUniqueWithoutPostInput[]
-    updateMany?: CommentUpdateManyWithWhereWithoutPostInput | CommentUpdateManyWithWhereWithoutPostInput[]
-    deleteMany?: CommentScalarWhereInput | CommentScalarWhereInput[]
-  }
-
   export type VoteUpdateManyWithoutPostNestedInput = {
     create?: XOR<VoteCreateWithoutPostInput, VoteUncheckedCreateWithoutPostInput> | VoteCreateWithoutPostInput[] | VoteUncheckedCreateWithoutPostInput[]
     connectOrCreate?: VoteCreateOrConnectWithoutPostInput | VoteCreateOrConnectWithoutPostInput[]
@@ -30048,6 +31631,33 @@ export namespace Prisma {
     update?: VoteUpdateWithWhereUniqueWithoutPostInput | VoteUpdateWithWhereUniqueWithoutPostInput[]
     updateMany?: VoteUpdateManyWithWhereWithoutPostInput | VoteUpdateManyWithWhereWithoutPostInput[]
     deleteMany?: VoteScalarWhereInput | VoteScalarWhereInput[]
+  }
+
+  export type MediaUpdateManyWithoutPostNestedInput = {
+    create?: XOR<MediaCreateWithoutPostInput, MediaUncheckedCreateWithoutPostInput> | MediaCreateWithoutPostInput[] | MediaUncheckedCreateWithoutPostInput[]
+    connectOrCreate?: MediaCreateOrConnectWithoutPostInput | MediaCreateOrConnectWithoutPostInput[]
+    upsert?: MediaUpsertWithWhereUniqueWithoutPostInput | MediaUpsertWithWhereUniqueWithoutPostInput[]
+    set?: MediaWhereUniqueInput | MediaWhereUniqueInput[]
+    disconnect?: MediaWhereUniqueInput | MediaWhereUniqueInput[]
+    delete?: MediaWhereUniqueInput | MediaWhereUniqueInput[]
+    connect?: MediaWhereUniqueInput | MediaWhereUniqueInput[]
+    update?: MediaUpdateWithWhereUniqueWithoutPostInput | MediaUpdateWithWhereUniqueWithoutPostInput[]
+    updateMany?: MediaUpdateManyWithWhereWithoutPostInput | MediaUpdateManyWithWhereWithoutPostInput[]
+    deleteMany?: MediaScalarWhereInput | MediaScalarWhereInput[]
+  }
+
+  export type CommentUncheckedUpdateManyWithoutPostNestedInput = {
+    create?: XOR<CommentCreateWithoutPostInput, CommentUncheckedCreateWithoutPostInput> | CommentCreateWithoutPostInput[] | CommentUncheckedCreateWithoutPostInput[]
+    connectOrCreate?: CommentCreateOrConnectWithoutPostInput | CommentCreateOrConnectWithoutPostInput[]
+    upsert?: CommentUpsertWithWhereUniqueWithoutPostInput | CommentUpsertWithWhereUniqueWithoutPostInput[]
+    createMany?: CommentCreateManyPostInputEnvelope
+    set?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+    disconnect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+    delete?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+    connect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+    update?: CommentUpdateWithWhereUniqueWithoutPostInput | CommentUpdateWithWhereUniqueWithoutPostInput[]
+    updateMany?: CommentUpdateManyWithWhereWithoutPostInput | CommentUpdateManyWithWhereWithoutPostInput[]
+    deleteMany?: CommentScalarWhereInput | CommentScalarWhereInput[]
   }
 
   export type PostCategoryUncheckedUpdateManyWithoutPostNestedInput = {
@@ -30078,20 +31688,6 @@ export namespace Prisma {
     deleteMany?: PostTagScalarWhereInput | PostTagScalarWhereInput[]
   }
 
-  export type CommentUncheckedUpdateManyWithoutPostNestedInput = {
-    create?: XOR<CommentCreateWithoutPostInput, CommentUncheckedCreateWithoutPostInput> | CommentCreateWithoutPostInput[] | CommentUncheckedCreateWithoutPostInput[]
-    connectOrCreate?: CommentCreateOrConnectWithoutPostInput | CommentCreateOrConnectWithoutPostInput[]
-    upsert?: CommentUpsertWithWhereUniqueWithoutPostInput | CommentUpsertWithWhereUniqueWithoutPostInput[]
-    createMany?: CommentCreateManyPostInputEnvelope
-    set?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
-    disconnect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
-    delete?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
-    connect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
-    update?: CommentUpdateWithWhereUniqueWithoutPostInput | CommentUpdateWithWhereUniqueWithoutPostInput[]
-    updateMany?: CommentUpdateManyWithWhereWithoutPostInput | CommentUpdateManyWithWhereWithoutPostInput[]
-    deleteMany?: CommentScalarWhereInput | CommentScalarWhereInput[]
-  }
-
   export type VoteUncheckedUpdateManyWithoutPostNestedInput = {
     create?: XOR<VoteCreateWithoutPostInput, VoteUncheckedCreateWithoutPostInput> | VoteCreateWithoutPostInput[] | VoteUncheckedCreateWithoutPostInput[]
     connectOrCreate?: VoteCreateOrConnectWithoutPostInput | VoteCreateOrConnectWithoutPostInput[]
@@ -30104,6 +31700,19 @@ export namespace Prisma {
     update?: VoteUpdateWithWhereUniqueWithoutPostInput | VoteUpdateWithWhereUniqueWithoutPostInput[]
     updateMany?: VoteUpdateManyWithWhereWithoutPostInput | VoteUpdateManyWithWhereWithoutPostInput[]
     deleteMany?: VoteScalarWhereInput | VoteScalarWhereInput[]
+  }
+
+  export type MediaUncheckedUpdateManyWithoutPostNestedInput = {
+    create?: XOR<MediaCreateWithoutPostInput, MediaUncheckedCreateWithoutPostInput> | MediaCreateWithoutPostInput[] | MediaUncheckedCreateWithoutPostInput[]
+    connectOrCreate?: MediaCreateOrConnectWithoutPostInput | MediaCreateOrConnectWithoutPostInput[]
+    upsert?: MediaUpsertWithWhereUniqueWithoutPostInput | MediaUpsertWithWhereUniqueWithoutPostInput[]
+    set?: MediaWhereUniqueInput | MediaWhereUniqueInput[]
+    disconnect?: MediaWhereUniqueInput | MediaWhereUniqueInput[]
+    delete?: MediaWhereUniqueInput | MediaWhereUniqueInput[]
+    connect?: MediaWhereUniqueInput | MediaWhereUniqueInput[]
+    update?: MediaUpdateWithWhereUniqueWithoutPostInput | MediaUpdateWithWhereUniqueWithoutPostInput[]
+    updateMany?: MediaUpdateManyWithWhereWithoutPostInput | MediaUpdateManyWithWhereWithoutPostInput[]
+    deleteMany?: MediaScalarWhereInput | MediaScalarWhereInput[]
   }
 
   export type CategoryCreateNestedOneWithoutChildrenInput = {
@@ -30206,24 +31815,16 @@ export namespace Prisma {
     deleteMany?: PostCategoryScalarWhereInput | PostCategoryScalarWhereInput[]
   }
 
-  export type PostCreateNestedOneWithoutCategoriesInput = {
-    create?: XOR<PostCreateWithoutCategoriesInput, PostUncheckedCreateWithoutCategoriesInput>
-    connectOrCreate?: PostCreateOrConnectWithoutCategoriesInput
-    connect?: PostWhereUniqueInput
-  }
-
   export type CategoryCreateNestedOneWithoutPostsInput = {
     create?: XOR<CategoryCreateWithoutPostsInput, CategoryUncheckedCreateWithoutPostsInput>
     connectOrCreate?: CategoryCreateOrConnectWithoutPostsInput
     connect?: CategoryWhereUniqueInput
   }
 
-  export type PostUpdateOneRequiredWithoutCategoriesNestedInput = {
+  export type PostCreateNestedOneWithoutCategoriesInput = {
     create?: XOR<PostCreateWithoutCategoriesInput, PostUncheckedCreateWithoutCategoriesInput>
     connectOrCreate?: PostCreateOrConnectWithoutCategoriesInput
-    upsert?: PostUpsertWithoutCategoriesInput
     connect?: PostWhereUniqueInput
-    update?: XOR<XOR<PostUpdateToOneWithWhereWithoutCategoriesInput, PostUpdateWithoutCategoriesInput>, PostUncheckedUpdateWithoutCategoriesInput>
   }
 
   export type CategoryUpdateOneRequiredWithoutPostsNestedInput = {
@@ -30232,6 +31833,14 @@ export namespace Prisma {
     upsert?: CategoryUpsertWithoutPostsInput
     connect?: CategoryWhereUniqueInput
     update?: XOR<XOR<CategoryUpdateToOneWithWhereWithoutPostsInput, CategoryUpdateWithoutPostsInput>, CategoryUncheckedUpdateWithoutPostsInput>
+  }
+
+  export type PostUpdateOneRequiredWithoutCategoriesNestedInput = {
+    create?: XOR<PostCreateWithoutCategoriesInput, PostUncheckedCreateWithoutCategoriesInput>
+    connectOrCreate?: PostCreateOrConnectWithoutCategoriesInput
+    upsert?: PostUpsertWithoutCategoriesInput
+    connect?: PostWhereUniqueInput
+    update?: XOR<XOR<PostUpdateToOneWithWhereWithoutCategoriesInput, PostUpdateWithoutCategoriesInput>, PostUncheckedUpdateWithoutCategoriesInput>
   }
 
   export type PostTagCreateNestedManyWithoutTagInput = {
@@ -30310,6 +31919,18 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
+  export type PostCreateNestedManyWithoutMediaInput = {
+    create?: XOR<PostCreateWithoutMediaInput, PostUncheckedCreateWithoutMediaInput> | PostCreateWithoutMediaInput[] | PostUncheckedCreateWithoutMediaInput[]
+    connectOrCreate?: PostCreateOrConnectWithoutMediaInput | PostCreateOrConnectWithoutMediaInput[]
+    connect?: PostWhereUniqueInput | PostWhereUniqueInput[]
+  }
+
+  export type PostUncheckedCreateNestedManyWithoutMediaInput = {
+    create?: XOR<PostCreateWithoutMediaInput, PostUncheckedCreateWithoutMediaInput> | PostCreateWithoutMediaInput[] | PostUncheckedCreateWithoutMediaInput[]
+    connectOrCreate?: PostCreateOrConnectWithoutMediaInput | PostCreateOrConnectWithoutMediaInput[]
+    connect?: PostWhereUniqueInput | PostWhereUniqueInput[]
+  }
+
   export type UserUpdateOneWithoutMediaNestedInput = {
     create?: XOR<UserCreateWithoutMediaInput, UserUncheckedCreateWithoutMediaInput>
     connectOrCreate?: UserCreateOrConnectWithoutMediaInput
@@ -30320,10 +31941,30 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutMediaInput, UserUpdateWithoutMediaInput>, UserUncheckedUpdateWithoutMediaInput>
   }
 
-  export type PostCreateNestedOneWithoutCommentsInput = {
-    create?: XOR<PostCreateWithoutCommentsInput, PostUncheckedCreateWithoutCommentsInput>
-    connectOrCreate?: PostCreateOrConnectWithoutCommentsInput
-    connect?: PostWhereUniqueInput
+  export type PostUpdateManyWithoutMediaNestedInput = {
+    create?: XOR<PostCreateWithoutMediaInput, PostUncheckedCreateWithoutMediaInput> | PostCreateWithoutMediaInput[] | PostUncheckedCreateWithoutMediaInput[]
+    connectOrCreate?: PostCreateOrConnectWithoutMediaInput | PostCreateOrConnectWithoutMediaInput[]
+    upsert?: PostUpsertWithWhereUniqueWithoutMediaInput | PostUpsertWithWhereUniqueWithoutMediaInput[]
+    set?: PostWhereUniqueInput | PostWhereUniqueInput[]
+    disconnect?: PostWhereUniqueInput | PostWhereUniqueInput[]
+    delete?: PostWhereUniqueInput | PostWhereUniqueInput[]
+    connect?: PostWhereUniqueInput | PostWhereUniqueInput[]
+    update?: PostUpdateWithWhereUniqueWithoutMediaInput | PostUpdateWithWhereUniqueWithoutMediaInput[]
+    updateMany?: PostUpdateManyWithWhereWithoutMediaInput | PostUpdateManyWithWhereWithoutMediaInput[]
+    deleteMany?: PostScalarWhereInput | PostScalarWhereInput[]
+  }
+
+  export type PostUncheckedUpdateManyWithoutMediaNestedInput = {
+    create?: XOR<PostCreateWithoutMediaInput, PostUncheckedCreateWithoutMediaInput> | PostCreateWithoutMediaInput[] | PostUncheckedCreateWithoutMediaInput[]
+    connectOrCreate?: PostCreateOrConnectWithoutMediaInput | PostCreateOrConnectWithoutMediaInput[]
+    upsert?: PostUpsertWithWhereUniqueWithoutMediaInput | PostUpsertWithWhereUniqueWithoutMediaInput[]
+    set?: PostWhereUniqueInput | PostWhereUniqueInput[]
+    disconnect?: PostWhereUniqueInput | PostWhereUniqueInput[]
+    delete?: PostWhereUniqueInput | PostWhereUniqueInput[]
+    connect?: PostWhereUniqueInput | PostWhereUniqueInput[]
+    update?: PostUpdateWithWhereUniqueWithoutMediaInput | PostUpdateWithWhereUniqueWithoutMediaInput[]
+    updateMany?: PostUpdateManyWithWhereWithoutMediaInput | PostUpdateManyWithWhereWithoutMediaInput[]
+    deleteMany?: PostScalarWhereInput | PostScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutCommentsInput = {
@@ -30343,6 +31984,12 @@ export namespace Prisma {
     connectOrCreate?: CommentCreateOrConnectWithoutParentInput | CommentCreateOrConnectWithoutParentInput[]
     createMany?: CommentCreateManyParentInputEnvelope
     connect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+  }
+
+  export type PostCreateNestedOneWithoutCommentsInput = {
+    create?: XOR<PostCreateWithoutCommentsInput, PostUncheckedCreateWithoutCommentsInput>
+    connectOrCreate?: PostCreateOrConnectWithoutCommentsInput
+    connect?: PostWhereUniqueInput
   }
 
   export type VoteCreateNestedManyWithoutCommentInput = {
@@ -30368,14 +32015,6 @@ export namespace Prisma {
 
   export type EnumCommentStatusFieldUpdateOperationsInput = {
     set?: $Enums.CommentStatus
-  }
-
-  export type PostUpdateOneRequiredWithoutCommentsNestedInput = {
-    create?: XOR<PostCreateWithoutCommentsInput, PostUncheckedCreateWithoutCommentsInput>
-    connectOrCreate?: PostCreateOrConnectWithoutCommentsInput
-    upsert?: PostUpsertWithoutCommentsInput
-    connect?: PostWhereUniqueInput
-    update?: XOR<XOR<PostUpdateToOneWithWhereWithoutCommentsInput, PostUpdateWithoutCommentsInput>, PostUncheckedUpdateWithoutCommentsInput>
   }
 
   export type UserUpdateOneRequiredWithoutCommentsNestedInput = {
@@ -30408,6 +32047,14 @@ export namespace Prisma {
     update?: CommentUpdateWithWhereUniqueWithoutParentInput | CommentUpdateWithWhereUniqueWithoutParentInput[]
     updateMany?: CommentUpdateManyWithWhereWithoutParentInput | CommentUpdateManyWithWhereWithoutParentInput[]
     deleteMany?: CommentScalarWhereInput | CommentScalarWhereInput[]
+  }
+
+  export type PostUpdateOneRequiredWithoutCommentsNestedInput = {
+    create?: XOR<PostCreateWithoutCommentsInput, PostUncheckedCreateWithoutCommentsInput>
+    connectOrCreate?: PostCreateOrConnectWithoutCommentsInput
+    upsert?: PostUpsertWithoutCommentsInput
+    connect?: PostWhereUniqueInput
+    update?: XOR<XOR<PostUpdateToOneWithWhereWithoutCommentsInput, PostUpdateWithoutCommentsInput>, PostUncheckedUpdateWithoutCommentsInput>
   }
 
   export type VoteUpdateManyWithoutCommentNestedInput = {
@@ -30452,10 +32099,10 @@ export namespace Prisma {
     deleteMany?: VoteScalarWhereInput | VoteScalarWhereInput[]
   }
 
-  export type UserCreateNestedOneWithoutVotesInput = {
-    create?: XOR<UserCreateWithoutVotesInput, UserUncheckedCreateWithoutVotesInput>
-    connectOrCreate?: UserCreateOrConnectWithoutVotesInput
-    connect?: UserWhereUniqueInput
+  export type CommentCreateNestedOneWithoutVotesInput = {
+    create?: XOR<CommentCreateWithoutVotesInput, CommentUncheckedCreateWithoutVotesInput>
+    connectOrCreate?: CommentCreateOrConnectWithoutVotesInput
+    connect?: CommentWhereUniqueInput
   }
 
   export type PostCreateNestedOneWithoutVotesInput = {
@@ -30464,28 +32111,10 @@ export namespace Prisma {
     connect?: PostWhereUniqueInput
   }
 
-  export type CommentCreateNestedOneWithoutVotesInput = {
-    create?: XOR<CommentCreateWithoutVotesInput, CommentUncheckedCreateWithoutVotesInput>
-    connectOrCreate?: CommentCreateOrConnectWithoutVotesInput
-    connect?: CommentWhereUniqueInput
-  }
-
-  export type UserUpdateOneRequiredWithoutVotesNestedInput = {
+  export type UserCreateNestedOneWithoutVotesInput = {
     create?: XOR<UserCreateWithoutVotesInput, UserUncheckedCreateWithoutVotesInput>
     connectOrCreate?: UserCreateOrConnectWithoutVotesInput
-    upsert?: UserUpsertWithoutVotesInput
     connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutVotesInput, UserUpdateWithoutVotesInput>, UserUncheckedUpdateWithoutVotesInput>
-  }
-
-  export type PostUpdateOneWithoutVotesNestedInput = {
-    create?: XOR<PostCreateWithoutVotesInput, PostUncheckedCreateWithoutVotesInput>
-    connectOrCreate?: PostCreateOrConnectWithoutVotesInput
-    upsert?: PostUpsertWithoutVotesInput
-    disconnect?: PostWhereInput | boolean
-    delete?: PostWhereInput | boolean
-    connect?: PostWhereUniqueInput
-    update?: XOR<XOR<PostUpdateToOneWithWhereWithoutVotesInput, PostUpdateWithoutVotesInput>, PostUncheckedUpdateWithoutVotesInput>
   }
 
   export type CommentUpdateOneWithoutVotesNestedInput = {
@@ -30498,10 +32127,22 @@ export namespace Prisma {
     update?: XOR<XOR<CommentUpdateToOneWithWhereWithoutVotesInput, CommentUpdateWithoutVotesInput>, CommentUncheckedUpdateWithoutVotesInput>
   }
 
-  export type UserCreateNestedOneWithoutAdminNotesInput = {
-    create?: XOR<UserCreateWithoutAdminNotesInput, UserUncheckedCreateWithoutAdminNotesInput>
-    connectOrCreate?: UserCreateOrConnectWithoutAdminNotesInput
+  export type PostUpdateOneWithoutVotesNestedInput = {
+    create?: XOR<PostCreateWithoutVotesInput, PostUncheckedCreateWithoutVotesInput>
+    connectOrCreate?: PostCreateOrConnectWithoutVotesInput
+    upsert?: PostUpsertWithoutVotesInput
+    disconnect?: PostWhereInput | boolean
+    delete?: PostWhereInput | boolean
+    connect?: PostWhereUniqueInput
+    update?: XOR<XOR<PostUpdateToOneWithWhereWithoutVotesInput, PostUpdateWithoutVotesInput>, PostUncheckedUpdateWithoutVotesInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutVotesNestedInput = {
+    create?: XOR<UserCreateWithoutVotesInput, UserUncheckedCreateWithoutVotesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutVotesInput
+    upsert?: UserUpsertWithoutVotesInput
     connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutVotesInput, UserUpdateWithoutVotesInput>, UserUncheckedUpdateWithoutVotesInput>
   }
 
   export type UserCreateNestedOneWithoutCreatedNotesInput = {
@@ -30510,12 +32151,10 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
-  export type UserUpdateOneRequiredWithoutAdminNotesNestedInput = {
+  export type UserCreateNestedOneWithoutAdminNotesInput = {
     create?: XOR<UserCreateWithoutAdminNotesInput, UserUncheckedCreateWithoutAdminNotesInput>
     connectOrCreate?: UserCreateOrConnectWithoutAdminNotesInput
-    upsert?: UserUpsertWithoutAdminNotesInput
     connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAdminNotesInput, UserUpdateWithoutAdminNotesInput>, UserUncheckedUpdateWithoutAdminNotesInput>
   }
 
   export type UserUpdateOneRequiredWithoutCreatedNotesNestedInput = {
@@ -30524,6 +32163,14 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutCreatedNotesInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutCreatedNotesInput, UserUpdateWithoutCreatedNotesInput>, UserUncheckedUpdateWithoutCreatedNotesInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutAdminNotesNestedInput = {
+    create?: XOR<UserCreateWithoutAdminNotesInput, UserUncheckedCreateWithoutAdminNotesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAdminNotesInput
+    upsert?: UserUpsertWithoutAdminNotesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAdminNotesInput, UserUpdateWithoutAdminNotesInput>, UserUncheckedUpdateWithoutAdminNotesInput>
   }
 
   export type UserCreateNestedOneWithoutAuditLogsInput = {
@@ -30540,6 +32187,20 @@ export namespace Prisma {
     delete?: UserWhereInput | boolean
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAuditLogsInput, UserUpdateWithoutAuditLogsInput>, UserUncheckedUpdateWithoutAuditLogsInput>
+  }
+
+  export type UserCreateNestedOneWithoutNotificationPreferencesInput = {
+    create?: XOR<UserCreateWithoutNotificationPreferencesInput, UserUncheckedCreateWithoutNotificationPreferencesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutNotificationPreferencesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutNotificationPreferencesNestedInput = {
+    create?: XOR<UserCreateWithoutNotificationPreferencesInput, UserUncheckedCreateWithoutNotificationPreferencesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutNotificationPreferencesInput
+    upsert?: UserUpsertWithoutNotificationPreferencesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutNotificationPreferencesInput, UserUpdateWithoutNotificationPreferencesInput>, UserUncheckedUpdateWithoutNotificationPreferencesInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -30817,6 +32478,316 @@ export namespace Prisma {
     _max?: NestedEnumCommentStatusFilter<$PrismaModel>
   }
 
+  export type NestedUuidFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedUuidFilter<$PrismaModel> | string
+  }
+
+  export type NestedUuidWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedUuidWithAggregatesFilter<$PrismaModel> | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedStringFilter<$PrismaModel>
+    _max?: NestedStringFilter<$PrismaModel>
+  }
+
+  export type AccountCreateWithoutUserInput = {
+    id?: string
+    type: string
+    provider: string
+    providerAccountId: string
+    refresh_token?: string | null
+    access_token?: string | null
+    expires_at?: number | null
+    token_type?: string | null
+    scope?: string | null
+    id_token?: string | null
+    session_state?: string | null
+  }
+
+  export type AccountUncheckedCreateWithoutUserInput = {
+    id?: string
+    type: string
+    provider: string
+    providerAccountId: string
+    refresh_token?: string | null
+    access_token?: string | null
+    expires_at?: number | null
+    token_type?: string | null
+    scope?: string | null
+    id_token?: string | null
+    session_state?: string | null
+  }
+
+  export type AccountCreateOrConnectWithoutUserInput = {
+    where: AccountWhereUniqueInput
+    create: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput>
+  }
+
+  export type AccountCreateManyUserInputEnvelope = {
+    data: AccountCreateManyUserInput | AccountCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type AdminNoteCreateWithoutCreatedByInput = {
+    id?: string
+    note: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutAdminNotesInput
+  }
+
+  export type AdminNoteUncheckedCreateWithoutCreatedByInput = {
+    id?: string
+    userId: string
+    note: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AdminNoteCreateOrConnectWithoutCreatedByInput = {
+    where: AdminNoteWhereUniqueInput
+    create: XOR<AdminNoteCreateWithoutCreatedByInput, AdminNoteUncheckedCreateWithoutCreatedByInput>
+  }
+
+  export type AdminNoteCreateManyCreatedByInputEnvelope = {
+    data: AdminNoteCreateManyCreatedByInput | AdminNoteCreateManyCreatedByInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type AdminNoteCreateWithoutUserInput = {
+    id?: string
+    note: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdBy: UserCreateNestedOneWithoutCreatedNotesInput
+  }
+
+  export type AdminNoteUncheckedCreateWithoutUserInput = {
+    id?: string
+    note: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById: string
+  }
+
+  export type AdminNoteCreateOrConnectWithoutUserInput = {
+    where: AdminNoteWhereUniqueInput
+    create: XOR<AdminNoteCreateWithoutUserInput, AdminNoteUncheckedCreateWithoutUserInput>
+  }
+
+  export type AdminNoteCreateManyUserInputEnvelope = {
+    data: AdminNoteCreateManyUserInput | AdminNoteCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type AuditLogCreateWithoutUserInput = {
+    id?: string
+    action: string
+    target?: string | null
+    ip?: string | null
+    createdAt?: Date | string
+    meta?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type AuditLogUncheckedCreateWithoutUserInput = {
+    id?: string
+    action: string
+    target?: string | null
+    ip?: string | null
+    createdAt?: Date | string
+    meta?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type AuditLogCreateOrConnectWithoutUserInput = {
+    where: AuditLogWhereUniqueInput
+    create: XOR<AuditLogCreateWithoutUserInput, AuditLogUncheckedCreateWithoutUserInput>
+  }
+
+  export type AuditLogCreateManyUserInputEnvelope = {
+    data: AuditLogCreateManyUserInput | AuditLogCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CommentCreateWithoutAuthorInput = {
+    id?: string
+    content: string
+    status?: $Enums.CommentStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    ipAddress?: string | null
+    isSpam?: boolean
+    reported?: boolean
+    parent?: CommentCreateNestedOneWithoutChildrenInput
+    children?: CommentCreateNestedManyWithoutParentInput
+    post: PostCreateNestedOneWithoutCommentsInput
+    votes?: VoteCreateNestedManyWithoutCommentInput
+  }
+
+  export type CommentUncheckedCreateWithoutAuthorInput = {
+    id?: string
+    postId: string
+    parentId?: string | null
+    content: string
+    status?: $Enums.CommentStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    ipAddress?: string | null
+    isSpam?: boolean
+    reported?: boolean
+    children?: CommentUncheckedCreateNestedManyWithoutParentInput
+    votes?: VoteUncheckedCreateNestedManyWithoutCommentInput
+  }
+
+  export type CommentCreateOrConnectWithoutAuthorInput = {
+    where: CommentWhereUniqueInput
+    create: XOR<CommentCreateWithoutAuthorInput, CommentUncheckedCreateWithoutAuthorInput>
+  }
+
+  export type CommentCreateManyAuthorInputEnvelope = {
+    data: CommentCreateManyAuthorInput | CommentCreateManyAuthorInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type MediaCreateWithoutUploadedByInput = {
+    id?: string
+    url: string
+    type: string
+    size: number
+    createdAt?: Date | string
+    Post?: PostCreateNestedManyWithoutMediaInput
+  }
+
+  export type MediaUncheckedCreateWithoutUploadedByInput = {
+    id?: string
+    url: string
+    type: string
+    size: number
+    createdAt?: Date | string
+    Post?: PostUncheckedCreateNestedManyWithoutMediaInput
+  }
+
+  export type MediaCreateOrConnectWithoutUploadedByInput = {
+    where: MediaWhereUniqueInput
+    create: XOR<MediaCreateWithoutUploadedByInput, MediaUncheckedCreateWithoutUploadedByInput>
+  }
+
+  export type MediaCreateManyUploadedByInputEnvelope = {
+    data: MediaCreateManyUploadedByInput | MediaCreateManyUploadedByInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PostCreateWithoutAuthorInput = {
+    id?: string
+    title: string
+    slug: string
+    content: string
+    summary?: string | null
+    status?: $Enums.PostStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    publishedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    version?: number
+    isFeatured?: boolean
+    viewCount?: number
+    comments?: CommentCreateNestedManyWithoutPostInput
+    categories?: PostCategoryCreateNestedManyWithoutPostInput
+    tags?: PostTagCreateNestedManyWithoutPostInput
+    votes?: VoteCreateNestedManyWithoutPostInput
+    Media?: MediaCreateNestedManyWithoutPostInput
+  }
+
+  export type PostUncheckedCreateWithoutAuthorInput = {
+    id?: string
+    title: string
+    slug: string
+    content: string
+    summary?: string | null
+    status?: $Enums.PostStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    publishedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    version?: number
+    isFeatured?: boolean
+    viewCount?: number
+    comments?: CommentUncheckedCreateNestedManyWithoutPostInput
+    categories?: PostCategoryUncheckedCreateNestedManyWithoutPostInput
+    tags?: PostTagUncheckedCreateNestedManyWithoutPostInput
+    votes?: VoteUncheckedCreateNestedManyWithoutPostInput
+    Media?: MediaUncheckedCreateNestedManyWithoutPostInput
+  }
+
+  export type PostCreateOrConnectWithoutAuthorInput = {
+    where: PostWhereUniqueInput
+    create: XOR<PostCreateWithoutAuthorInput, PostUncheckedCreateWithoutAuthorInput>
+  }
+
+  export type PostCreateManyAuthorInputEnvelope = {
+    data: PostCreateManyAuthorInput | PostCreateManyAuthorInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type SessionCreateWithoutUserInput = {
+    id?: string
+    sessionToken: string
+    expires: Date | string
+  }
+
+  export type SessionUncheckedCreateWithoutUserInput = {
+    id?: string
+    sessionToken: string
+    expires: Date | string
+  }
+
+  export type SessionCreateOrConnectWithoutUserInput = {
+    where: SessionWhereUniqueInput
+    create: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput>
+  }
+
+  export type SessionCreateManyUserInputEnvelope = {
+    data: SessionCreateManyUserInput | SessionCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserNotificationPreferenceCreateWithoutUserInput = {
+    id?: string
+    emailComment?: boolean
+    emailReply?: boolean
+    emailFollower?: boolean
+    emailMention?: boolean
+    emailNewsletter?: boolean
+  }
+
+  export type UserNotificationPreferenceUncheckedCreateWithoutUserInput = {
+    id?: string
+    emailComment?: boolean
+    emailReply?: boolean
+    emailFollower?: boolean
+    emailMention?: boolean
+    emailNewsletter?: boolean
+  }
+
+  export type UserNotificationPreferenceCreateOrConnectWithoutUserInput = {
+    where: UserNotificationPreferenceWhereUniqueInput
+    create: XOR<UserNotificationPreferenceCreateWithoutUserInput, UserNotificationPreferenceUncheckedCreateWithoutUserInput>
+  }
+
   export type UserProfileCreateWithoutUserInput = {
     id?: string
     displayName?: string | null
@@ -30858,164 +32829,12 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type SessionCreateWithoutUserInput = {
-    id?: string
-    sessionToken: string
-    expires: Date | string
-  }
-
-  export type SessionUncheckedCreateWithoutUserInput = {
-    id?: string
-    sessionToken: string
-    expires: Date | string
-  }
-
-  export type SessionCreateOrConnectWithoutUserInput = {
-    where: SessionWhereUniqueInput
-    create: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput>
-  }
-
-  export type SessionCreateManyUserInputEnvelope = {
-    data: SessionCreateManyUserInput | SessionCreateManyUserInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type AccountCreateWithoutUserInput = {
-    id?: string
-    type: string
-    provider: string
-    providerAccountId: string
-    refresh_token?: string | null
-    access_token?: string | null
-    expires_at?: number | null
-    token_type?: string | null
-    scope?: string | null
-    id_token?: string | null
-    session_state?: string | null
-  }
-
-  export type AccountUncheckedCreateWithoutUserInput = {
-    id?: string
-    type: string
-    provider: string
-    providerAccountId: string
-    refresh_token?: string | null
-    access_token?: string | null
-    expires_at?: number | null
-    token_type?: string | null
-    scope?: string | null
-    id_token?: string | null
-    session_state?: string | null
-  }
-
-  export type AccountCreateOrConnectWithoutUserInput = {
-    where: AccountWhereUniqueInput
-    create: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput>
-  }
-
-  export type AccountCreateManyUserInputEnvelope = {
-    data: AccountCreateManyUserInput | AccountCreateManyUserInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type PostCreateWithoutAuthorInput = {
-    id?: string
-    title: string
-    slug: string
-    content: string
-    summary?: string | null
-    status?: $Enums.PostStatus
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    publishedAt?: Date | string | null
-    deletedAt?: Date | string | null
-    version?: number
-    isFeatured?: boolean
-    viewCount?: number
-    categories?: PostCategoryCreateNestedManyWithoutPostInput
-    tags?: PostTagCreateNestedManyWithoutPostInput
-    comments?: CommentCreateNestedManyWithoutPostInput
-    votes?: VoteCreateNestedManyWithoutPostInput
-  }
-
-  export type PostUncheckedCreateWithoutAuthorInput = {
-    id?: string
-    title: string
-    slug: string
-    content: string
-    summary?: string | null
-    status?: $Enums.PostStatus
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    publishedAt?: Date | string | null
-    deletedAt?: Date | string | null
-    version?: number
-    isFeatured?: boolean
-    viewCount?: number
-    categories?: PostCategoryUncheckedCreateNestedManyWithoutPostInput
-    tags?: PostTagUncheckedCreateNestedManyWithoutPostInput
-    comments?: CommentUncheckedCreateNestedManyWithoutPostInput
-    votes?: VoteUncheckedCreateNestedManyWithoutPostInput
-  }
-
-  export type PostCreateOrConnectWithoutAuthorInput = {
-    where: PostWhereUniqueInput
-    create: XOR<PostCreateWithoutAuthorInput, PostUncheckedCreateWithoutAuthorInput>
-  }
-
-  export type PostCreateManyAuthorInputEnvelope = {
-    data: PostCreateManyAuthorInput | PostCreateManyAuthorInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type CommentCreateWithoutAuthorInput = {
-    id?: string
-    content: string
-    status?: $Enums.CommentStatus
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    deletedAt?: Date | string | null
-    ipAddress?: string | null
-    isSpam?: boolean
-    reported?: boolean
-    post: PostCreateNestedOneWithoutCommentsInput
-    parent?: CommentCreateNestedOneWithoutChildrenInput
-    children?: CommentCreateNestedManyWithoutParentInput
-    votes?: VoteCreateNestedManyWithoutCommentInput
-  }
-
-  export type CommentUncheckedCreateWithoutAuthorInput = {
-    id?: string
-    postId: string
-    parentId?: string | null
-    content: string
-    status?: $Enums.CommentStatus
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    deletedAt?: Date | string | null
-    ipAddress?: string | null
-    isSpam?: boolean
-    reported?: boolean
-    children?: CommentUncheckedCreateNestedManyWithoutParentInput
-    votes?: VoteUncheckedCreateNestedManyWithoutCommentInput
-  }
-
-  export type CommentCreateOrConnectWithoutAuthorInput = {
-    where: CommentWhereUniqueInput
-    create: XOR<CommentCreateWithoutAuthorInput, CommentUncheckedCreateWithoutAuthorInput>
-  }
-
-  export type CommentCreateManyAuthorInputEnvelope = {
-    data: CommentCreateManyAuthorInput | CommentCreateManyAuthorInput[]
-    skipDuplicates?: boolean
-  }
-
   export type VoteCreateWithoutUserInput = {
     id?: string
     value: number
     createdAt?: Date | string
-    post?: PostCreateNestedOneWithoutVotesInput
     comment?: CommentCreateNestedOneWithoutVotesInput
+    post?: PostCreateNestedOneWithoutVotesInput
   }
 
   export type VoteUncheckedCreateWithoutUserInput = {
@@ -31036,110 +32855,264 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type MediaCreateWithoutUploadedByInput = {
-    id?: string
-    url: string
-    type: string
-    size: number
-    createdAt?: Date | string
+  export type AccountUpsertWithWhereUniqueWithoutUserInput = {
+    where: AccountWhereUniqueInput
+    update: XOR<AccountUpdateWithoutUserInput, AccountUncheckedUpdateWithoutUserInput>
+    create: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput>
   }
 
-  export type MediaUncheckedCreateWithoutUploadedByInput = {
-    id?: string
-    url: string
-    type: string
-    size: number
-    createdAt?: Date | string
+  export type AccountUpdateWithWhereUniqueWithoutUserInput = {
+    where: AccountWhereUniqueInput
+    data: XOR<AccountUpdateWithoutUserInput, AccountUncheckedUpdateWithoutUserInput>
   }
 
-  export type MediaCreateOrConnectWithoutUploadedByInput = {
-    where: MediaWhereUniqueInput
-    create: XOR<MediaCreateWithoutUploadedByInput, MediaUncheckedCreateWithoutUploadedByInput>
+  export type AccountUpdateManyWithWhereWithoutUserInput = {
+    where: AccountScalarWhereInput
+    data: XOR<AccountUpdateManyMutationInput, AccountUncheckedUpdateManyWithoutUserInput>
   }
 
-  export type MediaCreateManyUploadedByInputEnvelope = {
-    data: MediaCreateManyUploadedByInput | MediaCreateManyUploadedByInput[]
-    skipDuplicates?: boolean
+  export type AccountScalarWhereInput = {
+    AND?: AccountScalarWhereInput | AccountScalarWhereInput[]
+    OR?: AccountScalarWhereInput[]
+    NOT?: AccountScalarWhereInput | AccountScalarWhereInput[]
+    id?: StringFilter<"Account"> | string
+    userId?: StringFilter<"Account"> | string
+    type?: StringFilter<"Account"> | string
+    provider?: StringFilter<"Account"> | string
+    providerAccountId?: StringFilter<"Account"> | string
+    refresh_token?: StringNullableFilter<"Account"> | string | null
+    access_token?: StringNullableFilter<"Account"> | string | null
+    expires_at?: IntNullableFilter<"Account"> | number | null
+    token_type?: StringNullableFilter<"Account"> | string | null
+    scope?: StringNullableFilter<"Account"> | string | null
+    id_token?: StringNullableFilter<"Account"> | string | null
+    session_state?: StringNullableFilter<"Account"> | string | null
   }
 
-  export type AdminNoteCreateWithoutUserInput = {
-    id?: string
-    note: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    createdBy: UserCreateNestedOneWithoutCreatedNotesInput
-  }
-
-  export type AdminNoteUncheckedCreateWithoutUserInput = {
-    id?: string
-    note: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    createdById: string
-  }
-
-  export type AdminNoteCreateOrConnectWithoutUserInput = {
+  export type AdminNoteUpsertWithWhereUniqueWithoutCreatedByInput = {
     where: AdminNoteWhereUniqueInput
-    create: XOR<AdminNoteCreateWithoutUserInput, AdminNoteUncheckedCreateWithoutUserInput>
-  }
-
-  export type AdminNoteCreateManyUserInputEnvelope = {
-    data: AdminNoteCreateManyUserInput | AdminNoteCreateManyUserInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type AdminNoteCreateWithoutCreatedByInput = {
-    id?: string
-    note: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    user: UserCreateNestedOneWithoutAdminNotesInput
-  }
-
-  export type AdminNoteUncheckedCreateWithoutCreatedByInput = {
-    id?: string
-    userId: string
-    note: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type AdminNoteCreateOrConnectWithoutCreatedByInput = {
-    where: AdminNoteWhereUniqueInput
+    update: XOR<AdminNoteUpdateWithoutCreatedByInput, AdminNoteUncheckedUpdateWithoutCreatedByInput>
     create: XOR<AdminNoteCreateWithoutCreatedByInput, AdminNoteUncheckedCreateWithoutCreatedByInput>
   }
 
-  export type AdminNoteCreateManyCreatedByInputEnvelope = {
-    data: AdminNoteCreateManyCreatedByInput | AdminNoteCreateManyCreatedByInput[]
-    skipDuplicates?: boolean
+  export type AdminNoteUpdateWithWhereUniqueWithoutCreatedByInput = {
+    where: AdminNoteWhereUniqueInput
+    data: XOR<AdminNoteUpdateWithoutCreatedByInput, AdminNoteUncheckedUpdateWithoutCreatedByInput>
   }
 
-  export type AuditLogCreateWithoutUserInput = {
-    id?: string
-    action: string
-    target: string
-    ip: string
-    createdAt?: Date | string
-    meta?: NullableJsonNullValueInput | InputJsonValue
+  export type AdminNoteUpdateManyWithWhereWithoutCreatedByInput = {
+    where: AdminNoteScalarWhereInput
+    data: XOR<AdminNoteUpdateManyMutationInput, AdminNoteUncheckedUpdateManyWithoutCreatedByInput>
   }
 
-  export type AuditLogUncheckedCreateWithoutUserInput = {
-    id?: string
-    action: string
-    target: string
-    ip: string
-    createdAt?: Date | string
-    meta?: NullableJsonNullValueInput | InputJsonValue
+  export type AdminNoteScalarWhereInput = {
+    AND?: AdminNoteScalarWhereInput | AdminNoteScalarWhereInput[]
+    OR?: AdminNoteScalarWhereInput[]
+    NOT?: AdminNoteScalarWhereInput | AdminNoteScalarWhereInput[]
+    id?: StringFilter<"AdminNote"> | string
+    userId?: StringFilter<"AdminNote"> | string
+    note?: StringFilter<"AdminNote"> | string
+    createdAt?: DateTimeFilter<"AdminNote"> | Date | string
+    updatedAt?: DateTimeFilter<"AdminNote"> | Date | string
+    createdById?: StringFilter<"AdminNote"> | string
   }
 
-  export type AuditLogCreateOrConnectWithoutUserInput = {
+  export type AdminNoteUpsertWithWhereUniqueWithoutUserInput = {
+    where: AdminNoteWhereUniqueInput
+    update: XOR<AdminNoteUpdateWithoutUserInput, AdminNoteUncheckedUpdateWithoutUserInput>
+    create: XOR<AdminNoteCreateWithoutUserInput, AdminNoteUncheckedCreateWithoutUserInput>
+  }
+
+  export type AdminNoteUpdateWithWhereUniqueWithoutUserInput = {
+    where: AdminNoteWhereUniqueInput
+    data: XOR<AdminNoteUpdateWithoutUserInput, AdminNoteUncheckedUpdateWithoutUserInput>
+  }
+
+  export type AdminNoteUpdateManyWithWhereWithoutUserInput = {
+    where: AdminNoteScalarWhereInput
+    data: XOR<AdminNoteUpdateManyMutationInput, AdminNoteUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type AuditLogUpsertWithWhereUniqueWithoutUserInput = {
     where: AuditLogWhereUniqueInput
+    update: XOR<AuditLogUpdateWithoutUserInput, AuditLogUncheckedUpdateWithoutUserInput>
     create: XOR<AuditLogCreateWithoutUserInput, AuditLogUncheckedCreateWithoutUserInput>
   }
 
-  export type AuditLogCreateManyUserInputEnvelope = {
-    data: AuditLogCreateManyUserInput | AuditLogCreateManyUserInput[]
-    skipDuplicates?: boolean
+  export type AuditLogUpdateWithWhereUniqueWithoutUserInput = {
+    where: AuditLogWhereUniqueInput
+    data: XOR<AuditLogUpdateWithoutUserInput, AuditLogUncheckedUpdateWithoutUserInput>
+  }
+
+  export type AuditLogUpdateManyWithWhereWithoutUserInput = {
+    where: AuditLogScalarWhereInput
+    data: XOR<AuditLogUpdateManyMutationInput, AuditLogUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type AuditLogScalarWhereInput = {
+    AND?: AuditLogScalarWhereInput | AuditLogScalarWhereInput[]
+    OR?: AuditLogScalarWhereInput[]
+    NOT?: AuditLogScalarWhereInput | AuditLogScalarWhereInput[]
+    id?: StringFilter<"AuditLog"> | string
+    userId?: StringNullableFilter<"AuditLog"> | string | null
+    action?: StringFilter<"AuditLog"> | string
+    target?: StringNullableFilter<"AuditLog"> | string | null
+    ip?: StringNullableFilter<"AuditLog"> | string | null
+    createdAt?: DateTimeFilter<"AuditLog"> | Date | string
+    meta?: JsonNullableFilter<"AuditLog">
+  }
+
+  export type CommentUpsertWithWhereUniqueWithoutAuthorInput = {
+    where: CommentWhereUniqueInput
+    update: XOR<CommentUpdateWithoutAuthorInput, CommentUncheckedUpdateWithoutAuthorInput>
+    create: XOR<CommentCreateWithoutAuthorInput, CommentUncheckedCreateWithoutAuthorInput>
+  }
+
+  export type CommentUpdateWithWhereUniqueWithoutAuthorInput = {
+    where: CommentWhereUniqueInput
+    data: XOR<CommentUpdateWithoutAuthorInput, CommentUncheckedUpdateWithoutAuthorInput>
+  }
+
+  export type CommentUpdateManyWithWhereWithoutAuthorInput = {
+    where: CommentScalarWhereInput
+    data: XOR<CommentUpdateManyMutationInput, CommentUncheckedUpdateManyWithoutAuthorInput>
+  }
+
+  export type CommentScalarWhereInput = {
+    AND?: CommentScalarWhereInput | CommentScalarWhereInput[]
+    OR?: CommentScalarWhereInput[]
+    NOT?: CommentScalarWhereInput | CommentScalarWhereInput[]
+    id?: StringFilter<"Comment"> | string
+    postId?: StringFilter<"Comment"> | string
+    authorId?: StringFilter<"Comment"> | string
+    parentId?: StringNullableFilter<"Comment"> | string | null
+    content?: StringFilter<"Comment"> | string
+    status?: EnumCommentStatusFilter<"Comment"> | $Enums.CommentStatus
+    createdAt?: DateTimeFilter<"Comment"> | Date | string
+    updatedAt?: DateTimeFilter<"Comment"> | Date | string
+    deletedAt?: DateTimeNullableFilter<"Comment"> | Date | string | null
+    ipAddress?: StringNullableFilter<"Comment"> | string | null
+    isSpam?: BoolFilter<"Comment"> | boolean
+    reported?: BoolFilter<"Comment"> | boolean
+  }
+
+  export type MediaUpsertWithWhereUniqueWithoutUploadedByInput = {
+    where: MediaWhereUniqueInput
+    update: XOR<MediaUpdateWithoutUploadedByInput, MediaUncheckedUpdateWithoutUploadedByInput>
+    create: XOR<MediaCreateWithoutUploadedByInput, MediaUncheckedCreateWithoutUploadedByInput>
+  }
+
+  export type MediaUpdateWithWhereUniqueWithoutUploadedByInput = {
+    where: MediaWhereUniqueInput
+    data: XOR<MediaUpdateWithoutUploadedByInput, MediaUncheckedUpdateWithoutUploadedByInput>
+  }
+
+  export type MediaUpdateManyWithWhereWithoutUploadedByInput = {
+    where: MediaScalarWhereInput
+    data: XOR<MediaUpdateManyMutationInput, MediaUncheckedUpdateManyWithoutUploadedByInput>
+  }
+
+  export type MediaScalarWhereInput = {
+    AND?: MediaScalarWhereInput | MediaScalarWhereInput[]
+    OR?: MediaScalarWhereInput[]
+    NOT?: MediaScalarWhereInput | MediaScalarWhereInput[]
+    id?: StringFilter<"Media"> | string
+    url?: StringFilter<"Media"> | string
+    type?: StringFilter<"Media"> | string
+    size?: IntFilter<"Media"> | number
+    uploadedById?: StringNullableFilter<"Media"> | string | null
+    createdAt?: DateTimeFilter<"Media"> | Date | string
+  }
+
+  export type PostUpsertWithWhereUniqueWithoutAuthorInput = {
+    where: PostWhereUniqueInput
+    update: XOR<PostUpdateWithoutAuthorInput, PostUncheckedUpdateWithoutAuthorInput>
+    create: XOR<PostCreateWithoutAuthorInput, PostUncheckedCreateWithoutAuthorInput>
+  }
+
+  export type PostUpdateWithWhereUniqueWithoutAuthorInput = {
+    where: PostWhereUniqueInput
+    data: XOR<PostUpdateWithoutAuthorInput, PostUncheckedUpdateWithoutAuthorInput>
+  }
+
+  export type PostUpdateManyWithWhereWithoutAuthorInput = {
+    where: PostScalarWhereInput
+    data: XOR<PostUpdateManyMutationInput, PostUncheckedUpdateManyWithoutAuthorInput>
+  }
+
+  export type PostScalarWhereInput = {
+    AND?: PostScalarWhereInput | PostScalarWhereInput[]
+    OR?: PostScalarWhereInput[]
+    NOT?: PostScalarWhereInput | PostScalarWhereInput[]
+    id?: StringFilter<"Post"> | string
+    title?: StringFilter<"Post"> | string
+    slug?: StringFilter<"Post"> | string
+    content?: StringFilter<"Post"> | string
+    summary?: StringNullableFilter<"Post"> | string | null
+    status?: EnumPostStatusFilter<"Post"> | $Enums.PostStatus
+    authorId?: StringFilter<"Post"> | string
+    createdAt?: DateTimeFilter<"Post"> | Date | string
+    updatedAt?: DateTimeFilter<"Post"> | Date | string
+    publishedAt?: DateTimeNullableFilter<"Post"> | Date | string | null
+    deletedAt?: DateTimeNullableFilter<"Post"> | Date | string | null
+    version?: IntFilter<"Post"> | number
+    isFeatured?: BoolFilter<"Post"> | boolean
+    viewCount?: IntFilter<"Post"> | number
+  }
+
+  export type SessionUpsertWithWhereUniqueWithoutUserInput = {
+    where: SessionWhereUniqueInput
+    update: XOR<SessionUpdateWithoutUserInput, SessionUncheckedUpdateWithoutUserInput>
+    create: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput>
+  }
+
+  export type SessionUpdateWithWhereUniqueWithoutUserInput = {
+    where: SessionWhereUniqueInput
+    data: XOR<SessionUpdateWithoutUserInput, SessionUncheckedUpdateWithoutUserInput>
+  }
+
+  export type SessionUpdateManyWithWhereWithoutUserInput = {
+    where: SessionScalarWhereInput
+    data: XOR<SessionUpdateManyMutationInput, SessionUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type SessionScalarWhereInput = {
+    AND?: SessionScalarWhereInput | SessionScalarWhereInput[]
+    OR?: SessionScalarWhereInput[]
+    NOT?: SessionScalarWhereInput | SessionScalarWhereInput[]
+    id?: StringFilter<"Session"> | string
+    sessionToken?: StringFilter<"Session"> | string
+    userId?: StringFilter<"Session"> | string
+    expires?: DateTimeFilter<"Session"> | Date | string
+  }
+
+  export type UserNotificationPreferenceUpsertWithoutUserInput = {
+    update: XOR<UserNotificationPreferenceUpdateWithoutUserInput, UserNotificationPreferenceUncheckedUpdateWithoutUserInput>
+    create: XOR<UserNotificationPreferenceCreateWithoutUserInput, UserNotificationPreferenceUncheckedCreateWithoutUserInput>
+    where?: UserNotificationPreferenceWhereInput
+  }
+
+  export type UserNotificationPreferenceUpdateToOneWithWhereWithoutUserInput = {
+    where?: UserNotificationPreferenceWhereInput
+    data: XOR<UserNotificationPreferenceUpdateWithoutUserInput, UserNotificationPreferenceUncheckedUpdateWithoutUserInput>
+  }
+
+  export type UserNotificationPreferenceUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    emailComment?: BoolFieldUpdateOperationsInput | boolean
+    emailReply?: BoolFieldUpdateOperationsInput | boolean
+    emailFollower?: BoolFieldUpdateOperationsInput | boolean
+    emailMention?: BoolFieldUpdateOperationsInput | boolean
+    emailNewsletter?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type UserNotificationPreferenceUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    emailComment?: BoolFieldUpdateOperationsInput | boolean
+    emailReply?: BoolFieldUpdateOperationsInput | boolean
+    emailFollower?: BoolFieldUpdateOperationsInput | boolean
+    emailMention?: BoolFieldUpdateOperationsInput | boolean
+    emailNewsletter?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type UserProfileUpsertWithoutUserInput = {
@@ -31195,136 +33168,6 @@ export namespace Prisma {
     roleId?: StringFilter<"UserRole"> | string
   }
 
-  export type SessionUpsertWithWhereUniqueWithoutUserInput = {
-    where: SessionWhereUniqueInput
-    update: XOR<SessionUpdateWithoutUserInput, SessionUncheckedUpdateWithoutUserInput>
-    create: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput>
-  }
-
-  export type SessionUpdateWithWhereUniqueWithoutUserInput = {
-    where: SessionWhereUniqueInput
-    data: XOR<SessionUpdateWithoutUserInput, SessionUncheckedUpdateWithoutUserInput>
-  }
-
-  export type SessionUpdateManyWithWhereWithoutUserInput = {
-    where: SessionScalarWhereInput
-    data: XOR<SessionUpdateManyMutationInput, SessionUncheckedUpdateManyWithoutUserInput>
-  }
-
-  export type SessionScalarWhereInput = {
-    AND?: SessionScalarWhereInput | SessionScalarWhereInput[]
-    OR?: SessionScalarWhereInput[]
-    NOT?: SessionScalarWhereInput | SessionScalarWhereInput[]
-    id?: StringFilter<"Session"> | string
-    sessionToken?: StringFilter<"Session"> | string
-    userId?: StringFilter<"Session"> | string
-    expires?: DateTimeFilter<"Session"> | Date | string
-  }
-
-  export type AccountUpsertWithWhereUniqueWithoutUserInput = {
-    where: AccountWhereUniqueInput
-    update: XOR<AccountUpdateWithoutUserInput, AccountUncheckedUpdateWithoutUserInput>
-    create: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput>
-  }
-
-  export type AccountUpdateWithWhereUniqueWithoutUserInput = {
-    where: AccountWhereUniqueInput
-    data: XOR<AccountUpdateWithoutUserInput, AccountUncheckedUpdateWithoutUserInput>
-  }
-
-  export type AccountUpdateManyWithWhereWithoutUserInput = {
-    where: AccountScalarWhereInput
-    data: XOR<AccountUpdateManyMutationInput, AccountUncheckedUpdateManyWithoutUserInput>
-  }
-
-  export type AccountScalarWhereInput = {
-    AND?: AccountScalarWhereInput | AccountScalarWhereInput[]
-    OR?: AccountScalarWhereInput[]
-    NOT?: AccountScalarWhereInput | AccountScalarWhereInput[]
-    id?: StringFilter<"Account"> | string
-    userId?: StringFilter<"Account"> | string
-    type?: StringFilter<"Account"> | string
-    provider?: StringFilter<"Account"> | string
-    providerAccountId?: StringFilter<"Account"> | string
-    refresh_token?: StringNullableFilter<"Account"> | string | null
-    access_token?: StringNullableFilter<"Account"> | string | null
-    expires_at?: IntNullableFilter<"Account"> | number | null
-    token_type?: StringNullableFilter<"Account"> | string | null
-    scope?: StringNullableFilter<"Account"> | string | null
-    id_token?: StringNullableFilter<"Account"> | string | null
-    session_state?: StringNullableFilter<"Account"> | string | null
-  }
-
-  export type PostUpsertWithWhereUniqueWithoutAuthorInput = {
-    where: PostWhereUniqueInput
-    update: XOR<PostUpdateWithoutAuthorInput, PostUncheckedUpdateWithoutAuthorInput>
-    create: XOR<PostCreateWithoutAuthorInput, PostUncheckedCreateWithoutAuthorInput>
-  }
-
-  export type PostUpdateWithWhereUniqueWithoutAuthorInput = {
-    where: PostWhereUniqueInput
-    data: XOR<PostUpdateWithoutAuthorInput, PostUncheckedUpdateWithoutAuthorInput>
-  }
-
-  export type PostUpdateManyWithWhereWithoutAuthorInput = {
-    where: PostScalarWhereInput
-    data: XOR<PostUpdateManyMutationInput, PostUncheckedUpdateManyWithoutAuthorInput>
-  }
-
-  export type PostScalarWhereInput = {
-    AND?: PostScalarWhereInput | PostScalarWhereInput[]
-    OR?: PostScalarWhereInput[]
-    NOT?: PostScalarWhereInput | PostScalarWhereInput[]
-    id?: StringFilter<"Post"> | string
-    title?: StringFilter<"Post"> | string
-    slug?: StringFilter<"Post"> | string
-    content?: StringFilter<"Post"> | string
-    summary?: StringNullableFilter<"Post"> | string | null
-    status?: EnumPostStatusFilter<"Post"> | $Enums.PostStatus
-    authorId?: StringFilter<"Post"> | string
-    createdAt?: DateTimeFilter<"Post"> | Date | string
-    updatedAt?: DateTimeFilter<"Post"> | Date | string
-    publishedAt?: DateTimeNullableFilter<"Post"> | Date | string | null
-    deletedAt?: DateTimeNullableFilter<"Post"> | Date | string | null
-    version?: IntFilter<"Post"> | number
-    isFeatured?: BoolFilter<"Post"> | boolean
-    viewCount?: IntFilter<"Post"> | number
-  }
-
-  export type CommentUpsertWithWhereUniqueWithoutAuthorInput = {
-    where: CommentWhereUniqueInput
-    update: XOR<CommentUpdateWithoutAuthorInput, CommentUncheckedUpdateWithoutAuthorInput>
-    create: XOR<CommentCreateWithoutAuthorInput, CommentUncheckedCreateWithoutAuthorInput>
-  }
-
-  export type CommentUpdateWithWhereUniqueWithoutAuthorInput = {
-    where: CommentWhereUniqueInput
-    data: XOR<CommentUpdateWithoutAuthorInput, CommentUncheckedUpdateWithoutAuthorInput>
-  }
-
-  export type CommentUpdateManyWithWhereWithoutAuthorInput = {
-    where: CommentScalarWhereInput
-    data: XOR<CommentUpdateManyMutationInput, CommentUncheckedUpdateManyWithoutAuthorInput>
-  }
-
-  export type CommentScalarWhereInput = {
-    AND?: CommentScalarWhereInput | CommentScalarWhereInput[]
-    OR?: CommentScalarWhereInput[]
-    NOT?: CommentScalarWhereInput | CommentScalarWhereInput[]
-    id?: StringFilter<"Comment"> | string
-    postId?: StringFilter<"Comment"> | string
-    authorId?: StringFilter<"Comment"> | string
-    parentId?: StringNullableFilter<"Comment"> | string | null
-    content?: StringFilter<"Comment"> | string
-    status?: EnumCommentStatusFilter<"Comment"> | $Enums.CommentStatus
-    createdAt?: DateTimeFilter<"Comment"> | Date | string
-    updatedAt?: DateTimeFilter<"Comment"> | Date | string
-    deletedAt?: DateTimeNullableFilter<"Comment"> | Date | string | null
-    ipAddress?: StringNullableFilter<"Comment"> | string | null
-    isSpam?: BoolFilter<"Comment"> | boolean
-    reported?: BoolFilter<"Comment"> | boolean
-  }
-
   export type VoteUpsertWithWhereUniqueWithoutUserInput = {
     where: VoteWhereUniqueInput
     update: XOR<VoteUpdateWithoutUserInput, VoteUncheckedUpdateWithoutUserInput>
@@ -31353,107 +33196,6 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Vote"> | Date | string
   }
 
-  export type MediaUpsertWithWhereUniqueWithoutUploadedByInput = {
-    where: MediaWhereUniqueInput
-    update: XOR<MediaUpdateWithoutUploadedByInput, MediaUncheckedUpdateWithoutUploadedByInput>
-    create: XOR<MediaCreateWithoutUploadedByInput, MediaUncheckedCreateWithoutUploadedByInput>
-  }
-
-  export type MediaUpdateWithWhereUniqueWithoutUploadedByInput = {
-    where: MediaWhereUniqueInput
-    data: XOR<MediaUpdateWithoutUploadedByInput, MediaUncheckedUpdateWithoutUploadedByInput>
-  }
-
-  export type MediaUpdateManyWithWhereWithoutUploadedByInput = {
-    where: MediaScalarWhereInput
-    data: XOR<MediaUpdateManyMutationInput, MediaUncheckedUpdateManyWithoutUploadedByInput>
-  }
-
-  export type MediaScalarWhereInput = {
-    AND?: MediaScalarWhereInput | MediaScalarWhereInput[]
-    OR?: MediaScalarWhereInput[]
-    NOT?: MediaScalarWhereInput | MediaScalarWhereInput[]
-    id?: StringFilter<"Media"> | string
-    url?: StringFilter<"Media"> | string
-    type?: StringFilter<"Media"> | string
-    size?: IntFilter<"Media"> | number
-    uploadedById?: StringNullableFilter<"Media"> | string | null
-    createdAt?: DateTimeFilter<"Media"> | Date | string
-  }
-
-  export type AdminNoteUpsertWithWhereUniqueWithoutUserInput = {
-    where: AdminNoteWhereUniqueInput
-    update: XOR<AdminNoteUpdateWithoutUserInput, AdminNoteUncheckedUpdateWithoutUserInput>
-    create: XOR<AdminNoteCreateWithoutUserInput, AdminNoteUncheckedCreateWithoutUserInput>
-  }
-
-  export type AdminNoteUpdateWithWhereUniqueWithoutUserInput = {
-    where: AdminNoteWhereUniqueInput
-    data: XOR<AdminNoteUpdateWithoutUserInput, AdminNoteUncheckedUpdateWithoutUserInput>
-  }
-
-  export type AdminNoteUpdateManyWithWhereWithoutUserInput = {
-    where: AdminNoteScalarWhereInput
-    data: XOR<AdminNoteUpdateManyMutationInput, AdminNoteUncheckedUpdateManyWithoutUserInput>
-  }
-
-  export type AdminNoteScalarWhereInput = {
-    AND?: AdminNoteScalarWhereInput | AdminNoteScalarWhereInput[]
-    OR?: AdminNoteScalarWhereInput[]
-    NOT?: AdminNoteScalarWhereInput | AdminNoteScalarWhereInput[]
-    id?: StringFilter<"AdminNote"> | string
-    userId?: StringFilter<"AdminNote"> | string
-    note?: StringFilter<"AdminNote"> | string
-    createdAt?: DateTimeFilter<"AdminNote"> | Date | string
-    updatedAt?: DateTimeFilter<"AdminNote"> | Date | string
-    createdById?: StringFilter<"AdminNote"> | string
-  }
-
-  export type AdminNoteUpsertWithWhereUniqueWithoutCreatedByInput = {
-    where: AdminNoteWhereUniqueInput
-    update: XOR<AdminNoteUpdateWithoutCreatedByInput, AdminNoteUncheckedUpdateWithoutCreatedByInput>
-    create: XOR<AdminNoteCreateWithoutCreatedByInput, AdminNoteUncheckedCreateWithoutCreatedByInput>
-  }
-
-  export type AdminNoteUpdateWithWhereUniqueWithoutCreatedByInput = {
-    where: AdminNoteWhereUniqueInput
-    data: XOR<AdminNoteUpdateWithoutCreatedByInput, AdminNoteUncheckedUpdateWithoutCreatedByInput>
-  }
-
-  export type AdminNoteUpdateManyWithWhereWithoutCreatedByInput = {
-    where: AdminNoteScalarWhereInput
-    data: XOR<AdminNoteUpdateManyMutationInput, AdminNoteUncheckedUpdateManyWithoutCreatedByInput>
-  }
-
-  export type AuditLogUpsertWithWhereUniqueWithoutUserInput = {
-    where: AuditLogWhereUniqueInput
-    update: XOR<AuditLogUpdateWithoutUserInput, AuditLogUncheckedUpdateWithoutUserInput>
-    create: XOR<AuditLogCreateWithoutUserInput, AuditLogUncheckedCreateWithoutUserInput>
-  }
-
-  export type AuditLogUpdateWithWhereUniqueWithoutUserInput = {
-    where: AuditLogWhereUniqueInput
-    data: XOR<AuditLogUpdateWithoutUserInput, AuditLogUncheckedUpdateWithoutUserInput>
-  }
-
-  export type AuditLogUpdateManyWithWhereWithoutUserInput = {
-    where: AuditLogScalarWhereInput
-    data: XOR<AuditLogUpdateManyMutationInput, AuditLogUncheckedUpdateManyWithoutUserInput>
-  }
-
-  export type AuditLogScalarWhereInput = {
-    AND?: AuditLogScalarWhereInput | AuditLogScalarWhereInput[]
-    OR?: AuditLogScalarWhereInput[]
-    NOT?: AuditLogScalarWhereInput | AuditLogScalarWhereInput[]
-    id?: StringFilter<"AuditLog"> | string
-    userId?: StringNullableFilter<"AuditLog"> | string | null
-    action?: StringFilter<"AuditLog"> | string
-    target?: StringFilter<"AuditLog"> | string
-    ip?: StringFilter<"AuditLog"> | string
-    createdAt?: DateTimeFilter<"AuditLog"> | Date | string
-    meta?: JsonNullableFilter<"AuditLog">
-  }
-
   export type UserCreateWithoutProfileInput = {
     id?: string
     email: string
@@ -31465,16 +33207,17 @@ export namespace Prisma {
     lastLoginAt?: Date | string | null
     lastLoginIp?: string | null
     status?: $Enums.UserStatus
-    roles?: UserRoleCreateNestedManyWithoutUserInput
-    sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
-    posts?: PostCreateNestedManyWithoutAuthorInput
-    comments?: CommentCreateNestedManyWithoutAuthorInput
-    votes?: VoteCreateNestedManyWithoutUserInput
-    media?: MediaCreateNestedManyWithoutUploadedByInput
-    adminNotes?: AdminNoteCreateNestedManyWithoutUserInput
     createdNotes?: AdminNoteCreateNestedManyWithoutCreatedByInput
+    adminNotes?: AdminNoteCreateNestedManyWithoutUserInput
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    comments?: CommentCreateNestedManyWithoutAuthorInput
+    media?: MediaCreateNestedManyWithoutUploadedByInput
+    posts?: PostCreateNestedManyWithoutAuthorInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    notificationPreferences?: UserNotificationPreferenceCreateNestedOneWithoutUserInput
+    roles?: UserRoleCreateNestedManyWithoutUserInput
+    votes?: VoteCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutProfileInput = {
@@ -31488,16 +33231,17 @@ export namespace Prisma {
     lastLoginAt?: Date | string | null
     lastLoginIp?: string | null
     status?: $Enums.UserStatus
-    roles?: UserRoleUncheckedCreateNestedManyWithoutUserInput
-    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
-    comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
-    votes?: VoteUncheckedCreateNestedManyWithoutUserInput
-    media?: MediaUncheckedCreateNestedManyWithoutUploadedByInput
-    adminNotes?: AdminNoteUncheckedCreateNestedManyWithoutUserInput
     createdNotes?: AdminNoteUncheckedCreateNestedManyWithoutCreatedByInput
+    adminNotes?: AdminNoteUncheckedCreateNestedManyWithoutUserInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
+    media?: MediaUncheckedCreateNestedManyWithoutUploadedByInput
+    posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    notificationPreferences?: UserNotificationPreferenceUncheckedCreateNestedOneWithoutUserInput
+    roles?: UserRoleUncheckedCreateNestedManyWithoutUserInput
+    votes?: VoteUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutProfileInput = {
@@ -31527,16 +33271,17 @@ export namespace Prisma {
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastLoginIp?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-    roles?: UserRoleUpdateManyWithoutUserNestedInput
-    sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
-    posts?: PostUpdateManyWithoutAuthorNestedInput
-    comments?: CommentUpdateManyWithoutAuthorNestedInput
-    votes?: VoteUpdateManyWithoutUserNestedInput
-    media?: MediaUpdateManyWithoutUploadedByNestedInput
-    adminNotes?: AdminNoteUpdateManyWithoutUserNestedInput
     createdNotes?: AdminNoteUpdateManyWithoutCreatedByNestedInput
+    adminNotes?: AdminNoteUpdateManyWithoutUserNestedInput
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    comments?: CommentUpdateManyWithoutAuthorNestedInput
+    media?: MediaUpdateManyWithoutUploadedByNestedInput
+    posts?: PostUpdateManyWithoutAuthorNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    notificationPreferences?: UserNotificationPreferenceUpdateOneWithoutUserNestedInput
+    roles?: UserRoleUpdateManyWithoutUserNestedInput
+    votes?: VoteUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutProfileInput = {
@@ -31550,34 +33295,17 @@ export namespace Prisma {
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastLoginIp?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-    roles?: UserRoleUncheckedUpdateManyWithoutUserNestedInput
-    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
-    comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
-    votes?: VoteUncheckedUpdateManyWithoutUserNestedInput
-    media?: MediaUncheckedUpdateManyWithoutUploadedByNestedInput
-    adminNotes?: AdminNoteUncheckedUpdateManyWithoutUserNestedInput
     createdNotes?: AdminNoteUncheckedUpdateManyWithoutCreatedByNestedInput
+    adminNotes?: AdminNoteUncheckedUpdateManyWithoutUserNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
-  }
-
-  export type UserRoleCreateWithoutRoleInput = {
-    user: UserCreateNestedOneWithoutRolesInput
-  }
-
-  export type UserRoleUncheckedCreateWithoutRoleInput = {
-    userId: string
-  }
-
-  export type UserRoleCreateOrConnectWithoutRoleInput = {
-    where: UserRoleWhereUniqueInput
-    create: XOR<UserRoleCreateWithoutRoleInput, UserRoleUncheckedCreateWithoutRoleInput>
-  }
-
-  export type UserRoleCreateManyRoleInputEnvelope = {
-    data: UserRoleCreateManyRoleInput | UserRoleCreateManyRoleInput[]
-    skipDuplicates?: boolean
+    comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
+    media?: MediaUncheckedUpdateManyWithoutUploadedByNestedInput
+    posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    notificationPreferences?: UserNotificationPreferenceUncheckedUpdateOneWithoutUserNestedInput
+    roles?: UserRoleUncheckedUpdateManyWithoutUserNestedInput
+    votes?: VoteUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type RolePermissionCreateWithoutRoleInput = {
@@ -31598,20 +33326,22 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type UserRoleUpsertWithWhereUniqueWithoutRoleInput = {
+  export type UserRoleCreateWithoutRoleInput = {
+    user: UserCreateNestedOneWithoutRolesInput
+  }
+
+  export type UserRoleUncheckedCreateWithoutRoleInput = {
+    userId: string
+  }
+
+  export type UserRoleCreateOrConnectWithoutRoleInput = {
     where: UserRoleWhereUniqueInput
-    update: XOR<UserRoleUpdateWithoutRoleInput, UserRoleUncheckedUpdateWithoutRoleInput>
     create: XOR<UserRoleCreateWithoutRoleInput, UserRoleUncheckedCreateWithoutRoleInput>
   }
 
-  export type UserRoleUpdateWithWhereUniqueWithoutRoleInput = {
-    where: UserRoleWhereUniqueInput
-    data: XOR<UserRoleUpdateWithoutRoleInput, UserRoleUncheckedUpdateWithoutRoleInput>
-  }
-
-  export type UserRoleUpdateManyWithWhereWithoutRoleInput = {
-    where: UserRoleScalarWhereInput
-    data: XOR<UserRoleUpdateManyMutationInput, UserRoleUncheckedUpdateManyWithoutRoleInput>
+  export type UserRoleCreateManyRoleInputEnvelope = {
+    data: UserRoleCreateManyRoleInput | UserRoleCreateManyRoleInput[]
+    skipDuplicates?: boolean
   }
 
   export type RolePermissionUpsertWithWhereUniqueWithoutRoleInput = {
@@ -31636,6 +33366,22 @@ export namespace Prisma {
     NOT?: RolePermissionScalarWhereInput | RolePermissionScalarWhereInput[]
     roleId?: StringFilter<"RolePermission"> | string
     permissionId?: StringFilter<"RolePermission"> | string
+  }
+
+  export type UserRoleUpsertWithWhereUniqueWithoutRoleInput = {
+    where: UserRoleWhereUniqueInput
+    update: XOR<UserRoleUpdateWithoutRoleInput, UserRoleUncheckedUpdateWithoutRoleInput>
+    create: XOR<UserRoleCreateWithoutRoleInput, UserRoleUncheckedCreateWithoutRoleInput>
+  }
+
+  export type UserRoleUpdateWithWhereUniqueWithoutRoleInput = {
+    where: UserRoleWhereUniqueInput
+    data: XOR<UserRoleUpdateWithoutRoleInput, UserRoleUncheckedUpdateWithoutRoleInput>
+  }
+
+  export type UserRoleUpdateManyWithWhereWithoutRoleInput = {
+    where: UserRoleScalarWhereInput
+    data: XOR<UserRoleUpdateManyMutationInput, UserRoleUncheckedUpdateManyWithoutRoleInput>
   }
 
   export type RolePermissionCreateWithoutPermissionInput = {
@@ -31672,57 +33418,6 @@ export namespace Prisma {
     data: XOR<RolePermissionUpdateManyMutationInput, RolePermissionUncheckedUpdateManyWithoutPermissionInput>
   }
 
-  export type UserCreateWithoutRolesInput = {
-    id?: string
-    email: string
-    username: string
-    password?: string | null
-    emailVerified?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    lastLoginAt?: Date | string | null
-    lastLoginIp?: string | null
-    status?: $Enums.UserStatus
-    profile?: UserProfileCreateNestedOneWithoutUserInput
-    sessions?: SessionCreateNestedManyWithoutUserInput
-    accounts?: AccountCreateNestedManyWithoutUserInput
-    posts?: PostCreateNestedManyWithoutAuthorInput
-    comments?: CommentCreateNestedManyWithoutAuthorInput
-    votes?: VoteCreateNestedManyWithoutUserInput
-    media?: MediaCreateNestedManyWithoutUploadedByInput
-    adminNotes?: AdminNoteCreateNestedManyWithoutUserInput
-    createdNotes?: AdminNoteCreateNestedManyWithoutCreatedByInput
-    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
-  }
-
-  export type UserUncheckedCreateWithoutRolesInput = {
-    id?: string
-    email: string
-    username: string
-    password?: string | null
-    emailVerified?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    lastLoginAt?: Date | string | null
-    lastLoginIp?: string | null
-    status?: $Enums.UserStatus
-    profile?: UserProfileUncheckedCreateNestedOneWithoutUserInput
-    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
-    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
-    comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
-    votes?: VoteUncheckedCreateNestedManyWithoutUserInput
-    media?: MediaUncheckedCreateNestedManyWithoutUploadedByInput
-    adminNotes?: AdminNoteUncheckedCreateNestedManyWithoutUserInput
-    createdNotes?: AdminNoteUncheckedCreateNestedManyWithoutCreatedByInput
-    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
-  }
-
-  export type UserCreateOrConnectWithoutRolesInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutRolesInput, UserUncheckedCreateWithoutRolesInput>
-  }
-
   export type RoleCreateWithoutUsersInput = {
     id?: string
     name: string
@@ -31742,61 +33437,57 @@ export namespace Prisma {
     create: XOR<RoleCreateWithoutUsersInput, RoleUncheckedCreateWithoutUsersInput>
   }
 
-  export type UserUpsertWithoutRolesInput = {
-    update: XOR<UserUpdateWithoutRolesInput, UserUncheckedUpdateWithoutRolesInput>
+  export type UserCreateWithoutRolesInput = {
+    id?: string
+    email: string
+    username: string
+    password?: string | null
+    emailVerified?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastLoginAt?: Date | string | null
+    lastLoginIp?: string | null
+    status?: $Enums.UserStatus
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    createdNotes?: AdminNoteCreateNestedManyWithoutCreatedByInput
+    adminNotes?: AdminNoteCreateNestedManyWithoutUserInput
+    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    comments?: CommentCreateNestedManyWithoutAuthorInput
+    media?: MediaCreateNestedManyWithoutUploadedByInput
+    posts?: PostCreateNestedManyWithoutAuthorInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    notificationPreferences?: UserNotificationPreferenceCreateNestedOneWithoutUserInput
+    profile?: UserProfileCreateNestedOneWithoutUserInput
+    votes?: VoteCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutRolesInput = {
+    id?: string
+    email: string
+    username: string
+    password?: string | null
+    emailVerified?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastLoginAt?: Date | string | null
+    lastLoginIp?: string | null
+    status?: $Enums.UserStatus
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    createdNotes?: AdminNoteUncheckedCreateNestedManyWithoutCreatedByInput
+    adminNotes?: AdminNoteUncheckedCreateNestedManyWithoutUserInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
+    media?: MediaUncheckedCreateNestedManyWithoutUploadedByInput
+    posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    notificationPreferences?: UserNotificationPreferenceUncheckedCreateNestedOneWithoutUserInput
+    profile?: UserProfileUncheckedCreateNestedOneWithoutUserInput
+    votes?: VoteUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutRolesInput = {
+    where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutRolesInput, UserUncheckedCreateWithoutRolesInput>
-    where?: UserWhereInput
-  }
-
-  export type UserUpdateToOneWithWhereWithoutRolesInput = {
-    where?: UserWhereInput
-    data: XOR<UserUpdateWithoutRolesInput, UserUncheckedUpdateWithoutRolesInput>
-  }
-
-  export type UserUpdateWithoutRolesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    username?: StringFieldUpdateOperationsInput | string
-    password?: NullableStringFieldUpdateOperationsInput | string | null
-    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    lastLoginIp?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-    profile?: UserProfileUpdateOneWithoutUserNestedInput
-    sessions?: SessionUpdateManyWithoutUserNestedInput
-    accounts?: AccountUpdateManyWithoutUserNestedInput
-    posts?: PostUpdateManyWithoutAuthorNestedInput
-    comments?: CommentUpdateManyWithoutAuthorNestedInput
-    votes?: VoteUpdateManyWithoutUserNestedInput
-    media?: MediaUpdateManyWithoutUploadedByNestedInput
-    adminNotes?: AdminNoteUpdateManyWithoutUserNestedInput
-    createdNotes?: AdminNoteUpdateManyWithoutCreatedByNestedInput
-    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
-  }
-
-  export type UserUncheckedUpdateWithoutRolesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    username?: StringFieldUpdateOperationsInput | string
-    password?: NullableStringFieldUpdateOperationsInput | string | null
-    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    lastLoginIp?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-    profile?: UserProfileUncheckedUpdateOneWithoutUserNestedInput
-    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
-    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
-    comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
-    votes?: VoteUncheckedUpdateManyWithoutUserNestedInput
-    media?: MediaUncheckedUpdateManyWithoutUploadedByNestedInput
-    adminNotes?: AdminNoteUncheckedUpdateManyWithoutUserNestedInput
-    createdNotes?: AdminNoteUncheckedUpdateManyWithoutCreatedByNestedInput
-    auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type RoleUpsertWithoutUsersInput = {
@@ -31824,6 +33515,82 @@ export namespace Prisma {
     permissions?: RolePermissionUncheckedUpdateManyWithoutRoleNestedInput
   }
 
+  export type UserUpsertWithoutRolesInput = {
+    update: XOR<UserUpdateWithoutRolesInput, UserUncheckedUpdateWithoutRolesInput>
+    create: XOR<UserCreateWithoutRolesInput, UserUncheckedCreateWithoutRolesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutRolesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutRolesInput, UserUncheckedUpdateWithoutRolesInput>
+  }
+
+  export type UserUpdateWithoutRolesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastLoginIp?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    createdNotes?: AdminNoteUpdateManyWithoutCreatedByNestedInput
+    adminNotes?: AdminNoteUpdateManyWithoutUserNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    comments?: CommentUpdateManyWithoutAuthorNestedInput
+    media?: MediaUpdateManyWithoutUploadedByNestedInput
+    posts?: PostUpdateManyWithoutAuthorNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    notificationPreferences?: UserNotificationPreferenceUpdateOneWithoutUserNestedInput
+    profile?: UserProfileUpdateOneWithoutUserNestedInput
+    votes?: VoteUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutRolesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastLoginIp?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    createdNotes?: AdminNoteUncheckedUpdateManyWithoutCreatedByNestedInput
+    adminNotes?: AdminNoteUncheckedUpdateManyWithoutUserNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
+    media?: MediaUncheckedUpdateManyWithoutUploadedByNestedInput
+    posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    notificationPreferences?: UserNotificationPreferenceUncheckedUpdateOneWithoutUserNestedInput
+    profile?: UserProfileUncheckedUpdateOneWithoutUserNestedInput
+    votes?: VoteUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type PermissionCreateWithoutRolesInput = {
+    id?: string
+    name: string
+    description?: string | null
+  }
+
+  export type PermissionUncheckedCreateWithoutRolesInput = {
+    id?: string
+    name: string
+    description?: string | null
+  }
+
+  export type PermissionCreateOrConnectWithoutRolesInput = {
+    where: PermissionWhereUniqueInput
+    create: XOR<PermissionCreateWithoutRolesInput, PermissionUncheckedCreateWithoutRolesInput>
+  }
+
   export type RoleCreateWithoutPermissionsInput = {
     id?: string
     name: string
@@ -31843,21 +33610,27 @@ export namespace Prisma {
     create: XOR<RoleCreateWithoutPermissionsInput, RoleUncheckedCreateWithoutPermissionsInput>
   }
 
-  export type PermissionCreateWithoutRolesInput = {
-    id?: string
-    name: string
-    description?: string | null
-  }
-
-  export type PermissionUncheckedCreateWithoutRolesInput = {
-    id?: string
-    name: string
-    description?: string | null
-  }
-
-  export type PermissionCreateOrConnectWithoutRolesInput = {
-    where: PermissionWhereUniqueInput
+  export type PermissionUpsertWithoutRolesInput = {
+    update: XOR<PermissionUpdateWithoutRolesInput, PermissionUncheckedUpdateWithoutRolesInput>
     create: XOR<PermissionCreateWithoutRolesInput, PermissionUncheckedCreateWithoutRolesInput>
+    where?: PermissionWhereInput
+  }
+
+  export type PermissionUpdateToOneWithWhereWithoutRolesInput = {
+    where?: PermissionWhereInput
+    data: XOR<PermissionUpdateWithoutRolesInput, PermissionUncheckedUpdateWithoutRolesInput>
+  }
+
+  export type PermissionUpdateWithoutRolesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PermissionUncheckedUpdateWithoutRolesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type RoleUpsertWithoutPermissionsInput = {
@@ -31885,29 +33658,6 @@ export namespace Prisma {
     users?: UserRoleUncheckedUpdateManyWithoutRoleNestedInput
   }
 
-  export type PermissionUpsertWithoutRolesInput = {
-    update: XOR<PermissionUpdateWithoutRolesInput, PermissionUncheckedUpdateWithoutRolesInput>
-    create: XOR<PermissionCreateWithoutRolesInput, PermissionUncheckedCreateWithoutRolesInput>
-    where?: PermissionWhereInput
-  }
-
-  export type PermissionUpdateToOneWithWhereWithoutRolesInput = {
-    where?: PermissionWhereInput
-    data: XOR<PermissionUpdateWithoutRolesInput, PermissionUncheckedUpdateWithoutRolesInput>
-  }
-
-  export type PermissionUpdateWithoutRolesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type PermissionUncheckedUpdateWithoutRolesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
   export type UserCreateWithoutSessionsInput = {
     id?: string
     email: string
@@ -31919,16 +33669,17 @@ export namespace Prisma {
     lastLoginAt?: Date | string | null
     lastLoginIp?: string | null
     status?: $Enums.UserStatus
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    createdNotes?: AdminNoteCreateNestedManyWithoutCreatedByInput
+    adminNotes?: AdminNoteCreateNestedManyWithoutUserInput
+    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    comments?: CommentCreateNestedManyWithoutAuthorInput
+    media?: MediaCreateNestedManyWithoutUploadedByInput
+    posts?: PostCreateNestedManyWithoutAuthorInput
+    notificationPreferences?: UserNotificationPreferenceCreateNestedOneWithoutUserInput
     profile?: UserProfileCreateNestedOneWithoutUserInput
     roles?: UserRoleCreateNestedManyWithoutUserInput
-    accounts?: AccountCreateNestedManyWithoutUserInput
-    posts?: PostCreateNestedManyWithoutAuthorInput
-    comments?: CommentCreateNestedManyWithoutAuthorInput
     votes?: VoteCreateNestedManyWithoutUserInput
-    media?: MediaCreateNestedManyWithoutUploadedByInput
-    adminNotes?: AdminNoteCreateNestedManyWithoutUserInput
-    createdNotes?: AdminNoteCreateNestedManyWithoutCreatedByInput
-    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
@@ -31942,16 +33693,17 @@ export namespace Prisma {
     lastLoginAt?: Date | string | null
     lastLoginIp?: string | null
     status?: $Enums.UserStatus
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    createdNotes?: AdminNoteUncheckedCreateNestedManyWithoutCreatedByInput
+    adminNotes?: AdminNoteUncheckedCreateNestedManyWithoutUserInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
+    media?: MediaUncheckedCreateNestedManyWithoutUploadedByInput
+    posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
+    notificationPreferences?: UserNotificationPreferenceUncheckedCreateNestedOneWithoutUserInput
     profile?: UserProfileUncheckedCreateNestedOneWithoutUserInput
     roles?: UserRoleUncheckedCreateNestedManyWithoutUserInput
-    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
-    comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
     votes?: VoteUncheckedCreateNestedManyWithoutUserInput
-    media?: MediaUncheckedCreateNestedManyWithoutUploadedByInput
-    adminNotes?: AdminNoteUncheckedCreateNestedManyWithoutUserInput
-    createdNotes?: AdminNoteUncheckedCreateNestedManyWithoutCreatedByInput
-    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -31981,16 +33733,17 @@ export namespace Prisma {
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastLoginIp?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    createdNotes?: AdminNoteUpdateManyWithoutCreatedByNestedInput
+    adminNotes?: AdminNoteUpdateManyWithoutUserNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    comments?: CommentUpdateManyWithoutAuthorNestedInput
+    media?: MediaUpdateManyWithoutUploadedByNestedInput
+    posts?: PostUpdateManyWithoutAuthorNestedInput
+    notificationPreferences?: UserNotificationPreferenceUpdateOneWithoutUserNestedInput
     profile?: UserProfileUpdateOneWithoutUserNestedInput
     roles?: UserRoleUpdateManyWithoutUserNestedInput
-    accounts?: AccountUpdateManyWithoutUserNestedInput
-    posts?: PostUpdateManyWithoutAuthorNestedInput
-    comments?: CommentUpdateManyWithoutAuthorNestedInput
     votes?: VoteUpdateManyWithoutUserNestedInput
-    media?: MediaUpdateManyWithoutUploadedByNestedInput
-    adminNotes?: AdminNoteUpdateManyWithoutUserNestedInput
-    createdNotes?: AdminNoteUpdateManyWithoutCreatedByNestedInput
-    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -32004,16 +33757,17 @@ export namespace Prisma {
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastLoginIp?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    createdNotes?: AdminNoteUncheckedUpdateManyWithoutCreatedByNestedInput
+    adminNotes?: AdminNoteUncheckedUpdateManyWithoutUserNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
+    media?: MediaUncheckedUpdateManyWithoutUploadedByNestedInput
+    posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
+    notificationPreferences?: UserNotificationPreferenceUncheckedUpdateOneWithoutUserNestedInput
     profile?: UserProfileUncheckedUpdateOneWithoutUserNestedInput
     roles?: UserRoleUncheckedUpdateManyWithoutUserNestedInput
-    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
-    comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
     votes?: VoteUncheckedUpdateManyWithoutUserNestedInput
-    media?: MediaUncheckedUpdateManyWithoutUploadedByNestedInput
-    adminNotes?: AdminNoteUncheckedUpdateManyWithoutUserNestedInput
-    createdNotes?: AdminNoteUncheckedUpdateManyWithoutCreatedByNestedInput
-    auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutAccountsInput = {
@@ -32027,16 +33781,17 @@ export namespace Prisma {
     lastLoginAt?: Date | string | null
     lastLoginIp?: string | null
     status?: $Enums.UserStatus
+    createdNotes?: AdminNoteCreateNestedManyWithoutCreatedByInput
+    adminNotes?: AdminNoteCreateNestedManyWithoutUserInput
+    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    comments?: CommentCreateNestedManyWithoutAuthorInput
+    media?: MediaCreateNestedManyWithoutUploadedByInput
+    posts?: PostCreateNestedManyWithoutAuthorInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    notificationPreferences?: UserNotificationPreferenceCreateNestedOneWithoutUserInput
     profile?: UserProfileCreateNestedOneWithoutUserInput
     roles?: UserRoleCreateNestedManyWithoutUserInput
-    sessions?: SessionCreateNestedManyWithoutUserInput
-    posts?: PostCreateNestedManyWithoutAuthorInput
-    comments?: CommentCreateNestedManyWithoutAuthorInput
     votes?: VoteCreateNestedManyWithoutUserInput
-    media?: MediaCreateNestedManyWithoutUploadedByInput
-    adminNotes?: AdminNoteCreateNestedManyWithoutUserInput
-    createdNotes?: AdminNoteCreateNestedManyWithoutCreatedByInput
-    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -32050,16 +33805,17 @@ export namespace Prisma {
     lastLoginAt?: Date | string | null
     lastLoginIp?: string | null
     status?: $Enums.UserStatus
+    createdNotes?: AdminNoteUncheckedCreateNestedManyWithoutCreatedByInput
+    adminNotes?: AdminNoteUncheckedCreateNestedManyWithoutUserInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
+    media?: MediaUncheckedCreateNestedManyWithoutUploadedByInput
+    posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    notificationPreferences?: UserNotificationPreferenceUncheckedCreateNestedOneWithoutUserInput
     profile?: UserProfileUncheckedCreateNestedOneWithoutUserInput
     roles?: UserRoleUncheckedCreateNestedManyWithoutUserInput
-    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
-    posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
-    comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
     votes?: VoteUncheckedCreateNestedManyWithoutUserInput
-    media?: MediaUncheckedCreateNestedManyWithoutUploadedByInput
-    adminNotes?: AdminNoteUncheckedCreateNestedManyWithoutUserInput
-    createdNotes?: AdminNoteUncheckedCreateNestedManyWithoutCreatedByInput
-    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -32089,16 +33845,17 @@ export namespace Prisma {
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastLoginIp?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    createdNotes?: AdminNoteUpdateManyWithoutCreatedByNestedInput
+    adminNotes?: AdminNoteUpdateManyWithoutUserNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    comments?: CommentUpdateManyWithoutAuthorNestedInput
+    media?: MediaUpdateManyWithoutUploadedByNestedInput
+    posts?: PostUpdateManyWithoutAuthorNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    notificationPreferences?: UserNotificationPreferenceUpdateOneWithoutUserNestedInput
     profile?: UserProfileUpdateOneWithoutUserNestedInput
     roles?: UserRoleUpdateManyWithoutUserNestedInput
-    sessions?: SessionUpdateManyWithoutUserNestedInput
-    posts?: PostUpdateManyWithoutAuthorNestedInput
-    comments?: CommentUpdateManyWithoutAuthorNestedInput
     votes?: VoteUpdateManyWithoutUserNestedInput
-    media?: MediaUpdateManyWithoutUploadedByNestedInput
-    adminNotes?: AdminNoteUpdateManyWithoutUserNestedInput
-    createdNotes?: AdminNoteUpdateManyWithoutCreatedByNestedInput
-    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -32112,103 +33869,17 @@ export namespace Prisma {
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastLoginIp?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    createdNotes?: AdminNoteUncheckedUpdateManyWithoutCreatedByNestedInput
+    adminNotes?: AdminNoteUncheckedUpdateManyWithoutUserNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
+    media?: MediaUncheckedUpdateManyWithoutUploadedByNestedInput
+    posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    notificationPreferences?: UserNotificationPreferenceUncheckedUpdateOneWithoutUserNestedInput
     profile?: UserProfileUncheckedUpdateOneWithoutUserNestedInput
     roles?: UserRoleUncheckedUpdateManyWithoutUserNestedInput
-    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
-    posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
-    comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
     votes?: VoteUncheckedUpdateManyWithoutUserNestedInput
-    media?: MediaUncheckedUpdateManyWithoutUploadedByNestedInput
-    adminNotes?: AdminNoteUncheckedUpdateManyWithoutUserNestedInput
-    createdNotes?: AdminNoteUncheckedUpdateManyWithoutCreatedByNestedInput
-    auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
-  }
-
-  export type UserCreateWithoutPostsInput = {
-    id?: string
-    email: string
-    username: string
-    password?: string | null
-    emailVerified?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    lastLoginAt?: Date | string | null
-    lastLoginIp?: string | null
-    status?: $Enums.UserStatus
-    profile?: UserProfileCreateNestedOneWithoutUserInput
-    roles?: UserRoleCreateNestedManyWithoutUserInput
-    sessions?: SessionCreateNestedManyWithoutUserInput
-    accounts?: AccountCreateNestedManyWithoutUserInput
-    comments?: CommentCreateNestedManyWithoutAuthorInput
-    votes?: VoteCreateNestedManyWithoutUserInput
-    media?: MediaCreateNestedManyWithoutUploadedByInput
-    adminNotes?: AdminNoteCreateNestedManyWithoutUserInput
-    createdNotes?: AdminNoteCreateNestedManyWithoutCreatedByInput
-    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
-  }
-
-  export type UserUncheckedCreateWithoutPostsInput = {
-    id?: string
-    email: string
-    username: string
-    password?: string | null
-    emailVerified?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    lastLoginAt?: Date | string | null
-    lastLoginIp?: string | null
-    status?: $Enums.UserStatus
-    profile?: UserProfileUncheckedCreateNestedOneWithoutUserInput
-    roles?: UserRoleUncheckedCreateNestedManyWithoutUserInput
-    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
-    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
-    votes?: VoteUncheckedCreateNestedManyWithoutUserInput
-    media?: MediaUncheckedCreateNestedManyWithoutUploadedByInput
-    adminNotes?: AdminNoteUncheckedCreateNestedManyWithoutUserInput
-    createdNotes?: AdminNoteUncheckedCreateNestedManyWithoutCreatedByInput
-    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
-  }
-
-  export type UserCreateOrConnectWithoutPostsInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutPostsInput, UserUncheckedCreateWithoutPostsInput>
-  }
-
-  export type PostCategoryCreateWithoutPostInput = {
-    category: CategoryCreateNestedOneWithoutPostsInput
-  }
-
-  export type PostCategoryUncheckedCreateWithoutPostInput = {
-    categoryId: string
-  }
-
-  export type PostCategoryCreateOrConnectWithoutPostInput = {
-    where: PostCategoryWhereUniqueInput
-    create: XOR<PostCategoryCreateWithoutPostInput, PostCategoryUncheckedCreateWithoutPostInput>
-  }
-
-  export type PostCategoryCreateManyPostInputEnvelope = {
-    data: PostCategoryCreateManyPostInput | PostCategoryCreateManyPostInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type PostTagCreateWithoutPostInput = {
-    tag: TagCreateNestedOneWithoutPostsInput
-  }
-
-  export type PostTagUncheckedCreateWithoutPostInput = {
-    tagId: string
-  }
-
-  export type PostTagCreateOrConnectWithoutPostInput = {
-    where: PostTagWhereUniqueInput
-    create: XOR<PostTagCreateWithoutPostInput, PostTagUncheckedCreateWithoutPostInput>
-  }
-
-  export type PostTagCreateManyPostInputEnvelope = {
-    data: PostTagCreateManyPostInput | PostTagCreateManyPostInput[]
-    skipDuplicates?: boolean
   }
 
   export type CommentCreateWithoutPostInput = {
@@ -32253,12 +33924,101 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type UserCreateWithoutPostsInput = {
+    id?: string
+    email: string
+    username: string
+    password?: string | null
+    emailVerified?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastLoginAt?: Date | string | null
+    lastLoginIp?: string | null
+    status?: $Enums.UserStatus
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    createdNotes?: AdminNoteCreateNestedManyWithoutCreatedByInput
+    adminNotes?: AdminNoteCreateNestedManyWithoutUserInput
+    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    comments?: CommentCreateNestedManyWithoutAuthorInput
+    media?: MediaCreateNestedManyWithoutUploadedByInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    notificationPreferences?: UserNotificationPreferenceCreateNestedOneWithoutUserInput
+    profile?: UserProfileCreateNestedOneWithoutUserInput
+    roles?: UserRoleCreateNestedManyWithoutUserInput
+    votes?: VoteCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutPostsInput = {
+    id?: string
+    email: string
+    username: string
+    password?: string | null
+    emailVerified?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastLoginAt?: Date | string | null
+    lastLoginIp?: string | null
+    status?: $Enums.UserStatus
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    createdNotes?: AdminNoteUncheckedCreateNestedManyWithoutCreatedByInput
+    adminNotes?: AdminNoteUncheckedCreateNestedManyWithoutUserInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
+    media?: MediaUncheckedCreateNestedManyWithoutUploadedByInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    notificationPreferences?: UserNotificationPreferenceUncheckedCreateNestedOneWithoutUserInput
+    profile?: UserProfileUncheckedCreateNestedOneWithoutUserInput
+    roles?: UserRoleUncheckedCreateNestedManyWithoutUserInput
+    votes?: VoteUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutPostsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutPostsInput, UserUncheckedCreateWithoutPostsInput>
+  }
+
+  export type PostCategoryCreateWithoutPostInput = {
+    category: CategoryCreateNestedOneWithoutPostsInput
+  }
+
+  export type PostCategoryUncheckedCreateWithoutPostInput = {
+    categoryId: string
+  }
+
+  export type PostCategoryCreateOrConnectWithoutPostInput = {
+    where: PostCategoryWhereUniqueInput
+    create: XOR<PostCategoryCreateWithoutPostInput, PostCategoryUncheckedCreateWithoutPostInput>
+  }
+
+  export type PostCategoryCreateManyPostInputEnvelope = {
+    data: PostCategoryCreateManyPostInput | PostCategoryCreateManyPostInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PostTagCreateWithoutPostInput = {
+    tag: TagCreateNestedOneWithoutPostsInput
+  }
+
+  export type PostTagUncheckedCreateWithoutPostInput = {
+    tagId: string
+  }
+
+  export type PostTagCreateOrConnectWithoutPostInput = {
+    where: PostTagWhereUniqueInput
+    create: XOR<PostTagCreateWithoutPostInput, PostTagUncheckedCreateWithoutPostInput>
+  }
+
+  export type PostTagCreateManyPostInputEnvelope = {
+    data: PostTagCreateManyPostInput | PostTagCreateManyPostInput[]
+    skipDuplicates?: boolean
+  }
+
   export type VoteCreateWithoutPostInput = {
     id?: string
     value: number
     createdAt?: Date | string
-    user: UserCreateNestedOneWithoutVotesInput
     comment?: CommentCreateNestedOneWithoutVotesInput
+    user: UserCreateNestedOneWithoutVotesInput
   }
 
   export type VoteUncheckedCreateWithoutPostInput = {
@@ -32277,6 +34037,45 @@ export namespace Prisma {
   export type VoteCreateManyPostInputEnvelope = {
     data: VoteCreateManyPostInput | VoteCreateManyPostInput[]
     skipDuplicates?: boolean
+  }
+
+  export type MediaCreateWithoutPostInput = {
+    id?: string
+    url: string
+    type: string
+    size: number
+    createdAt?: Date | string
+    uploadedBy?: UserCreateNestedOneWithoutMediaInput
+  }
+
+  export type MediaUncheckedCreateWithoutPostInput = {
+    id?: string
+    url: string
+    type: string
+    size: number
+    uploadedById?: string | null
+    createdAt?: Date | string
+  }
+
+  export type MediaCreateOrConnectWithoutPostInput = {
+    where: MediaWhereUniqueInput
+    create: XOR<MediaCreateWithoutPostInput, MediaUncheckedCreateWithoutPostInput>
+  }
+
+  export type CommentUpsertWithWhereUniqueWithoutPostInput = {
+    where: CommentWhereUniqueInput
+    update: XOR<CommentUpdateWithoutPostInput, CommentUncheckedUpdateWithoutPostInput>
+    create: XOR<CommentCreateWithoutPostInput, CommentUncheckedCreateWithoutPostInput>
+  }
+
+  export type CommentUpdateWithWhereUniqueWithoutPostInput = {
+    where: CommentWhereUniqueInput
+    data: XOR<CommentUpdateWithoutPostInput, CommentUncheckedUpdateWithoutPostInput>
+  }
+
+  export type CommentUpdateManyWithWhereWithoutPostInput = {
+    where: CommentScalarWhereInput
+    data: XOR<CommentUpdateManyMutationInput, CommentUncheckedUpdateManyWithoutPostInput>
   }
 
   export type UserUpsertWithoutPostsInput = {
@@ -32301,16 +34100,17 @@ export namespace Prisma {
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastLoginIp?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    createdNotes?: AdminNoteUpdateManyWithoutCreatedByNestedInput
+    adminNotes?: AdminNoteUpdateManyWithoutUserNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    comments?: CommentUpdateManyWithoutAuthorNestedInput
+    media?: MediaUpdateManyWithoutUploadedByNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    notificationPreferences?: UserNotificationPreferenceUpdateOneWithoutUserNestedInput
     profile?: UserProfileUpdateOneWithoutUserNestedInput
     roles?: UserRoleUpdateManyWithoutUserNestedInput
-    sessions?: SessionUpdateManyWithoutUserNestedInput
-    accounts?: AccountUpdateManyWithoutUserNestedInput
-    comments?: CommentUpdateManyWithoutAuthorNestedInput
     votes?: VoteUpdateManyWithoutUserNestedInput
-    media?: MediaUpdateManyWithoutUploadedByNestedInput
-    adminNotes?: AdminNoteUpdateManyWithoutUserNestedInput
-    createdNotes?: AdminNoteUpdateManyWithoutCreatedByNestedInput
-    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPostsInput = {
@@ -32324,16 +34124,17 @@ export namespace Prisma {
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastLoginIp?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    createdNotes?: AdminNoteUncheckedUpdateManyWithoutCreatedByNestedInput
+    adminNotes?: AdminNoteUncheckedUpdateManyWithoutUserNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
+    media?: MediaUncheckedUpdateManyWithoutUploadedByNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    notificationPreferences?: UserNotificationPreferenceUncheckedUpdateOneWithoutUserNestedInput
     profile?: UserProfileUncheckedUpdateOneWithoutUserNestedInput
     roles?: UserRoleUncheckedUpdateManyWithoutUserNestedInput
-    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
-    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
     votes?: VoteUncheckedUpdateManyWithoutUserNestedInput
-    media?: MediaUncheckedUpdateManyWithoutUploadedByNestedInput
-    adminNotes?: AdminNoteUncheckedUpdateManyWithoutUserNestedInput
-    createdNotes?: AdminNoteUncheckedUpdateManyWithoutCreatedByNestedInput
-    auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type PostCategoryUpsertWithWhereUniqueWithoutPostInput = {
@@ -32384,22 +34185,6 @@ export namespace Prisma {
     tagId?: StringFilter<"PostTag"> | string
   }
 
-  export type CommentUpsertWithWhereUniqueWithoutPostInput = {
-    where: CommentWhereUniqueInput
-    update: XOR<CommentUpdateWithoutPostInput, CommentUncheckedUpdateWithoutPostInput>
-    create: XOR<CommentCreateWithoutPostInput, CommentUncheckedCreateWithoutPostInput>
-  }
-
-  export type CommentUpdateWithWhereUniqueWithoutPostInput = {
-    where: CommentWhereUniqueInput
-    data: XOR<CommentUpdateWithoutPostInput, CommentUncheckedUpdateWithoutPostInput>
-  }
-
-  export type CommentUpdateManyWithWhereWithoutPostInput = {
-    where: CommentScalarWhereInput
-    data: XOR<CommentUpdateManyMutationInput, CommentUncheckedUpdateManyWithoutPostInput>
-  }
-
   export type VoteUpsertWithWhereUniqueWithoutPostInput = {
     where: VoteWhereUniqueInput
     update: XOR<VoteUpdateWithoutPostInput, VoteUncheckedUpdateWithoutPostInput>
@@ -32414,6 +34199,22 @@ export namespace Prisma {
   export type VoteUpdateManyWithWhereWithoutPostInput = {
     where: VoteScalarWhereInput
     data: XOR<VoteUpdateManyMutationInput, VoteUncheckedUpdateManyWithoutPostInput>
+  }
+
+  export type MediaUpsertWithWhereUniqueWithoutPostInput = {
+    where: MediaWhereUniqueInput
+    update: XOR<MediaUpdateWithoutPostInput, MediaUncheckedUpdateWithoutPostInput>
+    create: XOR<MediaCreateWithoutPostInput, MediaUncheckedCreateWithoutPostInput>
+  }
+
+  export type MediaUpdateWithWhereUniqueWithoutPostInput = {
+    where: MediaWhereUniqueInput
+    data: XOR<MediaUpdateWithoutPostInput, MediaUncheckedUpdateWithoutPostInput>
+  }
+
+  export type MediaUpdateManyWithWhereWithoutPostInput = {
+    where: MediaScalarWhereInput
+    data: XOR<MediaUpdateManyMutationInput, MediaUncheckedUpdateManyWithoutPostInput>
   }
 
   export type CategoryCreateWithoutChildrenInput = {
@@ -32564,51 +34365,6 @@ export namespace Prisma {
     data: XOR<PostCategoryUpdateManyMutationInput, PostCategoryUncheckedUpdateManyWithoutCategoryInput>
   }
 
-  export type PostCreateWithoutCategoriesInput = {
-    id?: string
-    title: string
-    slug: string
-    content: string
-    summary?: string | null
-    status?: $Enums.PostStatus
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    publishedAt?: Date | string | null
-    deletedAt?: Date | string | null
-    version?: number
-    isFeatured?: boolean
-    viewCount?: number
-    author: UserCreateNestedOneWithoutPostsInput
-    tags?: PostTagCreateNestedManyWithoutPostInput
-    comments?: CommentCreateNestedManyWithoutPostInput
-    votes?: VoteCreateNestedManyWithoutPostInput
-  }
-
-  export type PostUncheckedCreateWithoutCategoriesInput = {
-    id?: string
-    title: string
-    slug: string
-    content: string
-    summary?: string | null
-    status?: $Enums.PostStatus
-    authorId: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    publishedAt?: Date | string | null
-    deletedAt?: Date | string | null
-    version?: number
-    isFeatured?: boolean
-    viewCount?: number
-    tags?: PostTagUncheckedCreateNestedManyWithoutPostInput
-    comments?: CommentUncheckedCreateNestedManyWithoutPostInput
-    votes?: VoteUncheckedCreateNestedManyWithoutPostInput
-  }
-
-  export type PostCreateOrConnectWithoutCategoriesInput = {
-    where: PostWhereUniqueInput
-    create: XOR<PostCreateWithoutCategoriesInput, PostUncheckedCreateWithoutCategoriesInput>
-  }
-
   export type CategoryCreateWithoutPostsInput = {
     id?: string
     name: string
@@ -32634,55 +34390,51 @@ export namespace Prisma {
     create: XOR<CategoryCreateWithoutPostsInput, CategoryUncheckedCreateWithoutPostsInput>
   }
 
-  export type PostUpsertWithoutCategoriesInput = {
-    update: XOR<PostUpdateWithoutCategoriesInput, PostUncheckedUpdateWithoutCategoriesInput>
+  export type PostCreateWithoutCategoriesInput = {
+    id?: string
+    title: string
+    slug: string
+    content: string
+    summary?: string | null
+    status?: $Enums.PostStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    publishedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    version?: number
+    isFeatured?: boolean
+    viewCount?: number
+    comments?: CommentCreateNestedManyWithoutPostInput
+    author: UserCreateNestedOneWithoutPostsInput
+    tags?: PostTagCreateNestedManyWithoutPostInput
+    votes?: VoteCreateNestedManyWithoutPostInput
+    Media?: MediaCreateNestedManyWithoutPostInput
+  }
+
+  export type PostUncheckedCreateWithoutCategoriesInput = {
+    id?: string
+    title: string
+    slug: string
+    content: string
+    summary?: string | null
+    status?: $Enums.PostStatus
+    authorId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    publishedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    version?: number
+    isFeatured?: boolean
+    viewCount?: number
+    comments?: CommentUncheckedCreateNestedManyWithoutPostInput
+    tags?: PostTagUncheckedCreateNestedManyWithoutPostInput
+    votes?: VoteUncheckedCreateNestedManyWithoutPostInput
+    Media?: MediaUncheckedCreateNestedManyWithoutPostInput
+  }
+
+  export type PostCreateOrConnectWithoutCategoriesInput = {
+    where: PostWhereUniqueInput
     create: XOR<PostCreateWithoutCategoriesInput, PostUncheckedCreateWithoutCategoriesInput>
-    where?: PostWhereInput
-  }
-
-  export type PostUpdateToOneWithWhereWithoutCategoriesInput = {
-    where?: PostWhereInput
-    data: XOR<PostUpdateWithoutCategoriesInput, PostUncheckedUpdateWithoutCategoriesInput>
-  }
-
-  export type PostUpdateWithoutCategoriesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
-    summary?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    version?: IntFieldUpdateOperationsInput | number
-    isFeatured?: BoolFieldUpdateOperationsInput | boolean
-    viewCount?: IntFieldUpdateOperationsInput | number
-    author?: UserUpdateOneRequiredWithoutPostsNestedInput
-    tags?: PostTagUpdateManyWithoutPostNestedInput
-    comments?: CommentUpdateManyWithoutPostNestedInput
-    votes?: VoteUpdateManyWithoutPostNestedInput
-  }
-
-  export type PostUncheckedUpdateWithoutCategoriesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
-    summary?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
-    authorId?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    version?: IntFieldUpdateOperationsInput | number
-    isFeatured?: BoolFieldUpdateOperationsInput | boolean
-    viewCount?: IntFieldUpdateOperationsInput | number
-    tags?: PostTagUncheckedUpdateManyWithoutPostNestedInput
-    comments?: CommentUncheckedUpdateManyWithoutPostNestedInput
-    votes?: VoteUncheckedUpdateManyWithoutPostNestedInput
   }
 
   export type CategoryUpsertWithoutPostsInput = {
@@ -32714,6 +34466,59 @@ export namespace Prisma {
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     children?: CategoryUncheckedUpdateManyWithoutParentNestedInput
+  }
+
+  export type PostUpsertWithoutCategoriesInput = {
+    update: XOR<PostUpdateWithoutCategoriesInput, PostUncheckedUpdateWithoutCategoriesInput>
+    create: XOR<PostCreateWithoutCategoriesInput, PostUncheckedCreateWithoutCategoriesInput>
+    where?: PostWhereInput
+  }
+
+  export type PostUpdateToOneWithWhereWithoutCategoriesInput = {
+    where?: PostWhereInput
+    data: XOR<PostUpdateWithoutCategoriesInput, PostUncheckedUpdateWithoutCategoriesInput>
+  }
+
+  export type PostUpdateWithoutCategoriesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    summary?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    version?: IntFieldUpdateOperationsInput | number
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    viewCount?: IntFieldUpdateOperationsInput | number
+    comments?: CommentUpdateManyWithoutPostNestedInput
+    author?: UserUpdateOneRequiredWithoutPostsNestedInput
+    tags?: PostTagUpdateManyWithoutPostNestedInput
+    votes?: VoteUpdateManyWithoutPostNestedInput
+    Media?: MediaUpdateManyWithoutPostNestedInput
+  }
+
+  export type PostUncheckedUpdateWithoutCategoriesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    summary?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
+    authorId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    version?: IntFieldUpdateOperationsInput | number
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    viewCount?: IntFieldUpdateOperationsInput | number
+    comments?: CommentUncheckedUpdateManyWithoutPostNestedInput
+    tags?: PostTagUncheckedUpdateManyWithoutPostNestedInput
+    votes?: VoteUncheckedUpdateManyWithoutPostNestedInput
+    Media?: MediaUncheckedUpdateManyWithoutPostNestedInput
   }
 
   export type PostTagCreateWithoutTagInput = {
@@ -32764,10 +34569,11 @@ export namespace Prisma {
     version?: number
     isFeatured?: boolean
     viewCount?: number
+    comments?: CommentCreateNestedManyWithoutPostInput
     author: UserCreateNestedOneWithoutPostsInput
     categories?: PostCategoryCreateNestedManyWithoutPostInput
-    comments?: CommentCreateNestedManyWithoutPostInput
     votes?: VoteCreateNestedManyWithoutPostInput
+    Media?: MediaCreateNestedManyWithoutPostInput
   }
 
   export type PostUncheckedCreateWithoutTagsInput = {
@@ -32785,9 +34591,10 @@ export namespace Prisma {
     version?: number
     isFeatured?: boolean
     viewCount?: number
-    categories?: PostCategoryUncheckedCreateNestedManyWithoutPostInput
     comments?: CommentUncheckedCreateNestedManyWithoutPostInput
+    categories?: PostCategoryUncheckedCreateNestedManyWithoutPostInput
     votes?: VoteUncheckedCreateNestedManyWithoutPostInput
+    Media?: MediaUncheckedCreateNestedManyWithoutPostInput
   }
 
   export type PostCreateOrConnectWithoutTagsInput = {
@@ -32839,10 +34646,11 @@ export namespace Prisma {
     version?: IntFieldUpdateOperationsInput | number
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     viewCount?: IntFieldUpdateOperationsInput | number
+    comments?: CommentUpdateManyWithoutPostNestedInput
     author?: UserUpdateOneRequiredWithoutPostsNestedInput
     categories?: PostCategoryUpdateManyWithoutPostNestedInput
-    comments?: CommentUpdateManyWithoutPostNestedInput
     votes?: VoteUpdateManyWithoutPostNestedInput
+    Media?: MediaUpdateManyWithoutPostNestedInput
   }
 
   export type PostUncheckedUpdateWithoutTagsInput = {
@@ -32860,9 +34668,10 @@ export namespace Prisma {
     version?: IntFieldUpdateOperationsInput | number
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     viewCount?: IntFieldUpdateOperationsInput | number
-    categories?: PostCategoryUncheckedUpdateManyWithoutPostNestedInput
     comments?: CommentUncheckedUpdateManyWithoutPostNestedInput
+    categories?: PostCategoryUncheckedUpdateManyWithoutPostNestedInput
     votes?: VoteUncheckedUpdateManyWithoutPostNestedInput
+    Media?: MediaUncheckedUpdateManyWithoutPostNestedInput
   }
 
   export type TagUpsertWithoutPostsInput = {
@@ -32901,16 +34710,17 @@ export namespace Prisma {
     lastLoginAt?: Date | string | null
     lastLoginIp?: string | null
     status?: $Enums.UserStatus
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    createdNotes?: AdminNoteCreateNestedManyWithoutCreatedByInput
+    adminNotes?: AdminNoteCreateNestedManyWithoutUserInput
+    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    comments?: CommentCreateNestedManyWithoutAuthorInput
+    posts?: PostCreateNestedManyWithoutAuthorInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    notificationPreferences?: UserNotificationPreferenceCreateNestedOneWithoutUserInput
     profile?: UserProfileCreateNestedOneWithoutUserInput
     roles?: UserRoleCreateNestedManyWithoutUserInput
-    sessions?: SessionCreateNestedManyWithoutUserInput
-    accounts?: AccountCreateNestedManyWithoutUserInput
-    posts?: PostCreateNestedManyWithoutAuthorInput
-    comments?: CommentCreateNestedManyWithoutAuthorInput
     votes?: VoteCreateNestedManyWithoutUserInput
-    adminNotes?: AdminNoteCreateNestedManyWithoutUserInput
-    createdNotes?: AdminNoteCreateNestedManyWithoutCreatedByInput
-    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutMediaInput = {
@@ -32924,21 +34734,69 @@ export namespace Prisma {
     lastLoginAt?: Date | string | null
     lastLoginIp?: string | null
     status?: $Enums.UserStatus
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    createdNotes?: AdminNoteUncheckedCreateNestedManyWithoutCreatedByInput
+    adminNotes?: AdminNoteUncheckedCreateNestedManyWithoutUserInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
+    posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    notificationPreferences?: UserNotificationPreferenceUncheckedCreateNestedOneWithoutUserInput
     profile?: UserProfileUncheckedCreateNestedOneWithoutUserInput
     roles?: UserRoleUncheckedCreateNestedManyWithoutUserInput
-    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
-    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
-    comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
     votes?: VoteUncheckedCreateNestedManyWithoutUserInput
-    adminNotes?: AdminNoteUncheckedCreateNestedManyWithoutUserInput
-    createdNotes?: AdminNoteUncheckedCreateNestedManyWithoutCreatedByInput
-    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutMediaInput = {
     where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutMediaInput, UserUncheckedCreateWithoutMediaInput>
+  }
+
+  export type PostCreateWithoutMediaInput = {
+    id?: string
+    title: string
+    slug: string
+    content: string
+    summary?: string | null
+    status?: $Enums.PostStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    publishedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    version?: number
+    isFeatured?: boolean
+    viewCount?: number
+    comments?: CommentCreateNestedManyWithoutPostInput
+    author: UserCreateNestedOneWithoutPostsInput
+    categories?: PostCategoryCreateNestedManyWithoutPostInput
+    tags?: PostTagCreateNestedManyWithoutPostInput
+    votes?: VoteCreateNestedManyWithoutPostInput
+  }
+
+  export type PostUncheckedCreateWithoutMediaInput = {
+    id?: string
+    title: string
+    slug: string
+    content: string
+    summary?: string | null
+    status?: $Enums.PostStatus
+    authorId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    publishedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    version?: number
+    isFeatured?: boolean
+    viewCount?: number
+    comments?: CommentUncheckedCreateNestedManyWithoutPostInput
+    categories?: PostCategoryUncheckedCreateNestedManyWithoutPostInput
+    tags?: PostTagUncheckedCreateNestedManyWithoutPostInput
+    votes?: VoteUncheckedCreateNestedManyWithoutPostInput
+  }
+
+  export type PostCreateOrConnectWithoutMediaInput = {
+    where: PostWhereUniqueInput
+    create: XOR<PostCreateWithoutMediaInput, PostUncheckedCreateWithoutMediaInput>
   }
 
   export type UserUpsertWithoutMediaInput = {
@@ -32963,16 +34821,17 @@ export namespace Prisma {
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastLoginIp?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    createdNotes?: AdminNoteUpdateManyWithoutCreatedByNestedInput
+    adminNotes?: AdminNoteUpdateManyWithoutUserNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    comments?: CommentUpdateManyWithoutAuthorNestedInput
+    posts?: PostUpdateManyWithoutAuthorNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    notificationPreferences?: UserNotificationPreferenceUpdateOneWithoutUserNestedInput
     profile?: UserProfileUpdateOneWithoutUserNestedInput
     roles?: UserRoleUpdateManyWithoutUserNestedInput
-    sessions?: SessionUpdateManyWithoutUserNestedInput
-    accounts?: AccountUpdateManyWithoutUserNestedInput
-    posts?: PostUpdateManyWithoutAuthorNestedInput
-    comments?: CommentUpdateManyWithoutAuthorNestedInput
     votes?: VoteUpdateManyWithoutUserNestedInput
-    adminNotes?: AdminNoteUpdateManyWithoutUserNestedInput
-    createdNotes?: AdminNoteUpdateManyWithoutCreatedByNestedInput
-    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMediaInput = {
@@ -32986,61 +34845,33 @@ export namespace Prisma {
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastLoginIp?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    createdNotes?: AdminNoteUncheckedUpdateManyWithoutCreatedByNestedInput
+    adminNotes?: AdminNoteUncheckedUpdateManyWithoutUserNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
+    posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    notificationPreferences?: UserNotificationPreferenceUncheckedUpdateOneWithoutUserNestedInput
     profile?: UserProfileUncheckedUpdateOneWithoutUserNestedInput
     roles?: UserRoleUncheckedUpdateManyWithoutUserNestedInput
-    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
-    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
-    comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
     votes?: VoteUncheckedUpdateManyWithoutUserNestedInput
-    adminNotes?: AdminNoteUncheckedUpdateManyWithoutUserNestedInput
-    createdNotes?: AdminNoteUncheckedUpdateManyWithoutCreatedByNestedInput
-    auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
   }
 
-  export type PostCreateWithoutCommentsInput = {
-    id?: string
-    title: string
-    slug: string
-    content: string
-    summary?: string | null
-    status?: $Enums.PostStatus
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    publishedAt?: Date | string | null
-    deletedAt?: Date | string | null
-    version?: number
-    isFeatured?: boolean
-    viewCount?: number
-    author: UserCreateNestedOneWithoutPostsInput
-    categories?: PostCategoryCreateNestedManyWithoutPostInput
-    tags?: PostTagCreateNestedManyWithoutPostInput
-    votes?: VoteCreateNestedManyWithoutPostInput
-  }
-
-  export type PostUncheckedCreateWithoutCommentsInput = {
-    id?: string
-    title: string
-    slug: string
-    content: string
-    summary?: string | null
-    status?: $Enums.PostStatus
-    authorId: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    publishedAt?: Date | string | null
-    deletedAt?: Date | string | null
-    version?: number
-    isFeatured?: boolean
-    viewCount?: number
-    categories?: PostCategoryUncheckedCreateNestedManyWithoutPostInput
-    tags?: PostTagUncheckedCreateNestedManyWithoutPostInput
-    votes?: VoteUncheckedCreateNestedManyWithoutPostInput
-  }
-
-  export type PostCreateOrConnectWithoutCommentsInput = {
+  export type PostUpsertWithWhereUniqueWithoutMediaInput = {
     where: PostWhereUniqueInput
-    create: XOR<PostCreateWithoutCommentsInput, PostUncheckedCreateWithoutCommentsInput>
+    update: XOR<PostUpdateWithoutMediaInput, PostUncheckedUpdateWithoutMediaInput>
+    create: XOR<PostCreateWithoutMediaInput, PostUncheckedCreateWithoutMediaInput>
+  }
+
+  export type PostUpdateWithWhereUniqueWithoutMediaInput = {
+    where: PostWhereUniqueInput
+    data: XOR<PostUpdateWithoutMediaInput, PostUncheckedUpdateWithoutMediaInput>
+  }
+
+  export type PostUpdateManyWithWhereWithoutMediaInput = {
+    where: PostScalarWhereInput
+    data: XOR<PostUpdateManyMutationInput, PostUncheckedUpdateManyWithoutMediaInput>
   }
 
   export type UserCreateWithoutCommentsInput = {
@@ -33054,16 +34885,17 @@ export namespace Prisma {
     lastLoginAt?: Date | string | null
     lastLoginIp?: string | null
     status?: $Enums.UserStatus
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    createdNotes?: AdminNoteCreateNestedManyWithoutCreatedByInput
+    adminNotes?: AdminNoteCreateNestedManyWithoutUserInput
+    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    media?: MediaCreateNestedManyWithoutUploadedByInput
+    posts?: PostCreateNestedManyWithoutAuthorInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    notificationPreferences?: UserNotificationPreferenceCreateNestedOneWithoutUserInput
     profile?: UserProfileCreateNestedOneWithoutUserInput
     roles?: UserRoleCreateNestedManyWithoutUserInput
-    sessions?: SessionCreateNestedManyWithoutUserInput
-    accounts?: AccountCreateNestedManyWithoutUserInput
-    posts?: PostCreateNestedManyWithoutAuthorInput
     votes?: VoteCreateNestedManyWithoutUserInput
-    media?: MediaCreateNestedManyWithoutUploadedByInput
-    adminNotes?: AdminNoteCreateNestedManyWithoutUserInput
-    createdNotes?: AdminNoteCreateNestedManyWithoutCreatedByInput
-    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCommentsInput = {
@@ -33077,16 +34909,17 @@ export namespace Prisma {
     lastLoginAt?: Date | string | null
     lastLoginIp?: string | null
     status?: $Enums.UserStatus
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    createdNotes?: AdminNoteUncheckedCreateNestedManyWithoutCreatedByInput
+    adminNotes?: AdminNoteUncheckedCreateNestedManyWithoutUserInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    media?: MediaUncheckedCreateNestedManyWithoutUploadedByInput
+    posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    notificationPreferences?: UserNotificationPreferenceUncheckedCreateNestedOneWithoutUserInput
     profile?: UserProfileUncheckedCreateNestedOneWithoutUserInput
     roles?: UserRoleUncheckedCreateNestedManyWithoutUserInput
-    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
-    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
     votes?: VoteUncheckedCreateNestedManyWithoutUserInput
-    media?: MediaUncheckedCreateNestedManyWithoutUploadedByInput
-    adminNotes?: AdminNoteUncheckedCreateNestedManyWithoutUserInput
-    createdNotes?: AdminNoteUncheckedCreateNestedManyWithoutCreatedByInput
-    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCommentsInput = {
@@ -33104,9 +34937,9 @@ export namespace Prisma {
     ipAddress?: string | null
     isSpam?: boolean
     reported?: boolean
-    post: PostCreateNestedOneWithoutCommentsInput
     author: UserCreateNestedOneWithoutCommentsInput
     parent?: CommentCreateNestedOneWithoutChildrenInput
+    post: PostCreateNestedOneWithoutCommentsInput
     votes?: VoteCreateNestedManyWithoutCommentInput
   }
 
@@ -33141,9 +34974,9 @@ export namespace Prisma {
     ipAddress?: string | null
     isSpam?: boolean
     reported?: boolean
-    post: PostCreateNestedOneWithoutCommentsInput
     author: UserCreateNestedOneWithoutCommentsInput
     children?: CommentCreateNestedManyWithoutParentInput
+    post: PostCreateNestedOneWithoutCommentsInput
     votes?: VoteCreateNestedManyWithoutCommentInput
   }
 
@@ -33173,12 +35006,59 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type PostCreateWithoutCommentsInput = {
+    id?: string
+    title: string
+    slug: string
+    content: string
+    summary?: string | null
+    status?: $Enums.PostStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    publishedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    version?: number
+    isFeatured?: boolean
+    viewCount?: number
+    author: UserCreateNestedOneWithoutPostsInput
+    categories?: PostCategoryCreateNestedManyWithoutPostInput
+    tags?: PostTagCreateNestedManyWithoutPostInput
+    votes?: VoteCreateNestedManyWithoutPostInput
+    Media?: MediaCreateNestedManyWithoutPostInput
+  }
+
+  export type PostUncheckedCreateWithoutCommentsInput = {
+    id?: string
+    title: string
+    slug: string
+    content: string
+    summary?: string | null
+    status?: $Enums.PostStatus
+    authorId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    publishedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    version?: number
+    isFeatured?: boolean
+    viewCount?: number
+    categories?: PostCategoryUncheckedCreateNestedManyWithoutPostInput
+    tags?: PostTagUncheckedCreateNestedManyWithoutPostInput
+    votes?: VoteUncheckedCreateNestedManyWithoutPostInput
+    Media?: MediaUncheckedCreateNestedManyWithoutPostInput
+  }
+
+  export type PostCreateOrConnectWithoutCommentsInput = {
+    where: PostWhereUniqueInput
+    create: XOR<PostCreateWithoutCommentsInput, PostUncheckedCreateWithoutCommentsInput>
+  }
+
   export type VoteCreateWithoutCommentInput = {
     id?: string
     value: number
     createdAt?: Date | string
-    user: UserCreateNestedOneWithoutVotesInput
     post?: PostCreateNestedOneWithoutVotesInput
+    user: UserCreateNestedOneWithoutVotesInput
   }
 
   export type VoteUncheckedCreateWithoutCommentInput = {
@@ -33197,57 +35077,6 @@ export namespace Prisma {
   export type VoteCreateManyCommentInputEnvelope = {
     data: VoteCreateManyCommentInput | VoteCreateManyCommentInput[]
     skipDuplicates?: boolean
-  }
-
-  export type PostUpsertWithoutCommentsInput = {
-    update: XOR<PostUpdateWithoutCommentsInput, PostUncheckedUpdateWithoutCommentsInput>
-    create: XOR<PostCreateWithoutCommentsInput, PostUncheckedCreateWithoutCommentsInput>
-    where?: PostWhereInput
-  }
-
-  export type PostUpdateToOneWithWhereWithoutCommentsInput = {
-    where?: PostWhereInput
-    data: XOR<PostUpdateWithoutCommentsInput, PostUncheckedUpdateWithoutCommentsInput>
-  }
-
-  export type PostUpdateWithoutCommentsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
-    summary?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    version?: IntFieldUpdateOperationsInput | number
-    isFeatured?: BoolFieldUpdateOperationsInput | boolean
-    viewCount?: IntFieldUpdateOperationsInput | number
-    author?: UserUpdateOneRequiredWithoutPostsNestedInput
-    categories?: PostCategoryUpdateManyWithoutPostNestedInput
-    tags?: PostTagUpdateManyWithoutPostNestedInput
-    votes?: VoteUpdateManyWithoutPostNestedInput
-  }
-
-  export type PostUncheckedUpdateWithoutCommentsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
-    summary?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
-    authorId?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    version?: IntFieldUpdateOperationsInput | number
-    isFeatured?: BoolFieldUpdateOperationsInput | boolean
-    viewCount?: IntFieldUpdateOperationsInput | number
-    categories?: PostCategoryUncheckedUpdateManyWithoutPostNestedInput
-    tags?: PostTagUncheckedUpdateManyWithoutPostNestedInput
-    votes?: VoteUncheckedUpdateManyWithoutPostNestedInput
   }
 
   export type UserUpsertWithoutCommentsInput = {
@@ -33272,16 +35101,17 @@ export namespace Prisma {
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastLoginIp?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    createdNotes?: AdminNoteUpdateManyWithoutCreatedByNestedInput
+    adminNotes?: AdminNoteUpdateManyWithoutUserNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    media?: MediaUpdateManyWithoutUploadedByNestedInput
+    posts?: PostUpdateManyWithoutAuthorNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    notificationPreferences?: UserNotificationPreferenceUpdateOneWithoutUserNestedInput
     profile?: UserProfileUpdateOneWithoutUserNestedInput
     roles?: UserRoleUpdateManyWithoutUserNestedInput
-    sessions?: SessionUpdateManyWithoutUserNestedInput
-    accounts?: AccountUpdateManyWithoutUserNestedInput
-    posts?: PostUpdateManyWithoutAuthorNestedInput
     votes?: VoteUpdateManyWithoutUserNestedInput
-    media?: MediaUpdateManyWithoutUploadedByNestedInput
-    adminNotes?: AdminNoteUpdateManyWithoutUserNestedInput
-    createdNotes?: AdminNoteUpdateManyWithoutCreatedByNestedInput
-    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCommentsInput = {
@@ -33295,16 +35125,17 @@ export namespace Prisma {
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastLoginIp?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    createdNotes?: AdminNoteUncheckedUpdateManyWithoutCreatedByNestedInput
+    adminNotes?: AdminNoteUncheckedUpdateManyWithoutUserNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    media?: MediaUncheckedUpdateManyWithoutUploadedByNestedInput
+    posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    notificationPreferences?: UserNotificationPreferenceUncheckedUpdateOneWithoutUserNestedInput
     profile?: UserProfileUncheckedUpdateOneWithoutUserNestedInput
     roles?: UserRoleUncheckedUpdateManyWithoutUserNestedInput
-    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
-    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
     votes?: VoteUncheckedUpdateManyWithoutUserNestedInput
-    media?: MediaUncheckedUpdateManyWithoutUploadedByNestedInput
-    adminNotes?: AdminNoteUncheckedUpdateManyWithoutUserNestedInput
-    createdNotes?: AdminNoteUncheckedUpdateManyWithoutCreatedByNestedInput
-    auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CommentUpsertWithoutChildrenInput = {
@@ -33328,9 +35159,9 @@ export namespace Prisma {
     ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
     isSpam?: BoolFieldUpdateOperationsInput | boolean
     reported?: BoolFieldUpdateOperationsInput | boolean
-    post?: PostUpdateOneRequiredWithoutCommentsNestedInput
     author?: UserUpdateOneRequiredWithoutCommentsNestedInput
     parent?: CommentUpdateOneWithoutChildrenNestedInput
+    post?: PostUpdateOneRequiredWithoutCommentsNestedInput
     votes?: VoteUpdateManyWithoutCommentNestedInput
   }
 
@@ -33366,6 +35197,59 @@ export namespace Prisma {
     data: XOR<CommentUpdateManyMutationInput, CommentUncheckedUpdateManyWithoutParentInput>
   }
 
+  export type PostUpsertWithoutCommentsInput = {
+    update: XOR<PostUpdateWithoutCommentsInput, PostUncheckedUpdateWithoutCommentsInput>
+    create: XOR<PostCreateWithoutCommentsInput, PostUncheckedCreateWithoutCommentsInput>
+    where?: PostWhereInput
+  }
+
+  export type PostUpdateToOneWithWhereWithoutCommentsInput = {
+    where?: PostWhereInput
+    data: XOR<PostUpdateWithoutCommentsInput, PostUncheckedUpdateWithoutCommentsInput>
+  }
+
+  export type PostUpdateWithoutCommentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    summary?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    version?: IntFieldUpdateOperationsInput | number
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    viewCount?: IntFieldUpdateOperationsInput | number
+    author?: UserUpdateOneRequiredWithoutPostsNestedInput
+    categories?: PostCategoryUpdateManyWithoutPostNestedInput
+    tags?: PostTagUpdateManyWithoutPostNestedInput
+    votes?: VoteUpdateManyWithoutPostNestedInput
+    Media?: MediaUpdateManyWithoutPostNestedInput
+  }
+
+  export type PostUncheckedUpdateWithoutCommentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    summary?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
+    authorId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    version?: IntFieldUpdateOperationsInput | number
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    viewCount?: IntFieldUpdateOperationsInput | number
+    categories?: PostCategoryUncheckedUpdateManyWithoutPostNestedInput
+    tags?: PostTagUncheckedUpdateManyWithoutPostNestedInput
+    votes?: VoteUncheckedUpdateManyWithoutPostNestedInput
+    Media?: MediaUncheckedUpdateManyWithoutPostNestedInput
+  }
+
   export type VoteUpsertWithWhereUniqueWithoutCommentInput = {
     where: VoteWhereUniqueInput
     update: XOR<VoteUpdateWithoutCommentInput, VoteUncheckedUpdateWithoutCommentInput>
@@ -33382,102 +35266,6 @@ export namespace Prisma {
     data: XOR<VoteUpdateManyMutationInput, VoteUncheckedUpdateManyWithoutCommentInput>
   }
 
-  export type UserCreateWithoutVotesInput = {
-    id?: string
-    email: string
-    username: string
-    password?: string | null
-    emailVerified?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    lastLoginAt?: Date | string | null
-    lastLoginIp?: string | null
-    status?: $Enums.UserStatus
-    profile?: UserProfileCreateNestedOneWithoutUserInput
-    roles?: UserRoleCreateNestedManyWithoutUserInput
-    sessions?: SessionCreateNestedManyWithoutUserInput
-    accounts?: AccountCreateNestedManyWithoutUserInput
-    posts?: PostCreateNestedManyWithoutAuthorInput
-    comments?: CommentCreateNestedManyWithoutAuthorInput
-    media?: MediaCreateNestedManyWithoutUploadedByInput
-    adminNotes?: AdminNoteCreateNestedManyWithoutUserInput
-    createdNotes?: AdminNoteCreateNestedManyWithoutCreatedByInput
-    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
-  }
-
-  export type UserUncheckedCreateWithoutVotesInput = {
-    id?: string
-    email: string
-    username: string
-    password?: string | null
-    emailVerified?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    lastLoginAt?: Date | string | null
-    lastLoginIp?: string | null
-    status?: $Enums.UserStatus
-    profile?: UserProfileUncheckedCreateNestedOneWithoutUserInput
-    roles?: UserRoleUncheckedCreateNestedManyWithoutUserInput
-    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
-    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
-    comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
-    media?: MediaUncheckedCreateNestedManyWithoutUploadedByInput
-    adminNotes?: AdminNoteUncheckedCreateNestedManyWithoutUserInput
-    createdNotes?: AdminNoteUncheckedCreateNestedManyWithoutCreatedByInput
-    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
-  }
-
-  export type UserCreateOrConnectWithoutVotesInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutVotesInput, UserUncheckedCreateWithoutVotesInput>
-  }
-
-  export type PostCreateWithoutVotesInput = {
-    id?: string
-    title: string
-    slug: string
-    content: string
-    summary?: string | null
-    status?: $Enums.PostStatus
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    publishedAt?: Date | string | null
-    deletedAt?: Date | string | null
-    version?: number
-    isFeatured?: boolean
-    viewCount?: number
-    author: UserCreateNestedOneWithoutPostsInput
-    categories?: PostCategoryCreateNestedManyWithoutPostInput
-    tags?: PostTagCreateNestedManyWithoutPostInput
-    comments?: CommentCreateNestedManyWithoutPostInput
-  }
-
-  export type PostUncheckedCreateWithoutVotesInput = {
-    id?: string
-    title: string
-    slug: string
-    content: string
-    summary?: string | null
-    status?: $Enums.PostStatus
-    authorId: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    publishedAt?: Date | string | null
-    deletedAt?: Date | string | null
-    version?: number
-    isFeatured?: boolean
-    viewCount?: number
-    categories?: PostCategoryUncheckedCreateNestedManyWithoutPostInput
-    tags?: PostTagUncheckedCreateNestedManyWithoutPostInput
-    comments?: CommentUncheckedCreateNestedManyWithoutPostInput
-  }
-
-  export type PostCreateOrConnectWithoutVotesInput = {
-    where: PostWhereUniqueInput
-    create: XOR<PostCreateWithoutVotesInput, PostUncheckedCreateWithoutVotesInput>
-  }
-
   export type CommentCreateWithoutVotesInput = {
     id?: string
     content: string
@@ -33488,10 +35276,10 @@ export namespace Prisma {
     ipAddress?: string | null
     isSpam?: boolean
     reported?: boolean
-    post: PostCreateNestedOneWithoutCommentsInput
     author: UserCreateNestedOneWithoutCommentsInput
     parent?: CommentCreateNestedOneWithoutChildrenInput
     children?: CommentCreateNestedManyWithoutParentInput
+    post: PostCreateNestedOneWithoutCommentsInput
   }
 
   export type CommentUncheckedCreateWithoutVotesInput = {
@@ -33515,61 +35303,147 @@ export namespace Prisma {
     create: XOR<CommentCreateWithoutVotesInput, CommentUncheckedCreateWithoutVotesInput>
   }
 
-  export type UserUpsertWithoutVotesInput = {
-    update: XOR<UserUpdateWithoutVotesInput, UserUncheckedUpdateWithoutVotesInput>
+  export type PostCreateWithoutVotesInput = {
+    id?: string
+    title: string
+    slug: string
+    content: string
+    summary?: string | null
+    status?: $Enums.PostStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    publishedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    version?: number
+    isFeatured?: boolean
+    viewCount?: number
+    comments?: CommentCreateNestedManyWithoutPostInput
+    author: UserCreateNestedOneWithoutPostsInput
+    categories?: PostCategoryCreateNestedManyWithoutPostInput
+    tags?: PostTagCreateNestedManyWithoutPostInput
+    Media?: MediaCreateNestedManyWithoutPostInput
+  }
+
+  export type PostUncheckedCreateWithoutVotesInput = {
+    id?: string
+    title: string
+    slug: string
+    content: string
+    summary?: string | null
+    status?: $Enums.PostStatus
+    authorId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    publishedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    version?: number
+    isFeatured?: boolean
+    viewCount?: number
+    comments?: CommentUncheckedCreateNestedManyWithoutPostInput
+    categories?: PostCategoryUncheckedCreateNestedManyWithoutPostInput
+    tags?: PostTagUncheckedCreateNestedManyWithoutPostInput
+    Media?: MediaUncheckedCreateNestedManyWithoutPostInput
+  }
+
+  export type PostCreateOrConnectWithoutVotesInput = {
+    where: PostWhereUniqueInput
+    create: XOR<PostCreateWithoutVotesInput, PostUncheckedCreateWithoutVotesInput>
+  }
+
+  export type UserCreateWithoutVotesInput = {
+    id?: string
+    email: string
+    username: string
+    password?: string | null
+    emailVerified?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastLoginAt?: Date | string | null
+    lastLoginIp?: string | null
+    status?: $Enums.UserStatus
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    createdNotes?: AdminNoteCreateNestedManyWithoutCreatedByInput
+    adminNotes?: AdminNoteCreateNestedManyWithoutUserInput
+    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    comments?: CommentCreateNestedManyWithoutAuthorInput
+    media?: MediaCreateNestedManyWithoutUploadedByInput
+    posts?: PostCreateNestedManyWithoutAuthorInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    notificationPreferences?: UserNotificationPreferenceCreateNestedOneWithoutUserInput
+    profile?: UserProfileCreateNestedOneWithoutUserInput
+    roles?: UserRoleCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutVotesInput = {
+    id?: string
+    email: string
+    username: string
+    password?: string | null
+    emailVerified?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastLoginAt?: Date | string | null
+    lastLoginIp?: string | null
+    status?: $Enums.UserStatus
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    createdNotes?: AdminNoteUncheckedCreateNestedManyWithoutCreatedByInput
+    adminNotes?: AdminNoteUncheckedCreateNestedManyWithoutUserInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
+    media?: MediaUncheckedCreateNestedManyWithoutUploadedByInput
+    posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    notificationPreferences?: UserNotificationPreferenceUncheckedCreateNestedOneWithoutUserInput
+    profile?: UserProfileUncheckedCreateNestedOneWithoutUserInput
+    roles?: UserRoleUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutVotesInput = {
+    where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutVotesInput, UserUncheckedCreateWithoutVotesInput>
-    where?: UserWhereInput
   }
 
-  export type UserUpdateToOneWithWhereWithoutVotesInput = {
-    where?: UserWhereInput
-    data: XOR<UserUpdateWithoutVotesInput, UserUncheckedUpdateWithoutVotesInput>
+  export type CommentUpsertWithoutVotesInput = {
+    update: XOR<CommentUpdateWithoutVotesInput, CommentUncheckedUpdateWithoutVotesInput>
+    create: XOR<CommentCreateWithoutVotesInput, CommentUncheckedCreateWithoutVotesInput>
+    where?: CommentWhereInput
   }
 
-  export type UserUpdateWithoutVotesInput = {
+  export type CommentUpdateToOneWithWhereWithoutVotesInput = {
+    where?: CommentWhereInput
+    data: XOR<CommentUpdateWithoutVotesInput, CommentUncheckedUpdateWithoutVotesInput>
+  }
+
+  export type CommentUpdateWithoutVotesInput = {
     id?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    username?: StringFieldUpdateOperationsInput | string
-    password?: NullableStringFieldUpdateOperationsInput | string | null
-    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    content?: StringFieldUpdateOperationsInput | string
+    status?: EnumCommentStatusFieldUpdateOperationsInput | $Enums.CommentStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    lastLoginIp?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-    profile?: UserProfileUpdateOneWithoutUserNestedInput
-    roles?: UserRoleUpdateManyWithoutUserNestedInput
-    sessions?: SessionUpdateManyWithoutUserNestedInput
-    accounts?: AccountUpdateManyWithoutUserNestedInput
-    posts?: PostUpdateManyWithoutAuthorNestedInput
-    comments?: CommentUpdateManyWithoutAuthorNestedInput
-    media?: MediaUpdateManyWithoutUploadedByNestedInput
-    adminNotes?: AdminNoteUpdateManyWithoutUserNestedInput
-    createdNotes?: AdminNoteUpdateManyWithoutCreatedByNestedInput
-    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    isSpam?: BoolFieldUpdateOperationsInput | boolean
+    reported?: BoolFieldUpdateOperationsInput | boolean
+    author?: UserUpdateOneRequiredWithoutCommentsNestedInput
+    parent?: CommentUpdateOneWithoutChildrenNestedInput
+    children?: CommentUpdateManyWithoutParentNestedInput
+    post?: PostUpdateOneRequiredWithoutCommentsNestedInput
   }
 
-  export type UserUncheckedUpdateWithoutVotesInput = {
+  export type CommentUncheckedUpdateWithoutVotesInput = {
     id?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    username?: StringFieldUpdateOperationsInput | string
-    password?: NullableStringFieldUpdateOperationsInput | string | null
-    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    postId?: StringFieldUpdateOperationsInput | string
+    authorId?: StringFieldUpdateOperationsInput | string
+    parentId?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: StringFieldUpdateOperationsInput | string
+    status?: EnumCommentStatusFieldUpdateOperationsInput | $Enums.CommentStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    lastLoginIp?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-    profile?: UserProfileUncheckedUpdateOneWithoutUserNestedInput
-    roles?: UserRoleUncheckedUpdateManyWithoutUserNestedInput
-    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
-    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
-    comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
-    media?: MediaUncheckedUpdateManyWithoutUploadedByNestedInput
-    adminNotes?: AdminNoteUncheckedUpdateManyWithoutUserNestedInput
-    createdNotes?: AdminNoteUncheckedUpdateManyWithoutCreatedByNestedInput
-    auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    isSpam?: BoolFieldUpdateOperationsInput | boolean
+    reported?: BoolFieldUpdateOperationsInput | boolean
+    children?: CommentUncheckedUpdateManyWithoutParentNestedInput
   }
 
   export type PostUpsertWithoutVotesInput = {
@@ -33597,10 +35471,11 @@ export namespace Prisma {
     version?: IntFieldUpdateOperationsInput | number
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     viewCount?: IntFieldUpdateOperationsInput | number
+    comments?: CommentUpdateManyWithoutPostNestedInput
     author?: UserUpdateOneRequiredWithoutPostsNestedInput
     categories?: PostCategoryUpdateManyWithoutPostNestedInput
     tags?: PostTagUpdateManyWithoutPostNestedInput
-    comments?: CommentUpdateManyWithoutPostNestedInput
+    Media?: MediaUpdateManyWithoutPostNestedInput
   }
 
   export type PostUncheckedUpdateWithoutVotesInput = {
@@ -33618,103 +35493,69 @@ export namespace Prisma {
     version?: IntFieldUpdateOperationsInput | number
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     viewCount?: IntFieldUpdateOperationsInput | number
+    comments?: CommentUncheckedUpdateManyWithoutPostNestedInput
     categories?: PostCategoryUncheckedUpdateManyWithoutPostNestedInput
     tags?: PostTagUncheckedUpdateManyWithoutPostNestedInput
-    comments?: CommentUncheckedUpdateManyWithoutPostNestedInput
+    Media?: MediaUncheckedUpdateManyWithoutPostNestedInput
   }
 
-  export type CommentUpsertWithoutVotesInput = {
-    update: XOR<CommentUpdateWithoutVotesInput, CommentUncheckedUpdateWithoutVotesInput>
-    create: XOR<CommentCreateWithoutVotesInput, CommentUncheckedCreateWithoutVotesInput>
-    where?: CommentWhereInput
+  export type UserUpsertWithoutVotesInput = {
+    update: XOR<UserUpdateWithoutVotesInput, UserUncheckedUpdateWithoutVotesInput>
+    create: XOR<UserCreateWithoutVotesInput, UserUncheckedCreateWithoutVotesInput>
+    where?: UserWhereInput
   }
 
-  export type CommentUpdateToOneWithWhereWithoutVotesInput = {
-    where?: CommentWhereInput
-    data: XOR<CommentUpdateWithoutVotesInput, CommentUncheckedUpdateWithoutVotesInput>
+  export type UserUpdateToOneWithWhereWithoutVotesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutVotesInput, UserUncheckedUpdateWithoutVotesInput>
   }
 
-  export type CommentUpdateWithoutVotesInput = {
+  export type UserUpdateWithoutVotesInput = {
     id?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
-    status?: EnumCommentStatusFieldUpdateOperationsInput | $Enums.CommentStatus
+    email?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    isSpam?: BoolFieldUpdateOperationsInput | boolean
-    reported?: BoolFieldUpdateOperationsInput | boolean
-    post?: PostUpdateOneRequiredWithoutCommentsNestedInput
-    author?: UserUpdateOneRequiredWithoutCommentsNestedInput
-    parent?: CommentUpdateOneWithoutChildrenNestedInput
-    children?: CommentUpdateManyWithoutParentNestedInput
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastLoginIp?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    createdNotes?: AdminNoteUpdateManyWithoutCreatedByNestedInput
+    adminNotes?: AdminNoteUpdateManyWithoutUserNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    comments?: CommentUpdateManyWithoutAuthorNestedInput
+    media?: MediaUpdateManyWithoutUploadedByNestedInput
+    posts?: PostUpdateManyWithoutAuthorNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    notificationPreferences?: UserNotificationPreferenceUpdateOneWithoutUserNestedInput
+    profile?: UserProfileUpdateOneWithoutUserNestedInput
+    roles?: UserRoleUpdateManyWithoutUserNestedInput
   }
 
-  export type CommentUncheckedUpdateWithoutVotesInput = {
+  export type UserUncheckedUpdateWithoutVotesInput = {
     id?: StringFieldUpdateOperationsInput | string
-    postId?: StringFieldUpdateOperationsInput | string
-    authorId?: StringFieldUpdateOperationsInput | string
-    parentId?: NullableStringFieldUpdateOperationsInput | string | null
-    content?: StringFieldUpdateOperationsInput | string
-    status?: EnumCommentStatusFieldUpdateOperationsInput | $Enums.CommentStatus
+    email?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    isSpam?: BoolFieldUpdateOperationsInput | boolean
-    reported?: BoolFieldUpdateOperationsInput | boolean
-    children?: CommentUncheckedUpdateManyWithoutParentNestedInput
-  }
-
-  export type UserCreateWithoutAdminNotesInput = {
-    id?: string
-    email: string
-    username: string
-    password?: string | null
-    emailVerified?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    lastLoginAt?: Date | string | null
-    lastLoginIp?: string | null
-    status?: $Enums.UserStatus
-    profile?: UserProfileCreateNestedOneWithoutUserInput
-    roles?: UserRoleCreateNestedManyWithoutUserInput
-    sessions?: SessionCreateNestedManyWithoutUserInput
-    accounts?: AccountCreateNestedManyWithoutUserInput
-    posts?: PostCreateNestedManyWithoutAuthorInput
-    comments?: CommentCreateNestedManyWithoutAuthorInput
-    votes?: VoteCreateNestedManyWithoutUserInput
-    media?: MediaCreateNestedManyWithoutUploadedByInput
-    createdNotes?: AdminNoteCreateNestedManyWithoutCreatedByInput
-    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
-  }
-
-  export type UserUncheckedCreateWithoutAdminNotesInput = {
-    id?: string
-    email: string
-    username: string
-    password?: string | null
-    emailVerified?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    lastLoginAt?: Date | string | null
-    lastLoginIp?: string | null
-    status?: $Enums.UserStatus
-    profile?: UserProfileUncheckedCreateNestedOneWithoutUserInput
-    roles?: UserRoleUncheckedCreateNestedManyWithoutUserInput
-    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
-    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
-    comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
-    votes?: VoteUncheckedCreateNestedManyWithoutUserInput
-    media?: MediaUncheckedCreateNestedManyWithoutUploadedByInput
-    createdNotes?: AdminNoteUncheckedCreateNestedManyWithoutCreatedByInput
-    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
-  }
-
-  export type UserCreateOrConnectWithoutAdminNotesInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutAdminNotesInput, UserUncheckedCreateWithoutAdminNotesInput>
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastLoginIp?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    createdNotes?: AdminNoteUncheckedUpdateManyWithoutCreatedByNestedInput
+    adminNotes?: AdminNoteUncheckedUpdateManyWithoutUserNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
+    media?: MediaUncheckedUpdateManyWithoutUploadedByNestedInput
+    posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    notificationPreferences?: UserNotificationPreferenceUncheckedUpdateOneWithoutUserNestedInput
+    profile?: UserProfileUncheckedUpdateOneWithoutUserNestedInput
+    roles?: UserRoleUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutCreatedNotesInput = {
@@ -33728,16 +35569,17 @@ export namespace Prisma {
     lastLoginAt?: Date | string | null
     lastLoginIp?: string | null
     status?: $Enums.UserStatus
-    profile?: UserProfileCreateNestedOneWithoutUserInput
-    roles?: UserRoleCreateNestedManyWithoutUserInput
-    sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
-    posts?: PostCreateNestedManyWithoutAuthorInput
-    comments?: CommentCreateNestedManyWithoutAuthorInput
-    votes?: VoteCreateNestedManyWithoutUserInput
-    media?: MediaCreateNestedManyWithoutUploadedByInput
     adminNotes?: AdminNoteCreateNestedManyWithoutUserInput
     auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    comments?: CommentCreateNestedManyWithoutAuthorInput
+    media?: MediaCreateNestedManyWithoutUploadedByInput
+    posts?: PostCreateNestedManyWithoutAuthorInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    notificationPreferences?: UserNotificationPreferenceCreateNestedOneWithoutUserInput
+    profile?: UserProfileCreateNestedOneWithoutUserInput
+    roles?: UserRoleCreateNestedManyWithoutUserInput
+    votes?: VoteCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCreatedNotesInput = {
@@ -33751,16 +35593,17 @@ export namespace Prisma {
     lastLoginAt?: Date | string | null
     lastLoginIp?: string | null
     status?: $Enums.UserStatus
-    profile?: UserProfileUncheckedCreateNestedOneWithoutUserInput
-    roles?: UserRoleUncheckedCreateNestedManyWithoutUserInput
-    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
-    comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
-    votes?: VoteUncheckedCreateNestedManyWithoutUserInput
-    media?: MediaUncheckedCreateNestedManyWithoutUploadedByInput
     adminNotes?: AdminNoteUncheckedCreateNestedManyWithoutUserInput
     auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
+    media?: MediaUncheckedCreateNestedManyWithoutUploadedByInput
+    posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    notificationPreferences?: UserNotificationPreferenceUncheckedCreateNestedOneWithoutUserInput
+    profile?: UserProfileUncheckedCreateNestedOneWithoutUserInput
+    roles?: UserRoleUncheckedCreateNestedManyWithoutUserInput
+    votes?: VoteUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCreatedNotesInput = {
@@ -33768,61 +35611,57 @@ export namespace Prisma {
     create: XOR<UserCreateWithoutCreatedNotesInput, UserUncheckedCreateWithoutCreatedNotesInput>
   }
 
-  export type UserUpsertWithoutAdminNotesInput = {
-    update: XOR<UserUpdateWithoutAdminNotesInput, UserUncheckedUpdateWithoutAdminNotesInput>
+  export type UserCreateWithoutAdminNotesInput = {
+    id?: string
+    email: string
+    username: string
+    password?: string | null
+    emailVerified?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastLoginAt?: Date | string | null
+    lastLoginIp?: string | null
+    status?: $Enums.UserStatus
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    createdNotes?: AdminNoteCreateNestedManyWithoutCreatedByInput
+    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    comments?: CommentCreateNestedManyWithoutAuthorInput
+    media?: MediaCreateNestedManyWithoutUploadedByInput
+    posts?: PostCreateNestedManyWithoutAuthorInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    notificationPreferences?: UserNotificationPreferenceCreateNestedOneWithoutUserInput
+    profile?: UserProfileCreateNestedOneWithoutUserInput
+    roles?: UserRoleCreateNestedManyWithoutUserInput
+    votes?: VoteCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutAdminNotesInput = {
+    id?: string
+    email: string
+    username: string
+    password?: string | null
+    emailVerified?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastLoginAt?: Date | string | null
+    lastLoginIp?: string | null
+    status?: $Enums.UserStatus
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    createdNotes?: AdminNoteUncheckedCreateNestedManyWithoutCreatedByInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
+    media?: MediaUncheckedCreateNestedManyWithoutUploadedByInput
+    posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    notificationPreferences?: UserNotificationPreferenceUncheckedCreateNestedOneWithoutUserInput
+    profile?: UserProfileUncheckedCreateNestedOneWithoutUserInput
+    roles?: UserRoleUncheckedCreateNestedManyWithoutUserInput
+    votes?: VoteUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutAdminNotesInput = {
+    where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutAdminNotesInput, UserUncheckedCreateWithoutAdminNotesInput>
-    where?: UserWhereInput
-  }
-
-  export type UserUpdateToOneWithWhereWithoutAdminNotesInput = {
-    where?: UserWhereInput
-    data: XOR<UserUpdateWithoutAdminNotesInput, UserUncheckedUpdateWithoutAdminNotesInput>
-  }
-
-  export type UserUpdateWithoutAdminNotesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    username?: StringFieldUpdateOperationsInput | string
-    password?: NullableStringFieldUpdateOperationsInput | string | null
-    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    lastLoginIp?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-    profile?: UserProfileUpdateOneWithoutUserNestedInput
-    roles?: UserRoleUpdateManyWithoutUserNestedInput
-    sessions?: SessionUpdateManyWithoutUserNestedInput
-    accounts?: AccountUpdateManyWithoutUserNestedInput
-    posts?: PostUpdateManyWithoutAuthorNestedInput
-    comments?: CommentUpdateManyWithoutAuthorNestedInput
-    votes?: VoteUpdateManyWithoutUserNestedInput
-    media?: MediaUpdateManyWithoutUploadedByNestedInput
-    createdNotes?: AdminNoteUpdateManyWithoutCreatedByNestedInput
-    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
-  }
-
-  export type UserUncheckedUpdateWithoutAdminNotesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    username?: StringFieldUpdateOperationsInput | string
-    password?: NullableStringFieldUpdateOperationsInput | string | null
-    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    lastLoginIp?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-    profile?: UserProfileUncheckedUpdateOneWithoutUserNestedInput
-    roles?: UserRoleUncheckedUpdateManyWithoutUserNestedInput
-    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
-    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
-    comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
-    votes?: VoteUncheckedUpdateManyWithoutUserNestedInput
-    media?: MediaUncheckedUpdateManyWithoutUploadedByNestedInput
-    createdNotes?: AdminNoteUncheckedUpdateManyWithoutCreatedByNestedInput
-    auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUpsertWithoutCreatedNotesInput = {
@@ -33847,16 +35686,17 @@ export namespace Prisma {
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastLoginIp?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-    profile?: UserProfileUpdateOneWithoutUserNestedInput
-    roles?: UserRoleUpdateManyWithoutUserNestedInput
-    sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
-    posts?: PostUpdateManyWithoutAuthorNestedInput
-    comments?: CommentUpdateManyWithoutAuthorNestedInput
-    votes?: VoteUpdateManyWithoutUserNestedInput
-    media?: MediaUpdateManyWithoutUploadedByNestedInput
     adminNotes?: AdminNoteUpdateManyWithoutUserNestedInput
     auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    comments?: CommentUpdateManyWithoutAuthorNestedInput
+    media?: MediaUpdateManyWithoutUploadedByNestedInput
+    posts?: PostUpdateManyWithoutAuthorNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    notificationPreferences?: UserNotificationPreferenceUpdateOneWithoutUserNestedInput
+    profile?: UserProfileUpdateOneWithoutUserNestedInput
+    roles?: UserRoleUpdateManyWithoutUserNestedInput
+    votes?: VoteUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCreatedNotesInput = {
@@ -33870,16 +35710,76 @@ export namespace Prisma {
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastLoginIp?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
-    profile?: UserProfileUncheckedUpdateOneWithoutUserNestedInput
-    roles?: UserRoleUncheckedUpdateManyWithoutUserNestedInput
-    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
-    comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
-    votes?: VoteUncheckedUpdateManyWithoutUserNestedInput
-    media?: MediaUncheckedUpdateManyWithoutUploadedByNestedInput
     adminNotes?: AdminNoteUncheckedUpdateManyWithoutUserNestedInput
     auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
+    media?: MediaUncheckedUpdateManyWithoutUploadedByNestedInput
+    posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    notificationPreferences?: UserNotificationPreferenceUncheckedUpdateOneWithoutUserNestedInput
+    profile?: UserProfileUncheckedUpdateOneWithoutUserNestedInput
+    roles?: UserRoleUncheckedUpdateManyWithoutUserNestedInput
+    votes?: VoteUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUpsertWithoutAdminNotesInput = {
+    update: XOR<UserUpdateWithoutAdminNotesInput, UserUncheckedUpdateWithoutAdminNotesInput>
+    create: XOR<UserCreateWithoutAdminNotesInput, UserUncheckedCreateWithoutAdminNotesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutAdminNotesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutAdminNotesInput, UserUncheckedUpdateWithoutAdminNotesInput>
+  }
+
+  export type UserUpdateWithoutAdminNotesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastLoginIp?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    createdNotes?: AdminNoteUpdateManyWithoutCreatedByNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    comments?: CommentUpdateManyWithoutAuthorNestedInput
+    media?: MediaUpdateManyWithoutUploadedByNestedInput
+    posts?: PostUpdateManyWithoutAuthorNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    notificationPreferences?: UserNotificationPreferenceUpdateOneWithoutUserNestedInput
+    profile?: UserProfileUpdateOneWithoutUserNestedInput
+    roles?: UserRoleUpdateManyWithoutUserNestedInput
+    votes?: VoteUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutAdminNotesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastLoginIp?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    createdNotes?: AdminNoteUncheckedUpdateManyWithoutCreatedByNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
+    media?: MediaUncheckedUpdateManyWithoutUploadedByNestedInput
+    posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    notificationPreferences?: UserNotificationPreferenceUncheckedUpdateOneWithoutUserNestedInput
+    profile?: UserProfileUncheckedUpdateOneWithoutUserNestedInput
+    roles?: UserRoleUncheckedUpdateManyWithoutUserNestedInput
+    votes?: VoteUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutAuditLogsInput = {
@@ -33893,16 +35793,17 @@ export namespace Prisma {
     lastLoginAt?: Date | string | null
     lastLoginIp?: string | null
     status?: $Enums.UserStatus
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    createdNotes?: AdminNoteCreateNestedManyWithoutCreatedByInput
+    adminNotes?: AdminNoteCreateNestedManyWithoutUserInput
+    comments?: CommentCreateNestedManyWithoutAuthorInput
+    media?: MediaCreateNestedManyWithoutUploadedByInput
+    posts?: PostCreateNestedManyWithoutAuthorInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    notificationPreferences?: UserNotificationPreferenceCreateNestedOneWithoutUserInput
     profile?: UserProfileCreateNestedOneWithoutUserInput
     roles?: UserRoleCreateNestedManyWithoutUserInput
-    sessions?: SessionCreateNestedManyWithoutUserInput
-    accounts?: AccountCreateNestedManyWithoutUserInput
-    posts?: PostCreateNestedManyWithoutAuthorInput
-    comments?: CommentCreateNestedManyWithoutAuthorInput
     votes?: VoteCreateNestedManyWithoutUserInput
-    media?: MediaCreateNestedManyWithoutUploadedByInput
-    adminNotes?: AdminNoteCreateNestedManyWithoutUserInput
-    createdNotes?: AdminNoteCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserUncheckedCreateWithoutAuditLogsInput = {
@@ -33916,16 +35817,17 @@ export namespace Prisma {
     lastLoginAt?: Date | string | null
     lastLoginIp?: string | null
     status?: $Enums.UserStatus
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    createdNotes?: AdminNoteUncheckedCreateNestedManyWithoutCreatedByInput
+    adminNotes?: AdminNoteUncheckedCreateNestedManyWithoutUserInput
+    comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
+    media?: MediaUncheckedCreateNestedManyWithoutUploadedByInput
+    posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    notificationPreferences?: UserNotificationPreferenceUncheckedCreateNestedOneWithoutUserInput
     profile?: UserProfileUncheckedCreateNestedOneWithoutUserInput
     roles?: UserRoleUncheckedCreateNestedManyWithoutUserInput
-    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
-    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
-    comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
     votes?: VoteUncheckedCreateNestedManyWithoutUserInput
-    media?: MediaUncheckedCreateNestedManyWithoutUploadedByInput
-    adminNotes?: AdminNoteUncheckedCreateNestedManyWithoutUserInput
-    createdNotes?: AdminNoteUncheckedCreateNestedManyWithoutCreatedByInput
   }
 
   export type UserCreateOrConnectWithoutAuditLogsInput = {
@@ -33955,16 +35857,17 @@ export namespace Prisma {
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastLoginIp?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    createdNotes?: AdminNoteUpdateManyWithoutCreatedByNestedInput
+    adminNotes?: AdminNoteUpdateManyWithoutUserNestedInput
+    comments?: CommentUpdateManyWithoutAuthorNestedInput
+    media?: MediaUpdateManyWithoutUploadedByNestedInput
+    posts?: PostUpdateManyWithoutAuthorNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    notificationPreferences?: UserNotificationPreferenceUpdateOneWithoutUserNestedInput
     profile?: UserProfileUpdateOneWithoutUserNestedInput
     roles?: UserRoleUpdateManyWithoutUserNestedInput
-    sessions?: SessionUpdateManyWithoutUserNestedInput
-    accounts?: AccountUpdateManyWithoutUserNestedInput
-    posts?: PostUpdateManyWithoutAuthorNestedInput
-    comments?: CommentUpdateManyWithoutAuthorNestedInput
     votes?: VoteUpdateManyWithoutUserNestedInput
-    media?: MediaUpdateManyWithoutUploadedByNestedInput
-    adminNotes?: AdminNoteUpdateManyWithoutUserNestedInput
-    createdNotes?: AdminNoteUpdateManyWithoutCreatedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAuditLogsInput = {
@@ -33978,26 +35881,129 @@ export namespace Prisma {
     lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastLoginIp?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    createdNotes?: AdminNoteUncheckedUpdateManyWithoutCreatedByNestedInput
+    adminNotes?: AdminNoteUncheckedUpdateManyWithoutUserNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
+    media?: MediaUncheckedUpdateManyWithoutUploadedByNestedInput
+    posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    notificationPreferences?: UserNotificationPreferenceUncheckedUpdateOneWithoutUserNestedInput
     profile?: UserProfileUncheckedUpdateOneWithoutUserNestedInput
     roles?: UserRoleUncheckedUpdateManyWithoutUserNestedInput
-    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
-    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
-    comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
     votes?: VoteUncheckedUpdateManyWithoutUserNestedInput
-    media?: MediaUncheckedUpdateManyWithoutUploadedByNestedInput
-    adminNotes?: AdminNoteUncheckedUpdateManyWithoutUserNestedInput
-    createdNotes?: AdminNoteUncheckedUpdateManyWithoutCreatedByNestedInput
   }
 
-  export type UserRoleCreateManyUserInput = {
-    roleId: string
-  }
-
-  export type SessionCreateManyUserInput = {
+  export type UserCreateWithoutNotificationPreferencesInput = {
     id?: string
-    sessionToken: string
-    expires: Date | string
+    email: string
+    username: string
+    password?: string | null
+    emailVerified?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastLoginAt?: Date | string | null
+    lastLoginIp?: string | null
+    status?: $Enums.UserStatus
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    createdNotes?: AdminNoteCreateNestedManyWithoutCreatedByInput
+    adminNotes?: AdminNoteCreateNestedManyWithoutUserInput
+    auditLogs?: AuditLogCreateNestedManyWithoutUserInput
+    comments?: CommentCreateNestedManyWithoutAuthorInput
+    media?: MediaCreateNestedManyWithoutUploadedByInput
+    posts?: PostCreateNestedManyWithoutAuthorInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    profile?: UserProfileCreateNestedOneWithoutUserInput
+    roles?: UserRoleCreateNestedManyWithoutUserInput
+    votes?: VoteCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutNotificationPreferencesInput = {
+    id?: string
+    email: string
+    username: string
+    password?: string | null
+    emailVerified?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastLoginAt?: Date | string | null
+    lastLoginIp?: string | null
+    status?: $Enums.UserStatus
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    createdNotes?: AdminNoteUncheckedCreateNestedManyWithoutCreatedByInput
+    adminNotes?: AdminNoteUncheckedCreateNestedManyWithoutUserInput
+    auditLogs?: AuditLogUncheckedCreateNestedManyWithoutUserInput
+    comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
+    media?: MediaUncheckedCreateNestedManyWithoutUploadedByInput
+    posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    profile?: UserProfileUncheckedCreateNestedOneWithoutUserInput
+    roles?: UserRoleUncheckedCreateNestedManyWithoutUserInput
+    votes?: VoteUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutNotificationPreferencesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutNotificationPreferencesInput, UserUncheckedCreateWithoutNotificationPreferencesInput>
+  }
+
+  export type UserUpsertWithoutNotificationPreferencesInput = {
+    update: XOR<UserUpdateWithoutNotificationPreferencesInput, UserUncheckedUpdateWithoutNotificationPreferencesInput>
+    create: XOR<UserCreateWithoutNotificationPreferencesInput, UserUncheckedCreateWithoutNotificationPreferencesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutNotificationPreferencesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutNotificationPreferencesInput, UserUncheckedUpdateWithoutNotificationPreferencesInput>
+  }
+
+  export type UserUpdateWithoutNotificationPreferencesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastLoginIp?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    createdNotes?: AdminNoteUpdateManyWithoutCreatedByNestedInput
+    adminNotes?: AdminNoteUpdateManyWithoutUserNestedInput
+    auditLogs?: AuditLogUpdateManyWithoutUserNestedInput
+    comments?: CommentUpdateManyWithoutAuthorNestedInput
+    media?: MediaUpdateManyWithoutUploadedByNestedInput
+    posts?: PostUpdateManyWithoutAuthorNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    profile?: UserProfileUpdateOneWithoutUserNestedInput
+    roles?: UserRoleUpdateManyWithoutUserNestedInput
+    votes?: VoteUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutNotificationPreferencesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastLoginIp?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    createdNotes?: AdminNoteUncheckedUpdateManyWithoutCreatedByNestedInput
+    adminNotes?: AdminNoteUncheckedUpdateManyWithoutUserNestedInput
+    auditLogs?: AuditLogUncheckedUpdateManyWithoutUserNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
+    media?: MediaUncheckedUpdateManyWithoutUploadedByNestedInput
+    posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    profile?: UserProfileUncheckedUpdateOneWithoutUserNestedInput
+    roles?: UserRoleUncheckedUpdateManyWithoutUserNestedInput
+    votes?: VoteUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type AccountCreateManyUserInput = {
@@ -34012,6 +36018,53 @@ export namespace Prisma {
     scope?: string | null
     id_token?: string | null
     session_state?: string | null
+  }
+
+  export type AdminNoteCreateManyCreatedByInput = {
+    id?: string
+    userId: string
+    note: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AdminNoteCreateManyUserInput = {
+    id?: string
+    note: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createdById: string
+  }
+
+  export type AuditLogCreateManyUserInput = {
+    id?: string
+    action: string
+    target?: string | null
+    ip?: string | null
+    createdAt?: Date | string
+    meta?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type CommentCreateManyAuthorInput = {
+    id?: string
+    postId: string
+    parentId?: string | null
+    content: string
+    status?: $Enums.CommentStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    ipAddress?: string | null
+    isSpam?: boolean
+    reported?: boolean
+  }
+
+  export type MediaCreateManyUploadedByInput = {
+    id?: string
+    url: string
+    type: string
+    size: number
+    createdAt?: Date | string
   }
 
   export type PostCreateManyAuthorInput = {
@@ -34030,18 +36083,14 @@ export namespace Prisma {
     viewCount?: number
   }
 
-  export type CommentCreateManyAuthorInput = {
+  export type SessionCreateManyUserInput = {
     id?: string
-    postId: string
-    parentId?: string | null
-    content: string
-    status?: $Enums.CommentStatus
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    deletedAt?: Date | string | null
-    ipAddress?: string | null
-    isSpam?: boolean
-    reported?: boolean
+    sessionToken: string
+    expires: Date | string
+  }
+
+  export type UserRoleCreateManyUserInput = {
+    roleId: string
   }
 
   export type VoteCreateManyUserInput = {
@@ -34050,69 +36099,6 @@ export namespace Prisma {
     commentId?: string | null
     value: number
     createdAt?: Date | string
-  }
-
-  export type MediaCreateManyUploadedByInput = {
-    id?: string
-    url: string
-    type: string
-    size: number
-    createdAt?: Date | string
-  }
-
-  export type AdminNoteCreateManyUserInput = {
-    id?: string
-    note: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    createdById: string
-  }
-
-  export type AdminNoteCreateManyCreatedByInput = {
-    id?: string
-    userId: string
-    note: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type AuditLogCreateManyUserInput = {
-    id?: string
-    action: string
-    target: string
-    ip: string
-    createdAt?: Date | string
-    meta?: NullableJsonNullValueInput | InputJsonValue
-  }
-
-  export type UserRoleUpdateWithoutUserInput = {
-    role?: RoleUpdateOneRequiredWithoutUsersNestedInput
-  }
-
-  export type UserRoleUncheckedUpdateWithoutUserInput = {
-    roleId?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type UserRoleUncheckedUpdateManyWithoutUserInput = {
-    roleId?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type SessionUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    sessionToken?: StringFieldUpdateOperationsInput | string
-    expires?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type SessionUncheckedUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    sessionToken?: StringFieldUpdateOperationsInput | string
-    expires?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type SessionUncheckedUpdateManyWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    sessionToken?: StringFieldUpdateOperationsInput | string
-    expires?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type AccountUpdateWithoutUserInput = {
@@ -34157,60 +36143,79 @@ export namespace Prisma {
     session_state?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
-  export type PostUpdateWithoutAuthorInput = {
+  export type AdminNoteUpdateWithoutCreatedByInput = {
     id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
-    summary?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
+    note?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    version?: IntFieldUpdateOperationsInput | number
-    isFeatured?: BoolFieldUpdateOperationsInput | boolean
-    viewCount?: IntFieldUpdateOperationsInput | number
-    categories?: PostCategoryUpdateManyWithoutPostNestedInput
-    tags?: PostTagUpdateManyWithoutPostNestedInput
-    comments?: CommentUpdateManyWithoutPostNestedInput
-    votes?: VoteUpdateManyWithoutPostNestedInput
+    user?: UserUpdateOneRequiredWithoutAdminNotesNestedInput
   }
 
-  export type PostUncheckedUpdateWithoutAuthorInput = {
+  export type AdminNoteUncheckedUpdateWithoutCreatedByInput = {
     id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
-    summary?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
+    userId?: StringFieldUpdateOperationsInput | string
+    note?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    version?: IntFieldUpdateOperationsInput | number
-    isFeatured?: BoolFieldUpdateOperationsInput | boolean
-    viewCount?: IntFieldUpdateOperationsInput | number
-    categories?: PostCategoryUncheckedUpdateManyWithoutPostNestedInput
-    tags?: PostTagUncheckedUpdateManyWithoutPostNestedInput
-    comments?: CommentUncheckedUpdateManyWithoutPostNestedInput
-    votes?: VoteUncheckedUpdateManyWithoutPostNestedInput
   }
 
-  export type PostUncheckedUpdateManyWithoutAuthorInput = {
+  export type AdminNoteUncheckedUpdateManyWithoutCreatedByInput = {
     id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
-    summary?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
+    userId?: StringFieldUpdateOperationsInput | string
+    note?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    version?: IntFieldUpdateOperationsInput | number
-    isFeatured?: BoolFieldUpdateOperationsInput | boolean
-    viewCount?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type AdminNoteUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    note?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdBy?: UserUpdateOneRequiredWithoutCreatedNotesNestedInput
+  }
+
+  export type AdminNoteUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    note?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type AdminNoteUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    note?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdById?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type AuditLogUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    target?: NullableStringFieldUpdateOperationsInput | string | null
+    ip?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    meta?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type AuditLogUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    target?: NullableStringFieldUpdateOperationsInput | string | null
+    ip?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    meta?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type AuditLogUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    action?: StringFieldUpdateOperationsInput | string
+    target?: NullableStringFieldUpdateOperationsInput | string | null
+    ip?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    meta?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type CommentUpdateWithoutAuthorInput = {
@@ -34223,9 +36228,9 @@ export namespace Prisma {
     ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
     isSpam?: BoolFieldUpdateOperationsInput | boolean
     reported?: BoolFieldUpdateOperationsInput | boolean
-    post?: PostUpdateOneRequiredWithoutCommentsNestedInput
     parent?: CommentUpdateOneWithoutChildrenNestedInput
     children?: CommentUpdateManyWithoutParentNestedInput
+    post?: PostUpdateOneRequiredWithoutCommentsNestedInput
     votes?: VoteUpdateManyWithoutCommentNestedInput
   }
 
@@ -34259,12 +36264,126 @@ export namespace Prisma {
     reported?: BoolFieldUpdateOperationsInput | boolean
   }
 
+  export type MediaUpdateWithoutUploadedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    size?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    Post?: PostUpdateManyWithoutMediaNestedInput
+  }
+
+  export type MediaUncheckedUpdateWithoutUploadedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    size?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    Post?: PostUncheckedUpdateManyWithoutMediaNestedInput
+  }
+
+  export type MediaUncheckedUpdateManyWithoutUploadedByInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    size?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PostUpdateWithoutAuthorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    summary?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    version?: IntFieldUpdateOperationsInput | number
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    viewCount?: IntFieldUpdateOperationsInput | number
+    comments?: CommentUpdateManyWithoutPostNestedInput
+    categories?: PostCategoryUpdateManyWithoutPostNestedInput
+    tags?: PostTagUpdateManyWithoutPostNestedInput
+    votes?: VoteUpdateManyWithoutPostNestedInput
+    Media?: MediaUpdateManyWithoutPostNestedInput
+  }
+
+  export type PostUncheckedUpdateWithoutAuthorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    summary?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    version?: IntFieldUpdateOperationsInput | number
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    viewCount?: IntFieldUpdateOperationsInput | number
+    comments?: CommentUncheckedUpdateManyWithoutPostNestedInput
+    categories?: PostCategoryUncheckedUpdateManyWithoutPostNestedInput
+    tags?: PostTagUncheckedUpdateManyWithoutPostNestedInput
+    votes?: VoteUncheckedUpdateManyWithoutPostNestedInput
+    Media?: MediaUncheckedUpdateManyWithoutPostNestedInput
+  }
+
+  export type PostUncheckedUpdateManyWithoutAuthorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    summary?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    version?: IntFieldUpdateOperationsInput | number
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    viewCount?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type SessionUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sessionToken?: StringFieldUpdateOperationsInput | string
+    expires?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SessionUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sessionToken?: StringFieldUpdateOperationsInput | string
+    expires?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SessionUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sessionToken?: StringFieldUpdateOperationsInput | string
+    expires?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserRoleUpdateWithoutUserInput = {
+    role?: RoleUpdateOneRequiredWithoutUsersNestedInput
+  }
+
+  export type UserRoleUncheckedUpdateWithoutUserInput = {
+    roleId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type UserRoleUncheckedUpdateManyWithoutUserInput = {
+    roleId?: StringFieldUpdateOperationsInput | string
+  }
+
   export type VoteUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     value?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    post?: PostUpdateOneWithoutVotesNestedInput
     comment?: CommentUpdateOneWithoutVotesNestedInput
+    post?: PostUpdateOneWithoutVotesNestedInput
   }
 
   export type VoteUncheckedUpdateWithoutUserInput = {
@@ -34283,123 +36402,12 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type MediaUpdateWithoutUploadedByInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    url?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
-    size?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type MediaUncheckedUpdateWithoutUploadedByInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    url?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
-    size?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type MediaUncheckedUpdateManyWithoutUploadedByInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    url?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
-    size?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type AdminNoteUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    note?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdBy?: UserUpdateOneRequiredWithoutCreatedNotesNestedInput
-  }
-
-  export type AdminNoteUncheckedUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    note?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdById?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type AdminNoteUncheckedUpdateManyWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    note?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdById?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type AdminNoteUpdateWithoutCreatedByInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    note?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutAdminNotesNestedInput
-  }
-
-  export type AdminNoteUncheckedUpdateWithoutCreatedByInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    note?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type AdminNoteUncheckedUpdateManyWithoutCreatedByInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    note?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type AuditLogUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    action?: StringFieldUpdateOperationsInput | string
-    target?: StringFieldUpdateOperationsInput | string
-    ip?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    meta?: NullableJsonNullValueInput | InputJsonValue
-  }
-
-  export type AuditLogUncheckedUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    action?: StringFieldUpdateOperationsInput | string
-    target?: StringFieldUpdateOperationsInput | string
-    ip?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    meta?: NullableJsonNullValueInput | InputJsonValue
-  }
-
-  export type AuditLogUncheckedUpdateManyWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    action?: StringFieldUpdateOperationsInput | string
-    target?: StringFieldUpdateOperationsInput | string
-    ip?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    meta?: NullableJsonNullValueInput | InputJsonValue
-  }
-
-  export type UserRoleCreateManyRoleInput = {
-    userId: string
-  }
-
   export type RolePermissionCreateManyRoleInput = {
     permissionId: string
   }
 
-  export type UserRoleUpdateWithoutRoleInput = {
-    user?: UserUpdateOneRequiredWithoutRolesNestedInput
-  }
-
-  export type UserRoleUncheckedUpdateWithoutRoleInput = {
-    userId?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type UserRoleUncheckedUpdateManyWithoutRoleInput = {
-    userId?: StringFieldUpdateOperationsInput | string
+  export type UserRoleCreateManyRoleInput = {
+    userId: string
   }
 
   export type RolePermissionUpdateWithoutRoleInput = {
@@ -34412,6 +36420,18 @@ export namespace Prisma {
 
   export type RolePermissionUncheckedUpdateManyWithoutRoleInput = {
     permissionId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type UserRoleUpdateWithoutRoleInput = {
+    user?: UserUpdateOneRequiredWithoutRolesNestedInput
+  }
+
+  export type UserRoleUncheckedUpdateWithoutRoleInput = {
+    userId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type UserRoleUncheckedUpdateManyWithoutRoleInput = {
+    userId?: StringFieldUpdateOperationsInput | string
   }
 
   export type RolePermissionCreateManyPermissionInput = {
@@ -34430,14 +36450,6 @@ export namespace Prisma {
     roleId?: StringFieldUpdateOperationsInput | string
   }
 
-  export type PostCategoryCreateManyPostInput = {
-    categoryId: string
-  }
-
-  export type PostTagCreateManyPostInput = {
-    tagId: string
-  }
-
   export type CommentCreateManyPostInput = {
     id?: string
     authorId: string
@@ -34452,36 +36464,20 @@ export namespace Prisma {
     reported?: boolean
   }
 
+  export type PostCategoryCreateManyPostInput = {
+    categoryId: string
+  }
+
+  export type PostTagCreateManyPostInput = {
+    tagId: string
+  }
+
   export type VoteCreateManyPostInput = {
     id?: string
     userId: string
     commentId?: string | null
     value: number
     createdAt?: Date | string
-  }
-
-  export type PostCategoryUpdateWithoutPostInput = {
-    category?: CategoryUpdateOneRequiredWithoutPostsNestedInput
-  }
-
-  export type PostCategoryUncheckedUpdateWithoutPostInput = {
-    categoryId?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type PostCategoryUncheckedUpdateManyWithoutPostInput = {
-    categoryId?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type PostTagUpdateWithoutPostInput = {
-    tag?: TagUpdateOneRequiredWithoutPostsNestedInput
-  }
-
-  export type PostTagUncheckedUpdateWithoutPostInput = {
-    tagId?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type PostTagUncheckedUpdateManyWithoutPostInput = {
-    tagId?: StringFieldUpdateOperationsInput | string
   }
 
   export type CommentUpdateWithoutPostInput = {
@@ -34530,12 +36526,36 @@ export namespace Prisma {
     reported?: BoolFieldUpdateOperationsInput | boolean
   }
 
+  export type PostCategoryUpdateWithoutPostInput = {
+    category?: CategoryUpdateOneRequiredWithoutPostsNestedInput
+  }
+
+  export type PostCategoryUncheckedUpdateWithoutPostInput = {
+    categoryId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type PostCategoryUncheckedUpdateManyWithoutPostInput = {
+    categoryId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type PostTagUpdateWithoutPostInput = {
+    tag?: TagUpdateOneRequiredWithoutPostsNestedInput
+  }
+
+  export type PostTagUncheckedUpdateWithoutPostInput = {
+    tagId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type PostTagUncheckedUpdateManyWithoutPostInput = {
+    tagId?: StringFieldUpdateOperationsInput | string
+  }
+
   export type VoteUpdateWithoutPostInput = {
     id?: StringFieldUpdateOperationsInput | string
     value?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutVotesNestedInput
     comment?: CommentUpdateOneWithoutVotesNestedInput
+    user?: UserUpdateOneRequiredWithoutVotesNestedInput
   }
 
   export type VoteUncheckedUpdateWithoutPostInput = {
@@ -34551,6 +36571,33 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     commentId?: NullableStringFieldUpdateOperationsInput | string | null
     value?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MediaUpdateWithoutPostInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    size?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    uploadedBy?: UserUpdateOneWithoutMediaNestedInput
+  }
+
+  export type MediaUncheckedUpdateWithoutPostInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    size?: IntFieldUpdateOperationsInput | number
+    uploadedById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MediaUncheckedUpdateManyWithoutPostInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    size?: IntFieldUpdateOperationsInput | number
+    uploadedById?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -34622,6 +36669,65 @@ export namespace Prisma {
     postId?: StringFieldUpdateOperationsInput | string
   }
 
+  export type PostUpdateWithoutMediaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    summary?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    version?: IntFieldUpdateOperationsInput | number
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    viewCount?: IntFieldUpdateOperationsInput | number
+    comments?: CommentUpdateManyWithoutPostNestedInput
+    author?: UserUpdateOneRequiredWithoutPostsNestedInput
+    categories?: PostCategoryUpdateManyWithoutPostNestedInput
+    tags?: PostTagUpdateManyWithoutPostNestedInput
+    votes?: VoteUpdateManyWithoutPostNestedInput
+  }
+
+  export type PostUncheckedUpdateWithoutMediaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    summary?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
+    authorId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    version?: IntFieldUpdateOperationsInput | number
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    viewCount?: IntFieldUpdateOperationsInput | number
+    comments?: CommentUncheckedUpdateManyWithoutPostNestedInput
+    categories?: PostCategoryUncheckedUpdateManyWithoutPostNestedInput
+    tags?: PostTagUncheckedUpdateManyWithoutPostNestedInput
+    votes?: VoteUncheckedUpdateManyWithoutPostNestedInput
+  }
+
+  export type PostUncheckedUpdateManyWithoutMediaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    summary?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumPostStatusFieldUpdateOperationsInput | $Enums.PostStatus
+    authorId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    version?: IntFieldUpdateOperationsInput | number
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    viewCount?: IntFieldUpdateOperationsInput | number
+  }
+
   export type CommentCreateManyParentInput = {
     id?: string
     postId: string
@@ -34654,9 +36760,9 @@ export namespace Prisma {
     ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
     isSpam?: BoolFieldUpdateOperationsInput | boolean
     reported?: BoolFieldUpdateOperationsInput | boolean
-    post?: PostUpdateOneRequiredWithoutCommentsNestedInput
     author?: UserUpdateOneRequiredWithoutCommentsNestedInput
     children?: CommentUpdateManyWithoutParentNestedInput
+    post?: PostUpdateOneRequiredWithoutCommentsNestedInput
     votes?: VoteUpdateManyWithoutCommentNestedInput
   }
 
@@ -34694,8 +36800,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     value?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutVotesNestedInput
     post?: PostUpdateOneWithoutVotesNestedInput
+    user?: UserUpdateOneRequiredWithoutVotesNestedInput
   }
 
   export type VoteUncheckedUpdateWithoutCommentInput = {
