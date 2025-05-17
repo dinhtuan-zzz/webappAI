@@ -42,6 +42,9 @@ export function UserMenu() {
         <DropdownMenuItem asChild>
           <Link href="/my-posts">My Posts</Link>
         </DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <Link href={`/user/${user.username}/settings`}>Account Settings</Link>
+        </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={() => signOut({ callbackUrl: "/" })} className="text-red-600 cursor-pointer">
           Logout
