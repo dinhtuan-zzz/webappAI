@@ -1,33 +1,32 @@
 "use client";
 import { useState, useMemo, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { ThumbsUp, MessageSquare } from "lucide-react";
+import { ThumbsUp, MessageSquare, Eye } from "lucide-react";
 import Image from "next/image";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import { SearchBar } from "@/components/SearchBar";
 import { UserMenu } from "@/components/UserMenu";
 import { CategoriesNav, Category } from "@/components/CategoriesNav";
+import useSWR from "swr";
+
+const fetcher = (url: string) => fetch(url).then(res => res.json());
 
 export default function HomePageWrapper() {
   const [search, setSearch] = useState("");
-  const [posts, setPosts] = useState<any[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { data: postsData, isLoading } = useSWR("/api/posts", fetcher);
+  const posts = postsData?.posts || [];
+  const [loadingCats, setLoadingCats] = useState(true);
 
-  // Fetch posts and categories on mount
+  // Fetch categories on mount
   useEffect(() => {
     (async () => {
-      const [postsRes, catsRes] = await Promise.all([
-        fetch("/api/posts"),
-        fetch("/api/categories"),
-      ]);
-      const postsData = await postsRes.json();
+      const catsRes = await fetch("/api/categories");
       const catsData = await catsRes.json();
-      setPosts(postsData.posts);
       setCategories(catsData.categories);
-      setLoading(false);
+      setLoadingCats(false);
     })();
   }, []);
 
@@ -54,7 +53,7 @@ export default function HomePageWrapper() {
     posts={filteredPosts}
     search={search}
     setSearch={setSearch}
-    loading={loading}
+    loading={isLoading || loadingCats}
     categories={categories}
     selectedCategories={selectedCategories}
     setSelectedCategories={setSelectedCategories}
@@ -126,6 +125,10 @@ function Home({ posts, search, setSearch, loading, categories, selectedCategorie
   );
 }
 
+function formatNumber(n: number) {
+  return n >= 1000 ? (n / 1000).toFixed(1).replace(/\.0$/, "") + "k" : n.toString();
+}
+
 function PostCard({ post }: { post: any }) {
   const avatar = post.author?.profile?.avatarUrl || "/avatar-placeholder.png";
   const authorName = post.author?.profile?.displayName || post.author?.username || "Unknown";
@@ -161,6 +164,7 @@ function PostCard({ post }: { post: any }) {
           <div className="flex items-center gap-4 mt-2 text-xs text-gray-500">
             <span className="flex items-center gap-1"><ThumbsUp className="w-4 h-4" />{post._count.votes}</span>
             <span className="flex items-center gap-1"><MessageSquare className="w-4 h-4" />{post._count.comments}</span>
+            <span className="flex items-center gap-1"><Eye className="w-4 h-4" />{formatNumber(post.viewCount || 0)}</span>
           </div>
         </div>
       </div>

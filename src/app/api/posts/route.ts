@@ -22,6 +22,7 @@ export async function GET() {
         _count: {
           select: { votes: true, comments: true },
         },
+        viewCount: true,
       },
     });
     return NextResponse.json({ posts });

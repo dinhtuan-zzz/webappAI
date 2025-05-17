@@ -11,6 +11,7 @@ import { useSession } from "next-auth/react";
 import { useState } from "react";
 import { CommentForm } from "@/components/CommentForm";
 import { CommentsSection } from "./CommentsSection";
+import { ViewCount } from "./ViewCount";
 
 function nestComments(comments: any[]): CommentType[] {
   const map = new Map();
@@ -49,6 +50,7 @@ export default async function BlogDetailPage(props: { params: { slug: string } }
       tags: { include: { tag: true } },
       id: true,
       votes: { select: { value: true, userId: true } },
+      viewCount: true,
     },
   });
   if (!post) return <div>Not found</div>;
@@ -102,7 +104,8 @@ export default async function BlogDetailPage(props: { params: { slug: string } }
         <div className="flex items-center gap-3 mb-2">
           <Image src={avatar} alt={authorName} width={32} height={32} className="rounded-full border border-[#e6e6e6]" />
           <span className="text-sm text-[#2a4257] font-medium">{authorName}</span>
-          <span className="text-xs text-gray-400 ml-auto">{new Date(post.createdAt).toLocaleDateString()}</span>
+          <span className="text-xs text-gray-400">{new Date(post.createdAt).toLocaleDateString()}</span>
+          <ViewCount postId={post.id} initialCount={post.viewCount || 0} />
         </div>
         <div className="mb-4">
           <PostVote postId={post.id} initialCount={voteCount} initialUserVote={userVote} />
