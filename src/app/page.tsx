@@ -7,36 +7,69 @@ import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import { SearchBar } from "@/components/SearchBar";
 import { UserMenu } from "@/components/UserMenu";
+import { CategoriesNav, Category } from "@/components/CategoriesNav";
 
 export default function HomePageWrapper() {
   const [search, setSearch] = useState("");
   const [posts, setPosts] = useState<any[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Fetch posts on mount
+  // Fetch posts and categories on mount
   useEffect(() => {
     (async () => {
-      const res = await fetch("/api/posts");
-      const data = await res.json();
-      setPosts(data.posts);
+      const [postsRes, catsRes] = await Promise.all([
+        fetch("/api/posts"),
+        fetch("/api/categories"),
+      ]);
+      const postsData = await postsRes.json();
+      const catsData = await catsRes.json();
+      setPosts(postsData.posts);
+      setCategories(catsData.categories);
       setLoading(false);
     })();
   }, []);
 
+  // Filter posts by search and selected categories
   const filteredPosts = useMemo(() => {
-    if (!search.trim()) return posts;
-    const q = search.toLowerCase();
-    return posts.filter((post) =>
-      post.title.toLowerCase().includes(q) ||
-      (post.summary && post.summary.toLowerCase().includes(q)) ||
-      (post.tags && post.tags.some((t: any) => t.tag.name.toLowerCase().includes(q)))
-    );
-  }, [search, posts]);
+    let filtered = posts;
+    if (selectedCategories.length > 0) {
+      filtered = filtered.filter((post) =>
+        post.categories && post.categories.some((cat: any) => selectedCategories.includes(cat.category.id))
+      );
+    }
+    if (search.trim()) {
+      const q = search.toLowerCase();
+      filtered = filtered.filter((post) =>
+        post.title.toLowerCase().includes(q) ||
+        (post.summary && post.summary.toLowerCase().includes(q)) ||
+        (post.tags && post.tags.some((t: any) => t.tag.name.toLowerCase().includes(q)))
+      );
+    }
+    return filtered;
+  }, [search, posts, selectedCategories]);
 
-  return <Home posts={filteredPosts} search={search} setSearch={setSearch} loading={loading} />;
+  return <Home
+    posts={filteredPosts}
+    search={search}
+    setSearch={setSearch}
+    loading={loading}
+    categories={categories}
+    selectedCategories={selectedCategories}
+    setSelectedCategories={setSelectedCategories}
+  />;
 }
 
-function Home({ posts, search, setSearch, loading }: { posts: any[]; search: string; setSearch: (v: string) => void; loading: boolean }) {
+function Home({ posts, search, setSearch, loading, categories, selectedCategories, setSelectedCategories }: {
+  posts: any[];
+  search: string;
+  setSearch: (v: string) => void;
+  loading: boolean;
+  categories: Category[];
+  selectedCategories: string[];
+  setSelectedCategories: (ids: string[]) => void;
+}) {
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-[#f7fafc] via-[#e6f0f7] to-[#f3f7f4] text-gray-900 dark:text-gray-100 font-sans">
       {/* Header */}
@@ -58,8 +91,13 @@ function Home({ posts, search, setSearch, loading }: { posts: any[]; search: str
         </nav>
       </header>
 
-      {/* Search Bar */}
+      {/* Categories Navigation */}
       <main className="flex-1 w-full max-w-6xl mx-auto px-2 sm:px-6 py-8">
+        <CategoriesNav
+          categories={categories}
+          selected={selectedCategories}
+          onSelect={setSelectedCategories}
+        />
         <SearchBar value={search} onChange={e => setSearch(e.target.value)} placeholder="Search blogs by title, summary, or tag..." />
         <h1 className="text-3xl sm:text-4xl font-bold text-[#2a4257] mb-8 text-center tracking-tight">
           Latest Blogs
