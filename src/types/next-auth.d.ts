@@ -1,13 +1,15 @@
-// lavie/src/types/next-auth.d.ts
+// src/next-auth.d.ts
 import NextAuth, { DefaultSession } from "next-auth";
 
 declare module "next-auth" {
   interface Session {
-    user?: {
-      id?: string;
+    user: {
+      id: string;
+      username: string;
     } & DefaultSession["user"];
   }
-  interface User {
-    id: string;
+
+  interface User extends DefaultUser {
+    username: string;
   }
 }

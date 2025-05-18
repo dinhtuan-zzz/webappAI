@@ -19,6 +19,7 @@ export async function GET(req: Request, { params }: { params: { username: string
     sessionToken: s.sessionToken,
     device: s.device || "Unknown",
     ip: s.ip || "Unknown",
+    location: s.location || "Unknown",
     lastActive: s.expires,
     isCurrent: s.sessionToken === currentToken,
   }));

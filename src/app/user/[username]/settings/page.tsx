@@ -12,7 +12,7 @@ import { z as zPassword, ZodType as ZodTypePassword } from "zod";
 import { zodResolver as zodPasswordResolver } from "@hookform/resolvers/zod";
 import { Switch } from "@/components/ui/switch";
 import useSWR from "swr";
-
+import { SessionManager } from "@/components/SessionManager";
 const accountSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
   username: z.string().min(3, { message: "Username must be at least 3 characters" }),
@@ -466,7 +466,7 @@ function SecurityTab({ username }: { username: string }) {
       setSaving(false);
     }
   };
-
+  console.log("Rendering SecurityTab with username:", username);
   return (
     <div className="space-y-6">
       {/* 2FA Section */}
@@ -496,26 +496,8 @@ function SecurityTab({ username }: { username: string }) {
       {/* Sessions Section */}
       <div className="border rounded-lg p-4 bg-muted/50">
         <h4 className="font-semibold mb-2">Active Sessions</h4>
-        {loadingSessions ? (
-          <div>Loading sessions...</div>
-        ) : (
-          <ul className="space-y-2 mb-2">
-            {sessions.map((sess: any) => (
-              <li key={sess.id} className={`flex justify-between items-center border rounded p-2 ${sess.isCurrent ? "bg-green-50 border-green-300" : ""}`}>
-                <div>
-                  <div className="font-medium">{sess.device}</div>
-                  <div className="text-xs text-muted-foreground">{sess.ip} • Last active: {new Date(sess.lastActive).toLocaleString()}</div>
-                </div>
-                {sess.isCurrent ? (
-                  <span className="text-xs text-green-600 font-semibold">Current Session</span>
-                ) : (
-                  <Button size="sm" variant="outline" onClick={() => handleRevokeSession(sess.id)} disabled={saving}>Revoke</Button>
-                )}
-              </li>
-            ))}
-          </ul>
-        )}
-        <Button size="sm" variant="destructive" onClick={handleRevokeAll} disabled={saving}>Log out of all other sessions</Button>
+        
+        <SessionManager username={username} />
       </div>
       {/* Security Activity Section */}
       <div className="border rounded-lg p-4 bg-muted/50">
