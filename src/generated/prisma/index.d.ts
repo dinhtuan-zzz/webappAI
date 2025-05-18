@@ -9827,6 +9827,9 @@ export namespace Prisma {
     sessionToken: string | null
     userId: string | null
     expires: Date | null
+    device: string | null
+    ip: string | null
+    location: string | null
   }
 
   export type SessionMaxAggregateOutputType = {
@@ -9834,6 +9837,9 @@ export namespace Prisma {
     sessionToken: string | null
     userId: string | null
     expires: Date | null
+    device: string | null
+    ip: string | null
+    location: string | null
   }
 
   export type SessionCountAggregateOutputType = {
@@ -9841,6 +9847,9 @@ export namespace Prisma {
     sessionToken: number
     userId: number
     expires: number
+    device: number
+    ip: number
+    location: number
     _all: number
   }
 
@@ -9850,6 +9859,9 @@ export namespace Prisma {
     sessionToken?: true
     userId?: true
     expires?: true
+    device?: true
+    ip?: true
+    location?: true
   }
 
   export type SessionMaxAggregateInputType = {
@@ -9857,6 +9869,9 @@ export namespace Prisma {
     sessionToken?: true
     userId?: true
     expires?: true
+    device?: true
+    ip?: true
+    location?: true
   }
 
   export type SessionCountAggregateInputType = {
@@ -9864,6 +9879,9 @@ export namespace Prisma {
     sessionToken?: true
     userId?: true
     expires?: true
+    device?: true
+    ip?: true
+    location?: true
     _all?: true
   }
 
@@ -9944,6 +9962,9 @@ export namespace Prisma {
     sessionToken: string
     userId: string
     expires: Date
+    device: string | null
+    ip: string | null
+    location: string | null
     _count: SessionCountAggregateOutputType | null
     _min: SessionMinAggregateOutputType | null
     _max: SessionMaxAggregateOutputType | null
@@ -9968,6 +9989,9 @@ export namespace Prisma {
     sessionToken?: boolean
     userId?: boolean
     expires?: boolean
+    device?: boolean
+    ip?: boolean
+    location?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["session"]>
 
@@ -9976,6 +10000,9 @@ export namespace Prisma {
     sessionToken?: boolean
     userId?: boolean
     expires?: boolean
+    device?: boolean
+    ip?: boolean
+    location?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["session"]>
 
@@ -9984,6 +10011,9 @@ export namespace Prisma {
     sessionToken?: boolean
     userId?: boolean
     expires?: boolean
+    device?: boolean
+    ip?: boolean
+    location?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["session"]>
 
@@ -9992,9 +10022,12 @@ export namespace Prisma {
     sessionToken?: boolean
     userId?: boolean
     expires?: boolean
+    device?: boolean
+    ip?: boolean
+    location?: boolean
   }
 
-  export type SessionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "sessionToken" | "userId" | "expires", ExtArgs["result"]["session"]>
+  export type SessionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "sessionToken" | "userId" | "expires" | "device" | "ip" | "location", ExtArgs["result"]["session"]>
   export type SessionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
@@ -10015,6 +10048,9 @@ export namespace Prisma {
       sessionToken: string
       userId: string
       expires: Date
+      device: string | null
+      ip: string | null
+      location: string | null
     }, ExtArgs["result"]["session"]>
     composites: {}
   }
@@ -10443,6 +10479,9 @@ export namespace Prisma {
     readonly sessionToken: FieldRef<"Session", 'String'>
     readonly userId: FieldRef<"Session", 'String'>
     readonly expires: FieldRef<"Session", 'DateTime'>
+    readonly device: FieldRef<"Session", 'String'>
+    readonly ip: FieldRef<"Session", 'String'>
+    readonly location: FieldRef<"Session", 'String'>
   }
     
 
@@ -26537,7 +26576,10 @@ export namespace Prisma {
     id: 'id',
     sessionToken: 'sessionToken',
     userId: 'userId',
-    expires: 'expires'
+    expires: 'expires',
+    device: 'device',
+    ip: 'ip',
+    location: 'location'
   };
 
   export type SessionScalarFieldEnum = (typeof SessionScalarFieldEnum)[keyof typeof SessionScalarFieldEnum]
@@ -27253,6 +27295,9 @@ export namespace Prisma {
     sessionToken?: StringFilter<"Session"> | string
     userId?: StringFilter<"Session"> | string
     expires?: DateTimeFilter<"Session"> | Date | string
+    device?: StringNullableFilter<"Session"> | string | null
+    ip?: StringNullableFilter<"Session"> | string | null
+    location?: StringNullableFilter<"Session"> | string | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
@@ -27261,6 +27306,9 @@ export namespace Prisma {
     sessionToken?: SortOrder
     userId?: SortOrder
     expires?: SortOrder
+    device?: SortOrderInput | SortOrder
+    ip?: SortOrderInput | SortOrder
+    location?: SortOrderInput | SortOrder
     user?: UserOrderByWithRelationInput
   }
 
@@ -27272,6 +27320,9 @@ export namespace Prisma {
     NOT?: SessionWhereInput | SessionWhereInput[]
     userId?: StringFilter<"Session"> | string
     expires?: DateTimeFilter<"Session"> | Date | string
+    device?: StringNullableFilter<"Session"> | string | null
+    ip?: StringNullableFilter<"Session"> | string | null
+    location?: StringNullableFilter<"Session"> | string | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id" | "sessionToken">
 
@@ -27280,6 +27331,9 @@ export namespace Prisma {
     sessionToken?: SortOrder
     userId?: SortOrder
     expires?: SortOrder
+    device?: SortOrderInput | SortOrder
+    ip?: SortOrderInput | SortOrder
+    location?: SortOrderInput | SortOrder
     _count?: SessionCountOrderByAggregateInput
     _max?: SessionMaxOrderByAggregateInput
     _min?: SessionMinOrderByAggregateInput
@@ -27293,6 +27347,9 @@ export namespace Prisma {
     sessionToken?: StringWithAggregatesFilter<"Session"> | string
     userId?: StringWithAggregatesFilter<"Session"> | string
     expires?: DateTimeWithAggregatesFilter<"Session"> | Date | string
+    device?: StringNullableWithAggregatesFilter<"Session"> | string | null
+    ip?: StringNullableWithAggregatesFilter<"Session"> | string | null
+    location?: StringNullableWithAggregatesFilter<"Session"> | string | null
   }
 
   export type AccountWhereInput = {
@@ -28606,6 +28663,9 @@ export namespace Prisma {
     id?: string
     sessionToken: string
     expires: Date | string
+    device?: string | null
+    ip?: string | null
+    location?: string | null
     user: UserCreateNestedOneWithoutSessionsInput
   }
 
@@ -28614,12 +28674,18 @@ export namespace Prisma {
     sessionToken: string
     userId: string
     expires: Date | string
+    device?: string | null
+    ip?: string | null
+    location?: string | null
   }
 
   export type SessionUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     sessionToken?: StringFieldUpdateOperationsInput | string
     expires?: DateTimeFieldUpdateOperationsInput | Date | string
+    device?: NullableStringFieldUpdateOperationsInput | string | null
+    ip?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
     user?: UserUpdateOneRequiredWithoutSessionsNestedInput
   }
 
@@ -28628,6 +28694,9 @@ export namespace Prisma {
     sessionToken?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     expires?: DateTimeFieldUpdateOperationsInput | Date | string
+    device?: NullableStringFieldUpdateOperationsInput | string | null
+    ip?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type SessionCreateManyInput = {
@@ -28635,12 +28704,18 @@ export namespace Prisma {
     sessionToken: string
     userId: string
     expires: Date | string
+    device?: string | null
+    ip?: string | null
+    location?: string | null
   }
 
   export type SessionUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     sessionToken?: StringFieldUpdateOperationsInput | string
     expires?: DateTimeFieldUpdateOperationsInput | Date | string
+    device?: NullableStringFieldUpdateOperationsInput | string | null
+    ip?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type SessionUncheckedUpdateManyInput = {
@@ -28648,6 +28723,9 @@ export namespace Prisma {
     sessionToken?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     expires?: DateTimeFieldUpdateOperationsInput | Date | string
+    device?: NullableStringFieldUpdateOperationsInput | string | null
+    ip?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type AccountCreateInput = {
@@ -30069,6 +30147,9 @@ export namespace Prisma {
     sessionToken?: SortOrder
     userId?: SortOrder
     expires?: SortOrder
+    device?: SortOrder
+    ip?: SortOrder
+    location?: SortOrder
   }
 
   export type SessionMaxOrderByAggregateInput = {
@@ -30076,6 +30157,9 @@ export namespace Prisma {
     sessionToken?: SortOrder
     userId?: SortOrder
     expires?: SortOrder
+    device?: SortOrder
+    ip?: SortOrder
+    location?: SortOrder
   }
 
   export type SessionMinOrderByAggregateInput = {
@@ -30083,6 +30167,9 @@ export namespace Prisma {
     sessionToken?: SortOrder
     userId?: SortOrder
     expires?: SortOrder
+    device?: SortOrder
+    ip?: SortOrder
+    location?: SortOrder
   }
 
   export type IntNullableFilter<$PrismaModel = never> = {
@@ -32747,12 +32834,18 @@ export namespace Prisma {
     id?: string
     sessionToken: string
     expires: Date | string
+    device?: string | null
+    ip?: string | null
+    location?: string | null
   }
 
   export type SessionUncheckedCreateWithoutUserInput = {
     id?: string
     sessionToken: string
     expires: Date | string
+    device?: string | null
+    ip?: string | null
+    location?: string | null
   }
 
   export type SessionCreateOrConnectWithoutUserInput = {
@@ -33084,6 +33177,9 @@ export namespace Prisma {
     sessionToken?: StringFilter<"Session"> | string
     userId?: StringFilter<"Session"> | string
     expires?: DateTimeFilter<"Session"> | Date | string
+    device?: StringNullableFilter<"Session"> | string | null
+    ip?: StringNullableFilter<"Session"> | string | null
+    location?: StringNullableFilter<"Session"> | string | null
   }
 
   export type UserNotificationPreferenceUpsertWithoutUserInput = {
@@ -36087,6 +36183,9 @@ export namespace Prisma {
     id?: string
     sessionToken: string
     expires: Date | string
+    device?: string | null
+    ip?: string | null
+    location?: string | null
   }
 
   export type UserRoleCreateManyUserInput = {
@@ -36352,18 +36451,27 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     sessionToken?: StringFieldUpdateOperationsInput | string
     expires?: DateTimeFieldUpdateOperationsInput | Date | string
+    device?: NullableStringFieldUpdateOperationsInput | string | null
+    ip?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type SessionUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     sessionToken?: StringFieldUpdateOperationsInput | string
     expires?: DateTimeFieldUpdateOperationsInput | Date | string
+    device?: NullableStringFieldUpdateOperationsInput | string | null
+    ip?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type SessionUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     sessionToken?: StringFieldUpdateOperationsInput | string
     expires?: DateTimeFieldUpdateOperationsInput | Date | string
+    device?: NullableStringFieldUpdateOperationsInput | string | null
+    ip?: NullableStringFieldUpdateOperationsInput | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type UserRoleUpdateWithoutUserInput = {

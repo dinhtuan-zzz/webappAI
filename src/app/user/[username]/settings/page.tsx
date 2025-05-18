@@ -151,7 +151,7 @@ export default function UserSettingsPage() {
             <NotificationTab username={(user as any)?.username || ""} />
           </TabsContent>
           <TabsContent value="security">
-            <div>Security settings go here.</div>
+            <SecurityTab username={(user as any)?.username || ""} />
           </TabsContent>
         </Tabs>
       </div>
@@ -378,5 +378,162 @@ function NotificationTab({ username }: { username: string }) {
       {message && <div className="text-green-600 text-sm mt-2">{message}</div>}
       {error && <div className="text-red-600 text-sm mt-2">{error}</div>}
     </form>
+  );
+}
+
+function SecurityTab({ username }: { username: string }) {
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
+  const [saving, setSaving] = useState(false);
+  // 2FA logic (placeholder)
+  const [twoFAEnabled, setTwoFAEnabled] = useState(false);
+  const [show2FASetup, setShow2FASetup] = useState(false);
+
+  // Fetch sessions
+  const { data: sessionsData, isLoading: loadingSessions, mutate: mutateSessions } = useSWR(
+    username ? `/api/users/${username}/sessions` : null,
+    (url) => fetch(url).then(res => res.json())
+  );
+  const sessions = sessionsData?.sessions || [];
+
+  // Fetch security activity
+  const { data: activityData, isLoading: loadingActivity } = useSWR(
+    username ? `/api/users/${username}/security-activity` : null,
+    (url) => fetch(url).then(res => res.json())
+  );
+  const activity = activityData?.activity || [];
+
+  // 2FA Setup (placeholder logic)
+  const handleEnable2FA = () => {
+    setShow2FASetup(true);
+    setMessage("");
+    setError("");
+  };
+  const handleDisable2FA = () => {
+    setSaving(true);
+    setTimeout(() => {
+      setTwoFAEnabled(false);
+      setMessage("2FA disabled.");
+      setSaving(false);
+    }, 1000);
+  };
+  const handleVerify2FA = () => {
+    setSaving(true);
+    setTimeout(() => {
+      setTwoFAEnabled(true);
+      setShow2FASetup(false);
+      setMessage("2FA enabled!");
+      setSaving(false);
+    }, 1000);
+  };
+
+  // Session logic
+  const handleRevokeSession = async (id: string) => {
+    setSaving(true);
+    setMessage("");
+    setError("");
+    try {
+      const res = await fetch(`/api/users/${username}/sessions/${id}`, { method: "DELETE" });
+      const result = await res.json();
+      if (res.ok) {
+        setMessage("Session revoked.");
+        mutateSessions();
+      } else {
+        setError(result.error || "Failed to revoke session");
+      }
+    } catch (err) {
+      setError("Failed to revoke session");
+    } finally {
+      setSaving(false);
+    }
+  };
+  const handleRevokeAll = async () => {
+    setSaving(true);
+    setMessage("");
+    setError("");
+    try {
+      const res = await fetch(`/api/users/${username}/sessions?allOthers=true`, { method: "DELETE" });
+      const result = await res.json();
+      if (res.ok) {
+        setMessage("All other sessions revoked.");
+        mutateSessions();
+      } else {
+        setError(result.error || "Failed to revoke sessions");
+      }
+    } catch (err) {
+      setError("Failed to revoke sessions");
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* 2FA Section */}
+      <div className="border rounded-lg p-4 bg-muted/50">
+        <h4 className="font-semibold mb-2">Two-Factor Authentication (2FA)</h4>
+        <div className="mb-2">Status: <span className={twoFAEnabled ? "text-green-600" : "text-red-600"}>{twoFAEnabled ? "Enabled" : "Disabled"}</span></div>
+        {!twoFAEnabled && !show2FASetup && (
+          <Button onClick={handleEnable2FA}>Enable 2FA</Button>
+        )}
+        {twoFAEnabled && !show2FASetup && (
+          <Button variant="destructive" onClick={handleDisable2FA} disabled={saving}>{saving ? "Disabling..." : "Disable 2FA"}</Button>
+        )}
+        {show2FASetup && (
+          <div className="mt-4 space-y-2">
+            <div>Scan this QR code with your authenticator app:</div>
+            <div className="w-32 h-32 bg-gray-300 rounded flex items-center justify-center">QR</div>
+            <div>Or enter this secret: <span className="font-mono">ABC123SECRET</span></div>
+            <div>
+              <label className="block mb-1 font-medium">Verification Code</label>
+              <Input type="text" className="w-40" />
+            </div>
+            <Button onClick={handleVerify2FA} disabled={saving}>{saving ? "Verifying..." : "Verify & Enable 2FA"}</Button>
+            <Button variant="outline" onClick={() => setShow2FASetup(false)} disabled={saving}>Cancel</Button>
+          </div>
+        )}
+      </div>
+      {/* Sessions Section */}
+      <div className="border rounded-lg p-4 bg-muted/50">
+        <h4 className="font-semibold mb-2">Active Sessions</h4>
+        {loadingSessions ? (
+          <div>Loading sessions...</div>
+        ) : (
+          <ul className="space-y-2 mb-2">
+            {sessions.map((sess: any) => (
+              <li key={sess.id} className={`flex justify-between items-center border rounded p-2 ${sess.isCurrent ? "bg-green-50 border-green-300" : ""}`}>
+                <div>
+                  <div className="font-medium">{sess.device}</div>
+                  <div className="text-xs text-muted-foreground">{sess.ip} • Last active: {new Date(sess.lastActive).toLocaleString()}</div>
+                </div>
+                {sess.isCurrent ? (
+                  <span className="text-xs text-green-600 font-semibold">Current Session</span>
+                ) : (
+                  <Button size="sm" variant="outline" onClick={() => handleRevokeSession(sess.id)} disabled={saving}>Revoke</Button>
+                )}
+              </li>
+            ))}
+          </ul>
+        )}
+        <Button size="sm" variant="destructive" onClick={handleRevokeAll} disabled={saving}>Log out of all other sessions</Button>
+      </div>
+      {/* Security Activity Section */}
+      <div className="border rounded-lg p-4 bg-muted/50">
+        <h4 className="font-semibold mb-2">Recent Security Activity</h4>
+        {loadingActivity ? (
+          <div>Loading activity...</div>
+        ) : (
+          <ul className="space-y-2">
+            {activity.map((act: any) => (
+              <li key={act.id} className="flex justify-between items-center">
+                <span>{act.action}</span>
+                <span className="text-xs text-muted-foreground">{new Date(act.createdAt).toLocaleString()}</span>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+      {(message || error) && <div className={message ? "text-green-600" : "text-red-600"}>{message || error}</div>}
+    </div>
   );
 } 

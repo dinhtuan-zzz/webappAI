@@ -1,6 +1,6 @@
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
+  //output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -83,6 +83,9 @@ model Session {
   userId       String
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id])
+  device        String?  // e.g., "Chrome on Windows"
+  ip            String?  // e.g., "192.168.1.1"
+  location      String?  // e.g., "Hanoi, Vietnam"
 }
 
 model Account {

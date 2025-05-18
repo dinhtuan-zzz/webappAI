@@ -169,7 +169,10 @@ exports.Prisma.SessionScalarFieldEnum = {
   id: 'id',
   sessionToken: 'sessionToken',
   userId: 'userId',
-  expires: 'expires'
+  expires: 'expires',
+  device: 'device',
+  ip: 'ip',
+  location: 'location'
 };
 
 exports.Prisma.AccountScalarFieldEnum = {
