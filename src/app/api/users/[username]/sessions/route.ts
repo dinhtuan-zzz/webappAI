@@ -35,11 +35,14 @@ export async function DELETE(req: Request, { params }: { params: { username: str
   const { searchParams } = new URL(req.url);
   const allOthers = searchParams.get("allOthers") === "true";
   if (allOthers) {
+    const currentToken =
+      (await cookies()).get("next-auth.session-token")?.value ||
+      (await cookies()).get("__Secure-next-auth.session-token")?.value;
     // Delete all sessions except current
     await prisma.session.deleteMany({
       where: {
         userId: user.id,
-        sessionToken: { not: session.sessionToken },
+        sessionToken: { not: currentToken },
       },
     });
     return NextResponse.json({ success: true });

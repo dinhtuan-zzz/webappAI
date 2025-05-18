@@ -20,7 +20,7 @@ export async function GET(req: Request, { params }: { params: { username: string
       emailMention: false,
       emailNewsletter: false,
       userId: user.id,
-      id: 0,
+      id: "",
     };
   }
   return NextResponse.json({ preferences: prefs });

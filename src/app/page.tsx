@@ -11,6 +11,7 @@ import { CategoriesNav, Category } from "@/components/CategoriesNav";
 import useSWR from "swr";
 import { TrendingPosts } from "@/components/TrendingPosts";
 import { Avatar } from "@/components/Avatar";
+import type { Post } from "@/types/Post";
 
 const fetcher = (url: string) => fetch(url).then(res => res.json());
 
@@ -38,13 +39,13 @@ export default function HomePageWrapper() {
   const filteredPosts = useMemo(() => {
     let filtered = posts;
     if (selectedCategories.length > 0) {
-      filtered = filtered.filter((post) =>
+      filtered = filtered.filter((post: Post) =>
         post.categories && post.categories.some((cat: any) => selectedCategories.includes(cat.category.id))
       );
     }
     if (search.trim()) {
       const q = search.toLowerCase();
-      filtered = filtered.filter((post) =>
+      filtered = filtered.filter((post: Post) =>
         post.title.toLowerCase().includes(q) ||
         (post.summary && post.summary.toLowerCase().includes(q)) ||
         (post.tags && post.tags.some((t: any) => t.tag.name.toLowerCase().includes(q)))
@@ -77,57 +78,33 @@ function Home({ posts, search, setSearch, loading, categories, selectedCategorie
 }) {
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-[#f7fafc] via-[#e6f0f7] to-[#f3f7f4] text-gray-900 dark:text-gray-100 font-sans">
-      {/* Header */}
-      <header className="w-full px-4 py-4 flex items-center justify-between bg-white/80 shadow-sm sticky top-0 z-20">
-        <div className="flex items-center gap-2">
-          <Image src="/frieren-hero-placeholder.png" alt="Lavie Logo" width={40} height={40} className="rounded" />
-          <span className="text-xl font-bold text-[#2a4257] tracking-tight">Lavie Manga Blog</span>
+      {/* Remove Header */}
+      {/* Categories Navigation, Trending, Search, Main Content */}
+      <TrendingPosts posts={trendingPosts} />
+      <CategoriesNav
+        categories={categories}
+        selected={selectedCategories}
+        onSelect={setSelectedCategories}
+      />
+      <SearchBar value={search} onChange={e => setSearch(e.target.value)} placeholder="Search blogs by title, summary, or tag..." />
+      <h1 className="text-3xl sm:text-4xl font-bold text-[#2a4257] mb-8 text-center tracking-tight">
+        Latest Blogs
+      </h1>
+      {loading ? (
+        <div className="text-center text-gray-500">Loading...</div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {posts.map((post) => (
+            <PostCard key={post.id} post={post} />
+          ))}
         </div>
-        <nav className="flex gap-4 items-center text-sm font-medium text-[#2a4257]">
-          <a href="#" className="hover:text-[#6bb7b7] transition-colors">Home</a>
-          <a href="#" className="hover:text-[#6bb7b7] transition-colors">Explore</a>
-          <a href="#" className="hover:text-[#6bb7b7] transition-colors">About</a>
-          {/* <Link href="/api/auth/signin" >
-            <Button className="ml-4 bg-[#6bb7b7] hover:bg-[#4e9a9a] text-white font-semibold shadow-md" size="sm">
-              Login
-            </Button>
-          </Link> */}
-          <UserMenu />
-        </nav>
-      </header>
-
-      {/* Categories Navigation */}
-      <main className="flex-1 w-full max-w-6xl mx-auto px-2 sm:px-6 py-8">
-        <TrendingPosts posts={trendingPosts} />
-        <CategoriesNav
-          categories={categories}
-          selected={selectedCategories}
-          onSelect={setSelectedCategories}
-        />
-        <SearchBar value={search} onChange={e => setSearch(e.target.value)} placeholder="Search blogs by title, summary, or tag..." />
-        <h1 className="text-3xl sm:text-4xl font-bold text-[#2a4257] mb-8 text-center tracking-tight">
-          Latest Blogs
-        </h1>
-        {loading ? (
-          <div className="text-center text-gray-500">Loading...</div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {posts.map((post) => (
-              <PostCard key={post.id} post={post} />
-            ))}
-          </div>
-        )}
-        <div className="flex justify-center mt-10">
-          <Button size="lg" className="bg-[#6bb7b7] hover:bg-[#4e9a9a] text-white font-semibold shadow-md">
-            Load More
-          </Button>
-        </div>
-      </main>
-
-      {/* Footer */}
-      <footer className="py-6 text-center text-sm text-gray-500">
-        © {new Date().getFullYear()} Lavie Manga Blog. Inspired by Frieren. All rights reserved.
-      </footer>
+      )}
+      <div className="flex justify-center mt-10">
+        <Button size="lg" className="bg-[#6bb7b7] hover:bg-[#4e9a9a] text-white font-semibold shadow-md">
+          Load More
+        </Button>
+      </div>
+      {/* Remove Footer */}
     </div>
   );
 }

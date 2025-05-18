@@ -9,7 +9,7 @@ export type Category = {
 };
 
 export function CategoriesNav({
-  categories,
+  categories= [],
   selected,
   onSelect,
 }: {
