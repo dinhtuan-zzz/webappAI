@@ -1,11 +1,10 @@
 "use client";
 import Link from "next/link";
-import { UserMenu } from "./UserMenu";
 import { SearchBar } from "./SearchBar";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-export default function Header() {
+export default function Header({ userMenu }: { userMenu: React.ReactNode }) {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [search, setSearch] = useState("");
   const router = useRouter();
@@ -39,7 +38,7 @@ export default function Header() {
         </div>
         {/* User menu */}
         <div className="flex items-center gap-2">
-          <UserMenu />
+          {userMenu}
           {/* Hamburger for mobile */}
           <button
             className="md:hidden ml-2 p-2 rounded hover:bg-gray-100"

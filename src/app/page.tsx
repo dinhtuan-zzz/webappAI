@@ -6,7 +6,7 @@ import Image from "next/image";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import { SearchBar } from "@/components/SearchBar";
-import { UserMenu } from "@/components/UserMenu";
+//import { UserMenu } from "@/components/UserMenuClient";
 import { CategoriesNav, Category } from "@/components/CategoriesNav";
 import useSWR from "swr";
 import { TrendingPosts } from "@/components/TrendingPosts";
@@ -86,7 +86,7 @@ function Home({ posts, search, setSearch, loading, categories, selectedCategorie
         selected={selectedCategories}
         onSelect={setSelectedCategories}
       />
-      <SearchBar value={search} onChange={e => setSearch(e.target.value)} placeholder="Search blogs by title, summary, or tag..." />
+      
       <h1 className="text-3xl sm:text-4xl font-bold text-[#2a4257] mb-8 text-center tracking-tight">
         Latest Blogs
       </h1>

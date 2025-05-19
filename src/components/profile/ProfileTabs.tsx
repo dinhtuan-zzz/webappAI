@@ -1,3 +1,4 @@
+'use client'
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { PostCard } from "@/components/ui/PostCard";
 import useSWR from "swr";

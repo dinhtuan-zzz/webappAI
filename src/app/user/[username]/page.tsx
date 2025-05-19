@@ -1,57 +1,59 @@
-"use client";
-
-import { useParams } from "next/navigation";
-import useSWR from "swr";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/authOptions";
 import ProfileHeader from "@/components/profile/ProfileHeader";
 import ProfileStats from "@/components/profile/ProfileStats";
 import ProfileTabs from "@/components/profile/ProfileTabs";
 import EditProfileModal from "@/components/profile/EditProfileModal";
-import { useState } from "react";
-import Link from "next/link";
+import { notFound } from "next/navigation";
+import ProfileClient from "./ProfileClient";
 
-const fetcher = (url: string) => fetch(url).then(res => res.json());
+interface Props {
+  params: { username: string };
+}
 
-export default function UserProfilePage() {
-  const { username } = useParams<{ username: string }>();
-  const { data: profile, isLoading: loadingProfile } = useSWR(
-    username ? `/api/users/${username}/profile` : null,
-    fetcher
-  );
-  const { data: posts, isLoading: loadingPosts } = useSWR(
-    username ? `/api/users/${username}/posts` : null,
-    fetcher
-  );
-  // TODO: Add comments/bookmarks fetch if needed
+const baseUrl = process.env.NEXTAUTH_URL || "http://localhost:3000";
 
-  const [editOpen, setEditOpen] = useState(false);
+async function fetchProfile(username: string) {
+  const res = await fetch(`${baseUrl}/api/users/${username}/profile`, { cache: "no-store" });
+  if (!res.ok) return null;
+  return res.json();
+}
 
-  if (loadingProfile) return <div>Loading profile...</div>;
-  if (!profile) return <div>User not found.</div>;
+async function fetchPosts(username: string) {
+  const res = await fetch(`${baseUrl}/api/users/${username}/posts`, { cache: "no-store" });
+  if (!res.ok) return null;
+  return res.json();
+}
 
-  // TODO: Replace with your own logic to check if this is the logged-in user
-  const isOwnProfile = false;
+export default async function UserProfilePage({ params }: { params: { username: string } }) {
+  const { username } = await params;
+  const session = await getServerSession(authOptions);
+  //const username = username;
+  const profile = await fetchProfile(username);
+  const posts = await fetchPosts(username);
 
+  if (!profile) return notFound();
+
+  // Check if this is the logged-in user's profile
+  const isOwnProfile = !!(session?.user && (session.user.username === username || session.user.email === profile.email));
+
+  // Modal state must be handled client-side
+  // We'll use a client wrapper for EditProfileModal
   return (
     <div className="max-w-3xl mx-auto py-8 px-4">
       <ProfileHeader
         profile={profile}
         isOwnProfile={isOwnProfile}
-        onEdit={() => setEditOpen(true)}
+        // onEdit will be handled in client wrapper
       />
       <ProfileStats profile={profile} />
-      <ProfileTabs
-        posts={posts?.posts}
-        loadingPosts={loadingPosts}
-        username={username}
-        // comments={...}
-        // bookmarks={...}
-      />
-      <EditProfileModal
-        open={editOpen}
-        onOpenChange={setEditOpen}
+      <ProfileClient
         profile={profile}
-        // onSave={...}
+        posts={posts?.posts}
+        username={username}
+        isOwnProfile={isOwnProfile}
       />
+      {/* EditProfileModal can be conditionally rendered in ProfileHeader or a client wrapper if needed */}
     </div>
   );
 } 

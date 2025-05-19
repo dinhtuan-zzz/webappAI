@@ -2,17 +2,16 @@
 import { useSession, signOut } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
-import Image from "next/image";
 import Link from "next/link";
 import { Avatar } from "@/components/Avatar";
 
-export function UserMenu() {
-  const { data: session } = useSession();
+export function UserMenuClient({session}: {session: any}) {
+  //const { data: session } = useSession();
   const user = session?.user;
   const avatarUrl = user?.image || user?.avatarUrl;
   const email = user?.email;
   const displayName = user?.name || user?.username || "User";
-  console.log("Session:", session);
+  //console.log("Session:", session);
 
   if (!user) {
     return (

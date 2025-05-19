@@ -2,7 +2,7 @@ import { Avatar } from "@/components/Avatar";
 import { Button } from "@/components/ui/button";
 
 export default function ProfileHeader({ profile, isOwnProfile, onEdit }: {
-  profile: any, isOwnProfile: boolean, onEdit: () => void
+  profile: any, isOwnProfile: boolean, onEdit?: () => void
 }) {
   return (
     <div className="flex items-center gap-4 mb-4">
@@ -20,7 +20,7 @@ export default function ProfileHeader({ profile, isOwnProfile, onEdit }: {
           Joined {new Date(profile.joined).toLocaleDateString()}
         </p>
       </div>
-      {isOwnProfile && (
+      {isOwnProfile && onEdit && (
         <Button className="ml-auto" onClick={onEdit}>Edit Profile</Button>
       )}
     </div>
