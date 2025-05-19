@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { PostWithCount } from "@/types/PostWithCount";
 
-function getTrendingScore(post) {
+
+function getTrendingScore(post: PostWithCount) {
   const now = new Date();
   const created = new Date(post.createdAt);
   const hoursSinceCreated = Math.max((now.getTime() - created.getTime()) / 36e5, 0.01); // avoid div by 0
@@ -38,7 +40,14 @@ export async function GET() {
         },
       },
     });
-    const scored = posts.map(post => ({ ...post, trendingScore: getTrendingScore(post) }));
+    const normalizedPosts = posts.map(post => ({
+      ...post,
+      author: {
+        ...post.author,
+        profile: post.author.profile ?? undefined,
+      },
+    }));
+    const scored = normalizedPosts.map(post => ({ ...post, trendingScore: getTrendingScore(post) }));
     scored.sort((a, b) => b.trendingScore - a.trendingScore);
     return NextResponse.json({ posts: scored.slice(0, 5) });
   } catch (error) {

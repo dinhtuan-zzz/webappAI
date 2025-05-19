@@ -5,7 +5,7 @@ export type Post = {
     slug: string;
     summary?: string;
     content?: string;
-    createdAt: string;
+    createdAt: string | Date;
     viewCount?: number;
     votes?: number;
     comments?: number;
@@ -13,8 +13,8 @@ export type Post = {
       username?: string;
       email?: string;
       profile?: {
-        avatarUrl?: string;
-        displayName?: string;
+        avatarUrl?: string | null;
+        displayName?: string | null;
       };
     };
     categories?: string[]; // <-- array of category names or slugs
