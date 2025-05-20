@@ -21,7 +21,10 @@ export const authOptions: NextAuthOptions = {
         if (!credentials?.email || !credentials?.password) {
           return null;
         }
-        const user = await prisma.user.findUnique({ where: { email: credentials.email } });
+        const user = await prisma.user.findUnique({
+          where: { email: credentials.email },
+          include: { roles: { include: { role: true } } },
+        });
         if (!user || !user.password) {
           //console.log("User not found");
           return null;
@@ -35,7 +38,14 @@ export const authOptions: NextAuthOptions = {
           //console.log("Invalid password");
           return null;
         }
-        return user;
+        // Map roles to string array
+        const roleNames = user.roles.map((ur) => ur.role.name);
+        // Pick 'admin' if user has ADMIN role, otherwise 'user'
+        const role = roleNames.includes("ADMIN") ? "admin" : "user";
+        return {
+          ...user,
+          role,
+        };
       },
     }),
     GoogleProvider({
@@ -53,19 +63,22 @@ export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     async jwt({ token, user }) {
-      //console.log("jwt", token, user);
       if (user) {
-        token.username = user.username; // <-- Make sure user.username exists here!
+        token.username = user.username;
+        token.role = user.role;
       }
-      //console.log(token);
       return token;
     },
-    async session({ session, user }) {
-      if (session.user && user) {
-        session.user.id = user.id;
-        session.user.username = user.username;
+    async session({ session, user, token }) {
+      if (session.user) {
+        if (user) {
+          session.user.id = user.id;
+          session.user.username = user.username;
+          session.user.role = user.role;
+        } else if (token) {
+          session.user.role = token.role as string;
+        }
       }
-      //console.log('session',session);
       return session;
     }
   },
