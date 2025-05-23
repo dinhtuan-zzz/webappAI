@@ -1,8 +1,10 @@
 "use client";
+import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ThumbsUp, MessageSquare, Eye } from "lucide-react";
 import { Avatar } from "@/components/Avatar";
+
 function formatNumber(n: number) {
   return n >= 1000 ? (n / 1000).toFixed(1).replace(/\.0$/, "") + "k" : n.toString();
 }
@@ -15,8 +17,48 @@ function getTrendingScore(post: any) {
   );
 }
 
-export function TrendingPosts({ posts }: { posts: any[] }) {
-  
+export function TrendingPosts({ posts }: { posts?: any[] | null }) {
+  if (!posts || posts.length === 0) {
+    // Skeleton: 5 placeholder cards matching real trending post UI
+    return (
+      <div className="mb-8">
+        <h2 className="text-xl font-bold text-[#2a4257] mb-3">Trending Posts</h2>
+        <div className="flex gap-4 overflow-x-auto pb-2 hide-scrollbar animate-pulse">
+          {Array.from({ length: 5 }).map((_, i) => (
+            <div
+              key={i}
+              className={`min-w-[220px] max-w-xs flex-shrink-0 rounded-lg border shadow-sm bg-white/90 dark:bg-[#23272f] p-4 flex flex-col gap-2 relative`}
+            >
+              <div className="h-5 w-3/4 bg-gray-200 dark:bg-gray-700 rounded mb-1" /> {/* title */}
+              <div className="flex items-center gap-2 mb-1">
+                <div className="w-5 h-5 rounded-full bg-gray-200 dark:bg-gray-700" /> {/* avatar */}
+                <div className="h-3 w-16 bg-gray-200 dark:bg-gray-700 rounded" /> {/* name */}
+              </div>
+              <div className="flex items-center gap-3 text-xs text-gray-500 mb-2">
+                <div className="h-3 w-8 bg-gray-200 dark:bg-gray-700 rounded" />
+                <div className="h-3 w-8 bg-gray-200 dark:bg-gray-700 rounded" />
+                <div className="h-3 w-8 bg-gray-200 dark:bg-gray-700 rounded" />
+              </div>
+              {/* Badges for #1, #2, #3 */}
+              {i === 0 && (
+                <span className="absolute top-2 right-2 bg-[#6bb7b7] text-white text-xs px-2 py-0.5 rounded font-bold shadow">#1</span>
+              )}
+              {i === 1 && (
+                <span className="absolute top-2 right-2 bg-[#b7d8e6] text-[#2a4257] text-xs px-2 py-0.5 rounded font-bold shadow">#2</span>
+              )}
+              {i === 2 && (
+                <span className="absolute top-2 right-2 bg-[#e6f0f7] text-[#2a4257] text-xs px-2 py-0.5 rounded font-bold shadow">#3</span>
+              )}
+            </div>
+          ))}
+        </div>
+        <style jsx>{`
+          .hide-scrollbar::-webkit-scrollbar { display: none; }
+          .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        `}</style>
+      </div>
+    );
+  }
 
   // Sort by trending score, take top 5
   const trending = [...posts]

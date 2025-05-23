@@ -24,7 +24,7 @@ export default function LoginPage() {
     if (res?.error) {
       setError(res.error === "CredentialsSignin" ? "Invalid email or password" : res.error);
     } else if (res?.ok) {
-      router.replace("/");
+      window.location.href = "/";
     }
     setLoading(false);
   }
