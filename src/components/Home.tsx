@@ -7,8 +7,9 @@ import Link from "next/link";
 import useSWR from "swr";
 import { TrendingPosts } from "@/components/TrendingPosts";
 import { Avatar } from "@/components/Avatar";
-import { CategoriesNav, Category } from "@/components/CategoriesNav";
+import { MultiSelectNav, MultiSelectOptionBase } from "@/components/MultiSelectNav";
 import type { Post } from "@/types/Post";
+import type { Category } from "@/types/Category";
 
 const fetcher = (url: string) => fetch(url).then(res => res.json());
 
@@ -17,9 +18,9 @@ export function Home({ session }: { session: any }) {
   const [categories, setCategories] = useState<Category[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const { data: postsData, isLoading } = useSWR("/api/posts", fetcher);
-  const posts = postsData?.posts || [];
+  const posts: Post[] = postsData?.posts || [];
   const { data: trendingData } = useSWR("/api/posts/trending", fetcher);
-  const trendingPosts = trendingData?.posts || [];
+  const trendingPosts: Post[] = trendingData?.posts || [];
   const [loadingCats, setLoadingCats] = useState(true);
 
   // Fetch categories on mount
@@ -37,7 +38,10 @@ export function Home({ session }: { session: any }) {
     let filtered = posts;
     if (selectedCategories.length > 0) {
       filtered = filtered.filter((post: Post) =>
-        post.categories && post.categories.some((cat: any) => selectedCategories.includes(cat.category.id))
+        Array.isArray(post.categories) &&
+        post.categories.some((cat: any) =>
+          cat?.id && selectedCategories.includes(cat.id)
+        )
       );
     }
     if (search.trim()) {
@@ -51,13 +55,20 @@ export function Home({ session }: { session: any }) {
     return filtered;
   }, [search, posts, selectedCategories]);
 
+  const categoryOptions: MultiSelectOptionBase[] = categories.map((cat) => ({
+    label: cat.name,
+    value: cat.id,
+    count: cat.postCount,
+  }));
+
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-[#f7fafc] via-[#e6f0f7] to-[#f3f7f4] text-gray-900 dark:text-gray-100 font-sans">
       {/* Remove Header */}
       {/* Categories Navigation, Trending, Search, Main Content */}
       <TrendingPosts posts={trendingPosts} />
-      <CategoriesNav
-        categories={categories}
+      <MultiSelectNav<MultiSelectOptionBase>
+        label="Chuyên mục:"
+        options={categoryOptions}
         selected={selectedCategories}
         onSelect={setSelectedCategories}
       />
@@ -107,7 +118,10 @@ function formatNumber(n: number) {
   return n >= 1000 ? (n / 1000).toFixed(1).replace(/\.0$/, "") + "k" : n.toString();
 }
 
-function PostCard({ post }: { post: any }) {
+/**
+ * Card for displaying a single blog post.
+ */
+function PostCard({ post }: { post: Post }) {
   const author = post.author || {};
   const avatarUrl = author.profile?.avatarUrl;
   const email = author.email;
@@ -136,8 +150,8 @@ function PostCard({ post }: { post: any }) {
             <span className="text-xs text-gray-400 ml-auto">{new Date(post.createdAt).toLocaleDateString()}</span>
           </div>
           <div className="flex items-center gap-4 mt-2 text-xs text-gray-500">
-            <span className="flex items-center gap-1"><ThumbsUp className="w-4 h-4" />{post._count.votes}</span>
-            <span className="flex items-center gap-1"><MessageSquare className="w-4 h-4" />{post._count.comments}</span>
+            <span className="flex items-center gap-1"><ThumbsUp className="w-4 h-4" />{post._count?.votes ?? 0}</span>
+            <span className="flex items-center gap-1"><MessageSquare className="w-4 h-4" />{post._count?.comments ?? 0}</span>
             <span className="flex items-center gap-1"><Eye className="w-4 h-4" />{formatNumber(post.viewCount || 0)}</span>
           </div>
         </div>

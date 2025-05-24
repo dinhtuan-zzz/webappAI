@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Avatar } from "@/components/Avatar";
 import { ThumbsUp, MessageSquare, Eye } from "lucide-react";
+import Image from "next/image";
 
 function formatNumber(n: number) {
   return n >= 1000 ? (n / 1000).toFixed(1).replace(/\.0$/, "") + "k" : n.toString();
@@ -17,11 +18,14 @@ export function PostCard({ post }: { post: any }) {
     <Link href={`/post/${post.slug}`} className="block group">
       <div className="bg-white/90 dark:bg-[#23272f] rounded-xl shadow-md border border-[#e6e6e6] flex flex-col overflow-hidden hover:shadow-lg transition-shadow group">
         <div className="relative h-40 w-full overflow-hidden">
-          <img
+          <Image
             src={thumbnail}
             alt={post.title}
             className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
             style={{ objectFit: "cover" }}
+            fill
+            sizes="100vw"
+            priority={false}
           />
         </div>
         <div className="flex-1 flex flex-col p-4 gap-2">

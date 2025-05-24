@@ -1,3 +1,0 @@
-# Ignore generated Prisma files
-src/generated/
-prisma/migrations/ 

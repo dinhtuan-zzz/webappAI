@@ -2,8 +2,24 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
+import { z } from "zod";
+import type { UserNotificationPreference } from "@/types/User";
 
-// GET: fetch notification preferences
+const notificationPrefSchema = z.object({
+  emailComment: z.boolean(),
+  emailReply: z.boolean(),
+  emailFollower: z.boolean(),
+  emailMention: z.boolean(),
+  emailNewsletter: z.boolean(),
+});
+
+/**
+ * GET /api/users/[username]/notifications
+ *
+ * Returns the notification preferences for a user.
+ *
+ * @returns {Response} JSON response with the user's notification preferences.
+ */
 export async function GET(req: Request, { params }: { params: { username: string } }) {
   const { username } = params;
   const user = await prisma.user.findUnique({ where: { username }, select: { id: true } });
@@ -23,10 +39,23 @@ export async function GET(req: Request, { params }: { params: { username: string
       id: "",
     };
   }
-  return NextResponse.json({ preferences: prefs });
+  const result: UserNotificationPreference = {
+    emailComment: prefs.emailComment,
+    emailReply: prefs.emailReply,
+    emailFollower: prefs.emailFollower,
+    emailMention: prefs.emailMention,
+    emailNewsletter: prefs.emailNewsletter,
+  };
+  return NextResponse.json({ preferences: result });
 }
 
-// PATCH: update notification preferences
+/**
+ * PATCH /api/users/[username]/notifications
+ *
+ * Updates the notification preferences for the authenticated user.
+ *
+ * @returns {Response} JSON response with the updated preferences.
+ */
 export async function PATCH(req: Request, { params }: { params: { username: string } }) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) {
@@ -41,13 +70,24 @@ export async function PATCH(req: Request, { params }: { params: { username: stri
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
   const data = await req.json();
+  const parsed = notificationPrefSchema.safeParse(data);
+  if (!parsed.success) {
+    return NextResponse.json({ error: "Invalid input", details: parsed.error.flatten() }, { status: 400 });
+  }
   try {
     const updated = await prisma.userNotificationPreference.upsert({
       where: { userId: user.id },
-      update: data,
-      create: { userId: user.id, ...data },
+      update: parsed.data,
+      create: { userId: user.id, ...parsed.data },
     });
-    return NextResponse.json({ preferences: updated });
+    const result: UserNotificationPreference = {
+      emailComment: updated.emailComment,
+      emailReply: updated.emailReply,
+      emailFollower: updated.emailFollower,
+      emailMention: updated.emailMention,
+      emailNewsletter: updated.emailNewsletter,
+    };
+    return NextResponse.json({ preferences: result });
   } catch (error) {
     return NextResponse.json({ error: "Failed to update preferences" }, { status: 500 });
   }

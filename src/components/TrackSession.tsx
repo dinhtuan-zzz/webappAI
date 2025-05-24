@@ -2,6 +2,11 @@
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
 
+/**
+ * TrackSession - Tracks the current user's session for analytics or security purposes.
+ *
+ * @returns {null}
+ */
 export function TrackSession() {
   const { status } = useSession();
 

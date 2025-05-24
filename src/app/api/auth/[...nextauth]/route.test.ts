@@ -8,7 +8,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 
 jest.mock('@/lib/prisma', () => ({
   __esModule: true,
-  default: {
+  prisma: {
     user: { findUnique: jest.fn() },
     session: {
       create: jest.fn(),

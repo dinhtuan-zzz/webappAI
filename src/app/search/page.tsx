@@ -3,7 +3,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { useState, ChangeEvent } from "react";
 import useSWR from "swr";
 import { SearchBar } from "@/components/SearchBar";
-import { CategoriesNav, Category } from "@/components/CategoriesNav";
+import { MultiSelectNav, MultiSelectOptionBase } from "@/components/MultiSelectNav";
 import DateFilter from "@/components/DateFilter";
 import { Avatar } from "@/components/Avatar";
 import { ThumbsUp, MessageSquare, Eye } from "lucide-react";
@@ -19,7 +19,7 @@ export default function SearchPage() {
 
   // SWR for categories
   const { data: categoriesData, isLoading: categoriesLoading, error: categoriesError } = useSWR("/api/categories", fetcher);
-  const allCategories: Category[] = categoriesData?.categories || [];
+  const allCategories: any[] = categoriesData?.categories || [];
 
   // Build search params for results
   const searchUrl = (() => {
@@ -48,8 +48,13 @@ export default function SearchPage() {
           ) : categoriesError ? (
             <div className="text-red-500 text-sm">Failed to load categories.</div>
           ) : (
-            <CategoriesNav
-              categories={allCategories}
+            <MultiSelectNav<MultiSelectOptionBase>
+              label="Chuyên mục:"
+              options={allCategories.map((cat: any) => ({
+                label: cat.name,
+                value: cat.id,
+                count: cat.postCount,
+              }))}
               selected={categories}
               onSelect={setCategories}
             />

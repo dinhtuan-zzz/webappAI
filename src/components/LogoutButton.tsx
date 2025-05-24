@@ -2,6 +2,11 @@
 import { signOut } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 
+/**
+ * LogoutButton - Button to log out the current user.
+ *
+ * @returns {JSX.Element}
+ */
 export function LogoutButton() {
   return (
     <Button

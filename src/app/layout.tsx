@@ -6,6 +6,7 @@ import { TrackSession } from "@/components/TrackSession";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import UserMenuServer from "@/components/UserMenuServer";
+import { Toaster } from "@/components/ui/sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -39,6 +40,7 @@ export default async function RootLayout({
           <Header userMenu={userMenu} />
           <main>{children}</main>
           <Footer />
+          <Toaster />
         </Providers>
       </body>
     </html>

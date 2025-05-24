@@ -1,5 +1,5 @@
 // lavie/src/lib/sessionUtils.ts
-import UAParser from "ua-parser-js";
+import { UAParser } from "ua-parser-js";
 
 export async function extractSessionInfo(req: Request) {
   // Device info
@@ -12,7 +12,7 @@ export async function extractSessionInfo(req: Request) {
   ].filter(Boolean).join(" on ");
 
   // IP address
-  let ip =
+  const ip =
     req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
     (req as any).ip ||
     undefined;
@@ -21,6 +21,7 @@ export async function extractSessionInfo(req: Request) {
   let location = undefined;
   if (ip && ip !== "127.0.0.1" && ip !== "::1") {
     try {
+      // TODO: Define a more specific type for geoRes if possible
       const geoRes = await fetch(`http://ip-api.com/json/${ip}?fields=city,regionName,country`);
       const geo = await geoRes.json();
       if (geo && geo.status === "success") {

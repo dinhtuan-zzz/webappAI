@@ -1,6 +1,16 @@
 "use client";
 import { ChangeEvent, KeyboardEvent } from "react";
 
+/**
+ * SearchBar - A controlled input component for keyword search.
+ *
+ * @param {Object} props
+ * @param {string} props.value - The current value of the search input.
+ * @param {(e: React.ChangeEvent<HTMLInputElement>) => void} props.onChange - Handler for input changes.
+ * @param {string} [props.placeholder] - Placeholder text for the input.
+ * @param {(e: React.KeyboardEvent<HTMLInputElement>) => void} [props.onKeyDown] - Optional keydown handler.
+ * @returns {JSX.Element}
+ */
 export function SearchBar({ value, onChange, placeholder, onKeyDown }: {
   value: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;

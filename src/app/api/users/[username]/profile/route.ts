@@ -3,7 +3,24 @@ import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
 import { compare, hash } from "bcryptjs";
+import { z } from "zod";
+import type { User } from "@/types/User";
 
+const profilePatchSchema = z.object({
+  email: z.string().email().optional(),
+  displayName: z.string().max(100).optional(),
+  username: z.string().min(3).max(32).optional(),
+  currentPassword: z.string().optional(),
+  newPassword: z.string().min(6).max(100).optional(),
+});
+
+/**
+ * GET /api/users/[username]/profile
+ *
+ * Returns the public profile for a user.
+ *
+ * @returns {Response} JSON response with the user's profile.
+ */
 export async function GET(req: Request, { params }: { params: { username: string } }) {
   const { username } = params;
   const user = await prisma.user.findUnique({
@@ -31,19 +48,35 @@ export async function GET(req: Request, { params }: { params: { username: string
   if (!user) {
     return NextResponse.json({ error: "User not found" }, { status: 404 });
   }
-  return NextResponse.json({
+  const result: User & {
+    displayName: string;
+    avatarUrl: string | null;
+    bio: string;
+    joined: Date;
+    postCount: number;
+    commentCount: number;
+  } = {
     id: user.id,
     username: user.username,
     email: user.email,
-    displayName: user.profile?.displayName || user.username,
-    avatarUrl: user.profile?.avatarUrl || null,
+    role: "user",
+    displayName: (user.profile?.displayName === null || user.profile?.displayName === undefined) ? user.username : user.profile.displayName,
+    avatarUrl: user.profile?.avatarUrl ?? "",
     bio: user.profile?.bio || "",
     joined: user.createdAt,
     postCount: user._count.posts,
     commentCount: user._count.comments,
-  });
+  };
+  return NextResponse.json(result);
 }
 
+/**
+ * PATCH /api/users/[username]/profile
+ *
+ * Updates the profile for the authenticated user.
+ *
+ * @returns {Response} JSON response with the updated profile.
+ */
 export async function PATCH(req: Request, { params }: { params: { username: string } }) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) {
@@ -57,7 +90,12 @@ export async function PATCH(req: Request, { params }: { params: { username: stri
   if (user.id !== session.user.id) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
-  const { email, displayName, username: newUsername, currentPassword, newPassword } = await req.json();
+  const body = await req.json();
+  const parsed = profilePatchSchema.safeParse(body);
+  if (!parsed.success) {
+    return NextResponse.json({ error: "Invalid input", details: parsed.error.flatten() }, { status: 400 });
+  }
+  const { email, displayName, username: newUsername, currentPassword, newPassword } = parsed.data;
   try {
     // Password change logic
     if (currentPassword || newPassword) {
@@ -108,14 +146,20 @@ export async function PATCH(req: Request, { params }: { params: { username: stri
         profile: { select: { displayName: true, avatarUrl: true, bio: true } },
       },
     });
-    return NextResponse.json({
+    const result: User & {
+      displayName: string;
+      avatarUrl: string | null;
+      bio: string;
+    } = {
       id: updated.id,
       username: updated.username,
       email: updated.email,
-      displayName: updated.profile?.displayName || updated.username,
-      avatarUrl: updated.profile?.avatarUrl || null,
+      role: "user",
+      displayName: (updated.profile?.displayName === null || updated.profile?.displayName === undefined) ? updated.username : updated.profile.displayName,
+      avatarUrl: updated.profile?.avatarUrl ?? "",
       bio: updated.profile?.bio || "",
-    });
+    };
+    return NextResponse.json(result);
   } catch (error) {
     return NextResponse.json({ error: "Failed to update profile. Please try again." }, { status: 500 });
   }

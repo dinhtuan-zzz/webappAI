@@ -4,6 +4,13 @@ import useSWR from "swr";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner"; // Or your preferred toast/snackbar lib
 
+/**
+ * SessionManager - Manages and displays user sessions, allowing revocation and tracking.
+ *
+ * @param {Object} props
+ * @param {string} props.username - The username whose sessions are managed.
+ * @returns {JSX.Element}
+ */
 export function SessionManager({ username }: { username: string }) {
   //console.log("SessionManager username:", username);
   const fetcher = (url: string) => fetch(url).then(res => res.json());

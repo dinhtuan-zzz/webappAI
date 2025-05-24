@@ -1,11 +1,40 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { z } from "zod";
+import type { Post } from "@/types/Post";
+import type { Category } from "@/types/Category";
+import type { PostFilter } from "@/types/PostFilter";
 
+/**
+ * GET /api/search
+ *
+ * Searches posts by query, categories, and date filter.
+ *
+ * Query parameters:
+ * - q: string (search query)
+ * - categories: string[] (category IDs)
+ * - date: string (date filter: today, week, month, year, all)
+ *
+ * @returns {Response} JSON response with an array of matching posts.
+ *
+ * Each post includes:
+ * - id, slug, title, summary, content, createdAt, author, categories, _count, viewCount
+ */
 export async function GET(req: NextRequest) {
+  const searchSchema = z.object({
+    q: z.string().optional(),
+    categories: z.union([z.string(), z.array(z.string())]).optional(),
+    date: z.string().optional(),
+  });
   const { searchParams } = new URL(req.url);
-  const q = searchParams.get("q") || "";
-  const categories = searchParams.getAll("categories");
-  const date = searchParams.get("date") || "all";
+  const parsed = searchSchema.parse(Object.fromEntries(searchParams.entries()));
+  const q = parsed.q || "";
+  const categories = parsed.categories
+    ? Array.isArray(parsed.categories)
+      ? parsed.categories
+      : [parsed.categories]
+    : [];
+  const date = parsed.date || "all";
 
   // Build where clause
   const where: any = {};
@@ -57,30 +86,32 @@ export async function GET(req: NextRequest) {
           profile: { select: { avatarUrl: true, displayName: true } },
         },
       },
-      categories: { select: { category: { select: { id: true } } } },
+      categories: { select: { category: { select: { id: true, name: true } } } },
       _count: { select: { votes: true, comments: true } },
     },
     take: 30,
   });
 
-  // Map to API shape
-  const result = posts.map(post => ({
+  // Map to API shape using strict types
+  const result: Post[] = posts.map(post => ({
     id: post.id,
     title: post.title,
+    slug: post.slug,
+    summary: post.summary ?? undefined,
     content: post.content,
-    excerpt: post.content?.slice(0, 120) + (post.content?.length > 120 ? "..." : ""),
-    author: post.author
-      ? {
-          username: post.author.username,
-          email: post.author.email,
-          profile: post.author.profile || null,
-        }
-      : null,
     createdAt: post.createdAt,
-    categories: post.categories.map((pc: any) => pc.category.id),
-    votes: post._count?.votes || 0,
-    comments: post._count?.comments || 0,
-    viewCount: post.viewCount || 0,
+    author: post.author ? {
+      ...post.author,
+      profile: post.author.profile ? {
+        avatarUrl: post.author.profile.avatarUrl ?? undefined,
+        displayName: post.author.profile.displayName ?? undefined,
+      } : undefined,
+    } : undefined,
+    categories: post.categories.map((pc: { category: Category }) => pc.category),
+    _count: post._count,
+    viewCount: post.viewCount,
+    tags: [], // TODO: add tags if available
+    thumbnail: (post as any).thumbnail ?? undefined,
   }));
 
   return NextResponse.json(result);

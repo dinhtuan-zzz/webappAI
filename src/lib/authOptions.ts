@@ -4,9 +4,9 @@ import GoogleProvider from "next-auth/providers/google";
 import { prisma } from "@/lib/prisma";
 import { compare } from "bcryptjs";
 import { NextAuthOptions, Session, User } from "next-auth";
-import { JWT } from "next-auth/jwt";
-import { encode as defaultEncode } from "next-auth/jwt";
-import { randomUUID } from "crypto";
+//import { JWT } from "next-auth/jwt";
+//import { encode as defaultEncode } from "next-auth/jwt";
+//import { randomUUID } from "crypto";
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
@@ -42,8 +42,11 @@ export const authOptions: NextAuthOptions = {
         const roleNames = user.roles.map((ur) => ur.role.name);
         // Pick 'admin' if user has ADMIN role, otherwise 'user'
         const role = roleNames.includes("ADMIN") ? "admin" : "user";
+        // Return only the fields you want in the session/JWT!
         return {
-          ...user,
+          id: user.id,
+          email: user.email,
+          username: user.username,
           role,
         };
       },
@@ -63,22 +66,43 @@ export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     async jwt({ token, user }) {
+      // On login, set role from user object
       if (user) {
+        token.id = user.id;
         token.username = user.username;
         token.role = user.role;
+      } else if (token.email) {
+        // On subsequent requests, fetch user from DB to get latest role
+        const dbUser = await prisma.user.findUnique({
+          where: { email: token.email },
+          select: { role: true }
+        });
+        if (dbUser) {
+          token.role = dbUser.role?.toLowerCase() === 'admin' ? 'admin' : 'user';
+        }
       }
       return token;
     },
-    async session({ session, user, token }) {
-      if (session.user) {
-        if (user) {
-          session.user.id = user.id;
-          session.user.username = user.username;
-          session.user.role = user.role;
-        } else if (token) {
-          session.user.role = token.role as string;
+    async session({ session }) {
+      if (session.user?.email) {
+        const dbUser = await prisma.user.findUnique({
+          where: { email: session.user.email },
+          select: { id: true, username: true, role: true }
+        });
+        if (dbUser) {
+          session.user.id = dbUser.id;
+          session.user.username = dbUser.username;
+          // Normalize role to 'admin' or 'user'
+          session.user.role = dbUser.role?.toLowerCase() === 'admin' ? 'admin' : 'user';
+        } else {
+          // Fallback: ensure role is at least 'user'
+          session.user.role = session.user.role || 'user';
         }
+      } else {
+        // Fallback: ensure role is at least 'user'
+        session.user.role = session.user.role || 'user';
       }
+      console.log('session callback:', session);
       return session;
     }
   },

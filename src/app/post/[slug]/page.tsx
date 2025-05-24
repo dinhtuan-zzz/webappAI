@@ -49,19 +49,20 @@ export default async function BlogDetailPage(props: { params: { slug: string } }
       id: true,
       votes: { select: { value: true, userId: true } },
       viewCount: true,
+      thumbnail: true,
     },
   });
   if (!post) return <div>Not found</div>;
 
   const authorName = post.author?.profile?.displayName || post.author?.username || "Unknown";
-  const thumbnail = "/blog-thumb-placeholder.jpg";
+  const thumbnail = post.thumbnail || "/blog-thumb-placeholder.jpg";
   const content = typeof post.content === "string" ? post.content : "";
   const voteCount = post.votes.reduce((sum: number, v: { value: number }) => sum + v.value, 0);
 
   // Get current user's vote
   let userVote: 0 | 1 | -1 = 0;
   const session = await getServerSession(authOptions);
-  let currentUserId = session?.user?.id;
+  const currentUserId = session?.user?.id;
   if (session?.user && session.user.id) {
     const userVoteObj = post.votes.find((v: any) => v.userId === session.user.id);
     if (userVoteObj && (userVoteObj.value === 1 || userVoteObj.value === -1)) {

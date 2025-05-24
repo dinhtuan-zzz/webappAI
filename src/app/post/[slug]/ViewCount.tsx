@@ -23,7 +23,7 @@ export function ViewCount({ postId, initialCount }: { postId: string; initialCou
       } catch {}
     })();
     // Only increment once per mount
-    // eslint-disable-next-line
+     
   }, [postId]);
 
   return (

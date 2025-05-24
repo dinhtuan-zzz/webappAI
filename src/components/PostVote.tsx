@@ -4,6 +4,15 @@ import { ThumbsUp, ThumbsDown } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 
+/**
+ * PostVote - Handles voting logic and UI for a post.
+ *
+ * @param {Object} props
+ * @param {string} props.postId - The ID of the post to vote on.
+ * @param {number} props.initialCount - The initial vote count.
+ * @param {number | null} props.initialUserVote - The current user's vote (1, -1, or null).
+ * @returns {JSX.Element}
+ */
 export function PostVote({ postId, initialCount, initialUserVote }: {
   postId: string;
   initialCount: number;

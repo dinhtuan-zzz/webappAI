@@ -17,6 +17,13 @@ function getTrendingScore(post: any) {
   );
 }
 
+/**
+ * TrendingPosts - Displays a list of trending posts.
+ *
+ * @param {Object} props
+ * @param {any[] | null} [props.posts] - Array of trending post objects.
+ * @returns {JSX.Element}
+ */
 export function TrendingPosts({ posts }: { posts?: any[] | null }) {
   if (!posts || posts.length === 0) {
     // Skeleton: 5 placeholder cards matching real trending post UI

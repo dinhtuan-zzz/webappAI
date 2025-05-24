@@ -5,6 +5,13 @@ import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuIte
 import Link from "next/link";
 import { Avatar } from "@/components/Avatar";
 
+/**
+ * UserMenuClient - Renders the user menu for authenticated users (client-side).
+ *
+ * @param {Object} props
+ * @param {any} props.session - The current user session object.
+ * @returns {JSX.Element}
+ */
 export function UserMenuClient({session}: {session: any}) {
   //const { data: session } = useSession();
   const user = session?.user;
