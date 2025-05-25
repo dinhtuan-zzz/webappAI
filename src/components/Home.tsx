@@ -10,10 +10,11 @@ import { Avatar } from "@/components/Avatar";
 import { MultiSelectNav, MultiSelectOptionBase } from "@/components/MultiSelectNav";
 import type { Post } from "@/types/Post";
 import type { Category } from "@/types/Category";
+import type { Tag } from "@/types/Post";
 
 const fetcher = (url: string) => fetch(url).then(res => res.json());
 
-export function Home({ session }: { session: any }) {
+export function Home({ session }: { session: unknown }) {
   const [search, setSearch] = useState("");
   const [categories, setCategories] = useState<Category[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
@@ -39,7 +40,7 @@ export function Home({ session }: { session: any }) {
     if (selectedCategories.length > 0) {
       filtered = filtered.filter((post: Post) =>
         Array.isArray(post.categories) &&
-        post.categories.some((cat: any) =>
+        post.categories.some((cat: Category) =>
           cat?.id && selectedCategories.includes(cat.id)
         )
       );
@@ -49,7 +50,7 @@ export function Home({ session }: { session: any }) {
       filtered = filtered.filter((post: Post) =>
         post.title.toLowerCase().includes(q) ||
         (post.summary && post.summary.toLowerCase().includes(q)) ||
-        (post.tags && post.tags.some((t: any) => t.tag.name.toLowerCase().includes(q)))
+        (post.tags && post.tags.some((t: Tag) => t.name.toLowerCase().includes(q)))
       );
     }
     return filtered;
@@ -75,6 +76,12 @@ export function Home({ session }: { session: any }) {
       <h1 className="text-3xl sm:text-4xl font-bold text-[#2a4257] mb-8 text-center tracking-tight">
         Latest Blogs
       </h1>
+      <div className="prose prose-editor">
+        <h1>Test Heading 1</h1>
+        <h2>Test Heading 2</h2>
+        <h3>Test Heading 3</h3>
+        <p>Normal paragraph</p>
+      </div>
       {(isLoading || loadingCats) ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8 animate-pulse">
           {Array.from({ length: 6 }).map((_, i) => (

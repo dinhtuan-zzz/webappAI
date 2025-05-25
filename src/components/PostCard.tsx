@@ -1,0 +1,1 @@
+import type { Post, Tag } from "@/types/Post"; 

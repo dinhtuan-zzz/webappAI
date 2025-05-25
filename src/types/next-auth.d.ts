@@ -13,6 +13,6 @@ declare module "next-auth" {
   interface User extends DefaultUser {
     username: string;
     role: string;
-    roles?: any; // Add roles property for Prisma user object compatibility
+    roles?: string[]; // Add roles property for Prisma user object compatibility
   }
 }

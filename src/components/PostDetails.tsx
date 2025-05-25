@@ -105,7 +105,7 @@ export default function PostDetails({ post, actions }: PostDetailsProps) {
           {post.content ? post.content : <span className="text-gray-400">No content</span>}
         </div>
       </div>
-      {actions && <div className="mt-6 flex gap-2">{actions}</div>}
+      {actions && <div className="mt-6 flex justify-end gap-2 w-full">{actions}</div>}
     </section>
   );
 } 

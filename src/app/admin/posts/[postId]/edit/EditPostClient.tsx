@@ -3,30 +3,32 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { PostForm } from "@/components/PostForm";
-import { CategoryOption } from "@/components/ui/MultiCategorySelect";
+import type { SelectOption } from "@/types";
 import useSWR from "swr";
+import type { PostFormValues } from "@/types/Post";
+import type { PostUpdateInput } from "@/types/Post";
 
-const fetcher = async (url: string): Promise<CategoryOption[]> => {
+const fetcher = async (url: string): Promise<SelectOption[]> => {
   const res = await fetch(url);
   const data = await res.json();
-  return (data.categories || []).map((cat: any) => ({ id: cat.id, name: cat.name }));
+  return (data.categories || []).map((cat: { id: string; name: string; postCount?: number }) => ({ label: cat.name, value: cat.id, count: cat.postCount }));
 };
 
-export default function EditPostClient({ postId, initial, categories: initialCategories }: { postId: string, initial: any, categories: CategoryOption[] }) {
+export default function EditPostClient({ postId, initial, categories: initialCategories }: { postId: string, initial: PostFormValues, categories: SelectOption[] }) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [optimistic, setOptimistic] = useState(initial); // For optimistic UI
-  const [fieldErrors, setFieldErrors] = useState<any>({});
+  const [optimistic, setOptimistic] = useState<PostFormValues>(initial); // For optimistic UI
+  const [fieldErrors, setFieldErrors] = useState<Partial<Record<keyof PostFormValues, string>>>({});
 
   // SWR for categories
-  const { data: categories = initialCategories, mutate } = useSWR("/api/categories", fetcher, { fallbackData: initialCategories });
+  const { data: categories = initialCategories, mutate } = useSWR<SelectOption[]>("/api/categories", fetcher, { fallbackData: initialCategories });
 
-  const handleSubmit = async (data: { title: string; content: string; categoryIds: string[]; status: string }) => {
+  const handleSubmit = async (data: PostUpdateInput) => {
     setLoading(true);
     setError("");
     setFieldErrors({});
-    setOptimistic(data); // Optimistically update UI
+    setOptimistic({ ...optimistic, ...data }); // Optimistically update UI
     toast.success("Saved! (optimistic)");
     try {
       const res = await fetch(`/api/admin/posts/${postId}`, {
@@ -53,11 +55,11 @@ export default function EditPostClient({ postId, initial, categories: initialCat
       }
       // Confirmed by server
       toast.success("Saved!");
-      setOptimistic(data); // Confirm optimistic state
-    } catch (e: any) {
+      setOptimistic({ ...optimistic, ...data }); // Confirm optimistic state
+    } catch (e) {
       setOptimistic(initial);
-      setError(e.message || "Failed to save");
-      toast.error(e.message || "Failed to save");
+      setError(e instanceof Error ? e.message : "Failed to save");
+      toast.error(e instanceof Error ? e.message : "Failed to save");
     } finally {
       setLoading(false);
     }
@@ -78,8 +80,8 @@ export default function EditPostClient({ postId, initial, categories: initialCat
       if (!res.ok) throw new Error(result.error || "Failed to create category");
       toast.success("Category created");
       await mutate(); // Refetch categories after quick-add
-    } catch (e: any) {
-      toast.error(e.message || "Failed to create category");
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Failed to create category");
     }
   };
 

@@ -1,5 +1,6 @@
 "use client";
 import { CommentItem } from "@/components/CommentItem";
+import type { Comment } from "@/types/Comment";
 
 export function CommentThread({
   comments,
@@ -8,7 +9,7 @@ export function CommentThread({
   onDelete,
   onReply,
 }: {
-  comments: any[];
+  comments: Comment[];
   currentUserId?: string;
   onEdit: (commentId: string, content: string) => Promise<void>;
   onDelete: (commentId: string) => Promise<void>;
@@ -40,18 +41,4 @@ export function CommentThread({
       ))}
     </div>
   );
-} 
-
-// In CommentThread.tsx
-export type Comment = {
-  id: string;
-  content: string;
-  createdAt: string;
-  parentId?: string;
-  author: {
-    id: string;
-    username: string;
-    profile?: { avatarUrl?: string; displayName?: string };
-  };
-  children?: Comment[];
-};
+}

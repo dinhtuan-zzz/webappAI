@@ -1,9 +1,9 @@
 import { requireAdmin } from "@/lib/admin-auth";
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { PostStatus } from "@prisma/client";
 import { z } from "zod";
 import type { PostFilter as PostFilterBase } from "@/types/PostFilter";
+import { mapPrismaPostToPostResponse } from '@/types/mappers';
 
 // Helper to parse date filter
 function getDateRange(date: string | undefined) {
@@ -80,7 +80,7 @@ export async function GET(req: Request) {
     pageSize: parsed.pageSize ? parseInt(parsed.pageSize, 10) : 10,
   };
 
-  const where: any = {};
+  const where: Record<string, unknown> = {};
   if (filter.search) {
     where.OR = [
       { title: { contains: filter.search, mode: "insensitive" } },
@@ -113,19 +113,22 @@ export async function GET(req: Request) {
       include: {
         author: {
           select: {
+            id: true,
             username: true,
             email: true,
+            role: true,
             profile: { select: { displayName: true, avatarUrl: true } },
           },
         },
+        categories: { include: { category: true } },
+        tags: { include: { tag: true } },
         _count: { select: { votes: true, comments: true } },
-        categories: { select: { category: { select: { id: true } } } },
       },
     }),
   ]);
 
   return NextResponse.json({
-    posts,
+    posts: posts.map(mapPrismaPostToPostResponse),
     total,
     page: filter.page,
     pageSize: filter.pageSize,

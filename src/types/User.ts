@@ -1,11 +1,15 @@
-export interface User {
+export type UserProfile = {
+  displayName?: string;
+  avatarUrl?: string;
+};
+
+export type User = {
   id: string;
   username: string;
   email: string;
   role: string;
-  displayName?: string;
-  avatarUrl?: string;
-}
+  profile?: UserProfile;
+};
 
 export interface UserNotificationPreference {
   emailComment: boolean;

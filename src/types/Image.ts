@@ -1,0 +1,1 @@
+export type CroppedAreaPixels = { x: number; y: number; width: number; height: number }; 

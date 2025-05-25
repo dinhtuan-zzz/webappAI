@@ -1,6 +1,7 @@
 "use client";
 import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
+import TipTapEditor from './TipTapEditor';
 
 export function CommentForm({
   onSubmit,
@@ -52,14 +53,12 @@ export function CommentForm({
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-2">
-      <textarea
-        ref={textareaRef}
-        className="w-full rounded border border-[#e6e6e6] p-2 text-base min-h-[60px] focus:outline-none focus:ring-2 focus:ring-[#6bb7b7]"
+      <TipTapEditor
         value={content}
-        onFocus={handleFocus}
-        onChange={handleChange}
+        onChange={setContent}
         placeholder="Write a comment..."
-        disabled={loading}
+        minHeight="60px"
+        readOnly={loading}
       />
       <div className="flex gap-2 justify-end">
         {onCancel && (

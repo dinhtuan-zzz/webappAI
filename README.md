@@ -339,3 +339,11 @@ The admin posts management interface is designed for modern accessibility and us
 - **Keyboard & Screen Reader Friendly**: All actions are reachable and announced appropriately.
 
 These improvements ensure a robust, user-friendly, and accessible admin experience.
+
+## Type Conventions & Reusability
+
+- All shared types (e.g., `CategoryOption`, `PostFormValues`, `Tag`, `Category`, `User`, etc.) are defined in `src/types/`.
+- UI components and API code **must import these types from `src/types/`** for consistency and maintainability.
+- UI-specific extensions (e.g., `archived?` on `CategoryOption`) should extend the base type in `src/types/`.
+- Do **not** redefine types in component files; always reuse or extend from `src/types/`.
+- This ensures type safety, reusability, and a single source of truth for all domain models.

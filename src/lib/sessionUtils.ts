@@ -14,7 +14,7 @@ export async function extractSessionInfo(req: Request) {
   // IP address
   const ip =
     req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
-    (req as any).ip ||
+    (typeof req === 'object' && req !== null && 'ip' in req && typeof (req as any).ip === 'string' ? (req as any).ip : undefined) ||
     undefined;
 
   // Location (use a free API, e.g., ip-api.com)

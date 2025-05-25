@@ -2,9 +2,9 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { promises as fs } from 'fs';
 import path from 'path';
 import { randomUUID } from 'crypto';
-import formidable from 'formidable';
-import type { File as FormidableFile } from 'formidable';
+import formidable, { File as FormidableFile } from 'formidable';
 import sharp from 'sharp';
+import type { UploadResponse } from '@/types';
 
 export const config = {
   api: {
@@ -12,20 +12,19 @@ export const config = {
   },
 };
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse<UploadResponse | { error: string }>) {
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'Method not allowed' });
     return;
   }
   try {
     const form = formidable({ multiples: false });
-    form.parse(req, async (err, fields, files) => {
+    form.parse(req, async (err: Error | null, fields, files) => {
       if (err) {
         res.status(500).json({ error: err.message });
         return;
       }
-      const fileInput = files.file;
-      const file: FormidableFile | undefined = Array.isArray(fileInput) ? fileInput[0] : fileInput;
+      const file: FormidableFile | undefined = Array.isArray(files.file) ? files.file[0] : files.file;
       if (!file) {
         res.status(400).json({ error: 'No file uploaded' });
         return;
@@ -41,12 +40,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           .jpeg({ quality: 80 })
           .toFile(filepath);
         const url = `/uploads/${filename}`;
-        res.status(200).json({ url });
+        res.status(200).json({ url, size: file.size, mimetype: file.mimetype });
       } catch (err: any) {
-        res.status(500).json({ error: err.message || 'Image optimization failed' });
+        res.status(500).json({ error: (err as Error).message || 'Image optimization failed' });
       }
     });
   } catch (err: any) {
-    res.status(500).json({ error: err.message || 'Upload failed' });
+    res.status(500).json({ error: (err as Error).message || 'Upload failed' });
   }
 } 

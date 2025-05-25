@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { ThumbsUp, MessageSquare, Eye } from "lucide-react";
 import { Avatar } from "@/components/Avatar";
+import type { Post, Tag } from "@/types/Post";
 
 function formatNumber(n: number) {
   return n >= 1000 ? (n / 1000).toFixed(1).replace(/\.0$/, "") + "k" : n.toString();

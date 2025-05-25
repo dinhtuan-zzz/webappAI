@@ -68,7 +68,7 @@ export async function GET(req: Request) {
         },
         categories: { select: { category: { select: { id: true, name: true } } } },
         _count: { select: { votes: true, comments: true } },
-      },
+        },
       take: 30,
     });
 

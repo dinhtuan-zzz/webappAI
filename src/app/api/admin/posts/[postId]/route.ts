@@ -3,8 +3,8 @@ import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/admin-auth";
 import { z } from "zod";
 import { PostStatus } from "@prisma/client";
-import type { Post, PostUpdateInput } from "@/types/Post";
-import type { Category } from "@/types/Category";
+import type { PostUpdateInput } from "@/types/Post";
+import { mapPrismaPostToPostResponse } from '@/types/mappers';
 
 const postUpdateSchema = z.object({
   title: z.string().min(1),
@@ -18,35 +18,20 @@ export async function GET(req: NextRequest, { params }: { params: { postId: stri
   await requireAdmin();
   const post = await prisma.post.findUnique({
     where: { id: params.postId },
-    include: { categories: { include: { category: true } }, author: { select: { username: true, email: true, profile: { select: { avatarUrl: true, displayName: true } } } }, _count: { select: { votes: true, comments: true } } },
-  }) as any;
+    include: {
+      categories: { include: { category: true } },
+      author: { select: { id: true, username: true, email: true, role: true, profile: { select: { avatarUrl: true, displayName: true } } } },
+      tags: { include: { tag: true } },
+      _count: { select: { votes: true, comments: true } },
+    },
+  });
   if (!post) return NextResponse.json({ error: "Not found" }, { status: 404 });
-  const apiPost: Post = {
-    id: post.id,
-    title: post.title,
-    slug: post.slug,
-    summary: post.summary ?? undefined,
-    content: post.content,
-    createdAt: post.createdAt,
-    author: post.author ? {
-      ...post.author,
-      profile: post.author.profile ? {
-        avatarUrl: post.author.profile.avatarUrl ?? undefined,
-        displayName: post.author.profile.displayName ?? undefined,
-      } : undefined,
-    } : undefined,
-    categories: post.categories.map((pc: { category: Category }) => pc.category),
-    _count: post._count,
-    viewCount: post.viewCount,
-    tags: [],
-    thumbnail: (post as any).thumbnail ?? undefined,
-  };
-  return NextResponse.json({ post: apiPost });
+  return NextResponse.json({ post: mapPrismaPostToPostResponse(post) });
 }
 
 export async function PATCH(req: NextRequest, { params }: { params: { postId: string } }) {
   await requireAdmin();
-  const data = await req.json();
+  const data: PostUpdateInput = await req.json();
   const parsed = postUpdateSchema.safeParse(data);
   if (!parsed.success) {
     return NextResponse.json({ error: "Invalid input", details: parsed.error.flatten() }, { status: 400 });
@@ -58,7 +43,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { postId: st
       title,
       content,
       status,
-      thumbnail,
+      ...(thumbnail !== undefined ? { thumbnail } : {}),
       categories: {
         deleteMany: {},
         create: categoryIds.map((categoryId: string) => ({ categoryId })),
@@ -66,31 +51,12 @@ export async function PATCH(req: NextRequest, { params }: { params: { postId: st
     } as any,
     include: {
       categories: { include: { category: true } },
-      author: { select: { username: true, email: true, profile: { select: { avatarUrl: true, displayName: true } } } },
+      author: { select: { id: true, username: true, email: true, role: true, profile: { select: { avatarUrl: true, displayName: true } } } },
+      tags: { include: { tag: true } },
       _count: { select: { votes: true, comments: true } },
     },
-  }) as any;
-  const apiPost: Post = {
-    id: post.id,
-    title: post.title,
-    slug: post.slug,
-    summary: post.summary ?? undefined,
-    content: post.content,
-    createdAt: post.createdAt,
-    author: post.author ? {
-      ...post.author,
-      profile: post.author.profile ? {
-        avatarUrl: post.author.profile.avatarUrl ?? undefined,
-        displayName: post.author.profile.displayName ?? undefined,
-      } : undefined,
-    } : undefined,
-    categories: post.categories.map((pc: { category: Category }) => pc.category),
-    _count: post._count,
-    viewCount: post.viewCount,
-    tags: [],
-    thumbnail: (post as any).thumbnail ?? undefined,
-  };
-  return NextResponse.json({ post: apiPost });
+  });
+  return NextResponse.json({ post: mapPrismaPostToPostResponse(post) });
 }
 
 export async function DELETE(req: NextRequest, { params }: { params: { postId: string } }) {

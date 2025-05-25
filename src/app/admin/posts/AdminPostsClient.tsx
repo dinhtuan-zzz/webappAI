@@ -4,21 +4,19 @@ import { SearchBar } from "@/components/SearchBar";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import DateFilter from "@/components/DateFilter";
-import { Eye, Edit, Trash2 } from "lucide-react";
+import { Eye, Edit, Trash2, Loader2 } from "lucide-react";
 import clsx from "clsx";
 import useSWR from "swr";
-import { MultiSelectNav, MultiSelectOptionBase } from "@/components/MultiSelectNav";
+import { MultiSelectNav } from "@/components/MultiSelectNav";
 import Link from "next/link";
 import Image from "next/image";
 import { Tooltip } from "@/components/ui/Tooltip";
 import { Skeleton } from "@/components/ui/skeleton";
 import { toast } from "sonner";
-
-type Category = {
-  id: string;
-  name: string;
-  postCount: number;
-};
+import type { PostResponse as Post, Category, SelectOption } from "@/types";
+import PostDeleteDialog from "@/components/PostDeleteDialog";
+import AdminPostRow from "./AdminPostRow";
+import { motion, AnimatePresence } from "framer-motion";
 
 const STATUS_COLORS: Record<string, string> = {
   DRAFT: "bg-gray-200 text-gray-700",
@@ -50,27 +48,30 @@ function StatusBadge({ status }: { status: string }) {
   );
 }
 
-type CategoryOption = MultiSelectOptionBase;
-type StatusOption = MultiSelectOptionBase;
+type CategoryOption = SelectOption;
+type StatusOption = SelectOption;
+
+function useDebounce<T>(value: T, delay: number): T {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+  useEffect(() => {
+    const handler = setTimeout(() => setDebouncedValue(value), delay);
+    return () => clearTimeout(handler);
+  }, [value, delay]);
+  return debouncedValue;
+}
 
 export default function AdminPostsClient() {
-  const [posts, setPosts] = useState<any[]>([]);
+  const [posts, setPosts] = useState<Post[]>([]);
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
   const [date, setDate] = useState("all");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [deleteId, setDeleteId] = useState<string | null>(null);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedStatuses, setSelectedStatuses] = useState<string[]>([]);
   const { data: categoriesData, isLoading: categoriesLoading, error: categoriesError } = useSWR("/api/categories", (url) => fetch(url).then(res => res.json()));
   const allCategories: Category[] = categoriesData?.categories || [];
-  const [deleting, setDeleting] = useState(false);
-  const deleteButtonRefs = useRef<Record<string, HTMLButtonElement | null>>({});
-  const cancelRef = useRef<HTMLButtonElement>(null);
-  const undoButtonRef = useRef<HTMLButtonElement>(null);
-  const [undoTimeout, setUndoTimeout] = useState<NodeJS.Timeout | null>(null);
 
   const categoryOptions = useMemo(() =>
     allCategories.map(cat => ({
@@ -83,14 +84,16 @@ export default function AdminPostsClient() {
 
   const statusOptions = useMemo(() => STATUS_OPTIONS, []);
 
-  useEffect(() => {
+  const debouncedSearch = useDebounce(search, 300);
+
+  const fetchPosts = () => {
     setLoading(true);
     setError("");
     const params = new URLSearchParams({
       page: String(page),
       pageSize: String(PAGE_SIZE),
     });
-    if (search) params.set("search", search);
+    if (debouncedSearch) params.set("search", debouncedSearch);
     if (date && date !== "all") params.set("date", date);
     if (selectedCategories.length > 0) {
       params.set("categoryIds", selectedCategories.join(","));
@@ -106,31 +109,16 @@ export default function AdminPostsClient() {
       })
       .catch(() => setError("Không thể tải danh sách bài viết."))
       .finally(() => setLoading(false));
-  }, [page, search, date, selectedCategories, selectedStatuses]);
+  };
 
-  useEffect(() => { setDeleteId(null); }, []);
-
-  // Focus management: auto-focus Cancel when dialog opens
   useEffect(() => {
-    if (!!deleteId && cancelRef.current) {
-      cancelRef.current.focus();
-    }
-  }, [deleteId]);
-
-  // Focus management: return focus to delete icon after dialog closes
-  useEffect(() => {
-    if (!deleteId && document.activeElement && document.activeElement instanceof HTMLElement) {
-      // Find the last focused delete button
-      const lastDeleteBtn = Object.values(deleteButtonRefs.current).find(btn => btn && btn === document.activeElement);
-      if (!lastDeleteBtn && deleteButtonRefs.current.lastFocused) {
-        deleteButtonRefs.current.lastFocused.focus();
-      }
-    }
-  }, [deleteId]);
+    fetchPosts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page, debouncedSearch, date, selectedCategories, selectedStatuses]);
 
   const totalPages = Math.ceil(total / PAGE_SIZE);
 
-  if (categoriesLoading || loading) {
+  if ((categoriesLoading || loading) && posts.length === 0) {
     return (
       <div className="min-h-screen bg-[#f8fafb] p-4 md:p-8">
         <div className="max-w-xl mx-auto">
@@ -139,6 +127,32 @@ export default function AdminPostsClient() {
           <Skeleton className="h-10 w-full mb-4" />
           <Skeleton className="h-10 w-full mb-4" />
           <Skeleton className="h-96 w-full mb-4" />
+          <div className="overflow-x-auto rounded-xl shadow-sm bg-white/90 border border-[#e6e6e6]">
+            <table className="min-w-full text-sm text-[#2a4257]">
+              <thead>
+                <tr>
+                  <th className="p-3 text-left font-semibold">#</th>
+                  <th className="p-3 text-left font-semibold">Tiêu đề</th>
+                  <th className="p-3 text-left font-semibold">Tác giả</th>
+                  <th className="p-3 text-left font-semibold">Ngày tạo</th>
+                  <th className="p-3 text-left font-semibold">Trạng thái</th>
+                  <th className="p-3 text-left font-semibold">Lượt xem</th>
+                  <th className="p-3 text-left font-semibold">Hành động</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[...Array(PAGE_SIZE)].map((_, i) => (
+                  <tr key={i}>
+                    {Array.from({ length: 7 }).map((_, j) => (
+                      <td key={j} className="p-3">
+                        <Skeleton className="h-6 w-full" />
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     );
@@ -176,7 +190,12 @@ export default function AdminPostsClient() {
           <DateFilter value={date} onChange={setDate} />
         </div>
       </div>
-      <div className="overflow-x-auto rounded-xl shadow-sm bg-white/90 border border-[#e6e6e6]">
+      <div className="overflow-x-auto rounded-xl shadow-sm bg-white/90 border border-[#e6e6e6] relative">
+        {loading && posts.length > 0 && (
+          <div className="absolute inset-0 bg-white/70 flex items-center justify-center z-10">
+            <Loader2 className="animate-spin w-8 h-8 text-sky-500" />
+          </div>
+        )}
         <table className="min-w-full text-sm text-[#2a4257]">
           <thead className="bg-[#f3f7fa]">
             <tr>
@@ -205,66 +224,26 @@ export default function AdminPostsClient() {
                 <td colSpan={7} className="p-6 text-center text-gray-400">Không có bài viết nào.</td>
               </tr>
             ) : (
-              posts.map((post, idx) => (
-                <tr
-                  key={post.id}
-                  className="border-b last:border-b-0 hover:bg-[#f5faff] transition-colors"
-                >
-                  <td className="p-3 align-middle">{(page - 1) * PAGE_SIZE + idx + 1}</td>
-                  <td className="p-3 align-middle max-w-xs">
-                    <span className="font-semibold line-clamp-2">{post.title}</span>
-                    <div className="text-xs text-gray-400 line-clamp-1">{post.slug}</div>
-                  </td>
-                  <td className="p-3 align-middle flex items-center gap-2">
-                    {post.author?.profile?.avatarUrl && (
-                      <Image
-                        src={post.author.profile.avatarUrl}
-                        alt={post.author.profile.displayName || post.author.username || "Tác giả"}
-                        className="w-7 h-7 rounded-full border border-gray-200 object-cover bg-white"
-                        width={28}
-                        height={28}
-                        loading="lazy"
-                      />
-                    )}
-                    <span className="font-medium">{post.author?.profile?.displayName || post.author?.username || "-"}</span>
-                  </td>
-                  <td className="p-3 align-middle whitespace-nowrap">{new Date(post.createdAt).toLocaleDateString()}</td>
-                  <td className="p-3 align-middle">
-                    <StatusBadge status={post.status} />
-                  </td>
-                  <td className="p-3 align-middle text-center">{post.viewCount ?? 0}</td>
-                  <td className="p-3 align-middle flex gap-2">
-                    <Link href={`/admin/posts/${post.id}`} aria-label="Xem chi tiết bài viết">
-                      <Tooltip content="Xem chi tiết bài viết">
-                        <Button size="icon" variant="ghost" aria-label="Xem chi tiết bài viết">
-                          <Eye className="w-5 h-5 text-sky-500" />
-                        </Button>
-                      </Tooltip>
-                    </Link>
-                    <Link href={`/admin/posts/${post.id}/edit`}>
-                      <Tooltip content="Sửa bài viết">
-                        <Button size="icon" variant="ghost" aria-label="Sửa bài viết">
-                          <Edit className="w-5 h-5 text-green-500" />
-                        </Button>
-                      </Tooltip>
-                    </Link>
-                    <Tooltip content="Xóa bài viết">
-                      <Button
-                        ref={el => { deleteButtonRefs.current[post.id] = el; }}
-                        size="icon"
-                        variant="ghost"
-                        aria-label="Xóa bài viết"
-                        onClick={() => {
-                          deleteButtonRefs.current.lastFocused = deleteButtonRefs.current[post.id];
-                          setDeleteId(post.id);
-                        }}
-                      >
-                        <Trash2 className="w-5 h-5 text-red-400" />
-                      </Button>
-                    </Tooltip>
-                  </td>
-                </tr>
-              ))
+              <AnimatePresence initial={false}>
+                {posts.map((post, idx) => (
+                  <motion.tr
+                    key={post.id}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.18 }}
+                    className="border-b last:border-b-0 hover:bg-[#f5faff] transition-colors"
+                  >
+                    <AdminPostRow
+                      post={post}
+                      idx={idx}
+                      page={page}
+                      onDeleted={() => setPosts(posts => posts.filter(p => p.id !== post.id))}
+                      onUndo={fetchPosts}
+                    />
+                  </motion.tr>
+                ))}
+              </AnimatePresence>
             )}
           </tbody>
         </table>
@@ -295,69 +274,6 @@ export default function AdminPostsClient() {
           </Button>
         </div>
       )}
-      {/* Delete Confirmation Dialog */}
-      <Dialog open={!!deleteId} onOpenChange={open => !open && setDeleteId(null)}>
-        <DialogContent className="w-full max-w-sm">
-          <DialogTitle>Xác nhận xóa</DialogTitle>
-          <DialogDescription>Bạn có chắc chắn muốn xóa bài viết này? Hành động này không thể hoàn tác.</DialogDescription>
-          <div className="flex gap-2 justify-center mt-4">
-            <Button ref={cancelRef} variant="outline" onClick={() => setDeleteId(null)}>
-              Hủy
-            </Button>
-            <Button variant="destructive" onClick={async () => {
-              if (!deleteId) return;
-              setDeleting(true);
-              const postToDelete = posts.find(p => p.id === deleteId);
-              const previousStatus = postToDelete?.status || "PUBLISHED";
-              try {
-                const res = await fetch(`/api/admin/posts/${deleteId}`, { method: "DELETE" });
-                if (!res.ok) throw new Error("Failed to delete post");
-                setPosts(posts => posts.filter(p => p.id !== deleteId));
-                setDeleteId(null);
-                // Show undo toast and auto-focus Undo button
-                toast.success(
-                  <span>
-                    Đã xóa bài viết thành công
-                    <Button
-                      ref={undoButtonRef}
-                      size="sm"
-                      variant="outline"
-                      className="ml-2"
-                      onClick={async (e) => {
-                        e.stopPropagation();
-                        try {
-                          const undoRes = await fetch(`/api/admin/posts/${deleteId}`, {
-                            method: "POST",
-                            headers: { "Content-Type": "application/json" },
-                            body: JSON.stringify({ previousStatus }),
-                          });
-                          if (!undoRes.ok) throw new Error("Failed to undo delete");
-                          setPage(1); // refresh posts list
-                          toast.success("Đã hoàn tác xóa bài viết");
-                        } catch {
-                          toast.error("Hoàn tác thất bại");
-                        }
-                      }}
-                    >
-                      Hoàn tác
-                    </Button>
-                  </span>
-                );
-                // Auto-focus Undo button in toast
-                setTimeout(() => {
-                  if (undoButtonRef.current) undoButtonRef.current.focus();
-                }, 100);
-              } catch (e) {
-                toast.error("Xóa bài viết thất bại");
-              } finally {
-                setDeleting(false);
-              }
-            }} disabled={deleting}>
-              {deleting ? "Đang xóa..." : "Xóa"}
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
       <style jsx global>{`
         .font-manga-heading {
           font-family: 'M PLUS Rounded 1c', 'Segoe UI', 'Arial', sans-serif;

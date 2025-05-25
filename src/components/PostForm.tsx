@@ -1,11 +1,16 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { MultiCategorySelect, CategoryOption } from "@/components/ui/MultiCategorySelect";
+import { MultiCategorySelect } from "@/components/ui/MultiCategorySelect";
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import Cropper from "react-easy-crop";
 import { toast } from "sonner";
 import imageCompression from 'browser-image-compression';
+import TipTapEditor from './TipTapEditor';
+import Image from 'next/image';
+import type { PostFormValues } from "@/types/Post";
+import type { SelectOption } from '@/types';
+import type { CroppedAreaPixels } from "@/types/Image";
 
 const STATUS_OPTIONS = [
   { value: "DRAFT", label: "Draft" },
@@ -13,17 +18,9 @@ const STATUS_OPTIONS = [
   { value: "PENDING", label: "Pending" },
 ];
 
-export interface PostFormValues {
-  title: string;
-  content: string;
-  categories: CategoryOption[];
-  status: string;
-  thumbnail?: string;
-}
-
 interface PostFormProps {
   initial: PostFormValues;
-  categories: CategoryOption[];
+  categories: SelectOption[];
   loading: boolean;
   error?: string;
   onSubmit: (data: { title: string; content: string; categoryIds: string[]; status: string; thumbnail?: string }) => void;
@@ -36,7 +33,14 @@ interface PostFormProps {
 export function PostForm({ initial, categories, loading, error, onSubmit, onCancel, onCreateCategory, fieldErrors: externalFieldErrors, onImageUpload }: PostFormProps) {
   const [title, setTitle] = useState(initial.title || "");
   const [content, setContent] = useState(initial.content || "");
-  const [selectedCategories, setSelectedCategories] = useState<CategoryOption[]>(initial.categories || []);
+  const [selectedCategories, setSelectedCategories] = useState<SelectOption[]>(
+    (initial.categories || []).map((cat: any) => ({
+      label: cat.name,
+      value: cat.id,
+      ...(cat.postCount && { postCount: cat.postCount }),
+      ...(cat.archived && { archived: cat.archived }),
+    }))
+  );
   const [status, setStatus] = useState(initial.status || "DRAFT");
   const [fieldErrors, setFieldErrors] = useState<Partial<Record<keyof PostFormValues, string>>>({});
   const [dirty, setDirty] = useState(false);
@@ -53,10 +57,10 @@ export function PostForm({ initial, categories, loading, error, onSubmit, onCanc
   const [cropImage, setCropImage] = useState<string | null>(null);
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
-  const [croppedAreaPixels, setCroppedAreaPixels] = useState<any>(null);
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState<CroppedAreaPixels | null>(null);
   const [lastCropImage, setLastCropImage] = useState<string | null>(null);
-  const [lastCroppedAreaPixels, setLastCroppedAreaPixels] = useState<any>(null);
-  const [pendingUpload, setPendingUpload] = useState<null | { image: string; area: any }>(null);
+  const [lastCroppedAreaPixels, setLastCroppedAreaPixels] = useState<CroppedAreaPixels | null>(null);
+  const [pendingUpload, setPendingUpload] = useState<null | { image: string; area: CroppedAreaPixels }>(null);
 
   // Auto-focus title field on mount
   useEffect(() => {
@@ -99,7 +103,7 @@ export function PostForm({ initial, categories, loading, error, onSubmit, onCanc
       content !== initial.content ||
       status !== initial.status ||
       thumbnail !== initial.thumbnail ||
-      JSON.stringify(selectedCategories.map(c => c.id).sort()) !== JSON.stringify((initial.categories || []).map(c => c.id).sort())
+      JSON.stringify(selectedCategories.map(c => c.value).sort()) !== JSON.stringify((initial.categories || []).map((cat: any) => cat.id).sort())
     );
   }, [title, content, status, selectedCategories, thumbnail, initial]);
 
@@ -107,7 +111,14 @@ export function PostForm({ initial, categories, loading, error, onSubmit, onCanc
   useEffect(() => {
     setTitle(initial.title || "");
     setContent(initial.content || "");
-    setSelectedCategories(initial.categories || []);
+    setSelectedCategories(
+      (initial.categories || []).map((cat: any) => ({
+        label: cat.name,
+        value: cat.id,
+        ...(cat.postCount && { postCount: cat.postCount }),
+        ...(cat.archived && { archived: cat.archived }),
+      }))
+    );
     setStatus(initial.status || "DRAFT");
     setFieldErrors({});
   }, [resetCount, initial]);
@@ -158,13 +169,13 @@ export function PostForm({ initial, categories, loading, error, onSubmit, onCanc
   };
 
   // Crop complete handler
-  const onCropComplete = (croppedArea: any, croppedAreaPixels: any) => {
+  const onCropComplete = (croppedArea: CroppedAreaPixels, croppedAreaPixels: CroppedAreaPixels) => {
     setCroppedAreaPixels(croppedAreaPixels);
     setLastCroppedAreaPixels(croppedAreaPixels);
   };
 
   // Get cropped image as blob
-  async function getCroppedImg(imageSrc: string, crop: any) {
+  async function getCroppedImg(imageSrc: string, crop: CroppedAreaPixels) {
     const image = await createImage(imageSrc);
     const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d");
@@ -221,7 +232,7 @@ export function PostForm({ initial, categories, loading, error, onSubmit, onCanc
       setImageError(null);
       try {
         const croppedBlob = await getCroppedImg(pendingUpload.image, pendingUpload.area);
-        let croppedFile = new File([croppedBlob], "cropped.jpg", { type: "image/jpeg" });
+        const croppedFile = new File([croppedBlob], "cropped.jpg", { type: "image/jpeg" });
         // Compress the cropped file before upload
         const compressedFile = await imageCompression(croppedFile, {
           maxSizeMB: 0.5, // target max size in MB
@@ -270,7 +281,7 @@ export function PostForm({ initial, categories, loading, error, onSubmit, onCanc
     onSubmit({
       title,
       content,
-      categoryIds: selectedCategories.map(c => c.id),
+      categoryIds: selectedCategories.map(c => c.value),
       status,
       thumbnail,
     });
@@ -322,7 +333,14 @@ export function PostForm({ initial, categories, loading, error, onSubmit, onCanc
       </div>
       <div>
         <label className="block font-semibold mb-1" htmlFor="content">Content</label>
-        <textarea id="content" value={content} onChange={e => setContent(e.target.value)} className="w-full min-h-[120px] rounded border p-2" aria-invalid={!!fieldErrors.content} aria-describedby="content-error" />
+        <TipTapEditor
+          value={content}
+          onChange={setContent}
+          placeholder="Write your post content..."
+          minHeight="180px"
+          autoSaveKey="post-draft"
+          readOnly={loading}
+        />
         {fieldErrors.content && <div id="content-error" className="text-red-500 text-sm mt-1">{fieldErrors.content}</div>}
       </div>
       <div>
@@ -371,7 +389,15 @@ export function PostForm({ initial, categories, loading, error, onSubmit, onCanc
             </div>
           ) : thumbnail ? (
             <div className="relative w-full h-full flex items-center justify-center">
-              <img src={thumbnail} alt="Thumbnail preview" className="max-h-28 object-contain rounded" />
+              <Image
+                src={thumbnail}
+                alt="Thumbnail preview"
+                width={320}
+                height={180}
+                className="max-h-28 object-contain rounded"
+                style={{ width: "auto", height: "100%" }}
+                unoptimized
+              />
               <button
                 type="button"
                 className="absolute top-2 right-2 bg-white/80 rounded-full p-1 text-red-500 hover:bg-white"

@@ -5,6 +5,9 @@ import { requireAdmin } from "@/lib/admin-auth";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger, DialogContent } from "@/components/ui/dialog";
+import type { Category } from "@/types/Category";
+import type { Tag } from "@/types/Post";
+import PostDetailActions from "./PostDetailActions";
 
 export default async function AdminPostViewPage({ params }: { params: { postId: string } }) {
   // Enforce admin-only access
@@ -17,7 +20,7 @@ export default async function AdminPostViewPage({ params }: { params: { postId: 
     include: {
       author: { select: { username: true, email: true, profile: { select: { avatarUrl: true, displayName: true } } } },
       categories: { include: { category: true } },
-      tags: true,
+      tags: { include: { tag: true } },
       _count: { select: { votes: true, comments: true } },
     },
   });
@@ -27,7 +30,7 @@ export default async function AdminPostViewPage({ params }: { params: { postId: 
   const mappedPost = {
     ...post,
     categories: Array.isArray(post.categories)
-      ? post.categories.map((cat: any) => ({ id: cat.category.id, name: cat.category.name }))
+      ? post.categories.map((cat: { category: Category }) => ({ id: cat.category.id, name: cat.category.name }))
       : undefined,
     summary: post.summary ?? undefined,
     author: post.author
@@ -37,39 +40,14 @@ export default async function AdminPostViewPage({ params }: { params: { postId: 
         }
       : undefined,
     tags: Array.isArray(post.tags)
-      ? post.tags.map((tag: any) => ({ id: tag.id, name: tag.name }))
+      ? post.tags.map((pt: { tag: Tag }) => ({ id: pt.tag.id, name: pt.tag.name }))
       : undefined,
+    thumbnail: post.thumbnail === null ? undefined : post.thumbnail,
   };
 
   // Action buttons
   const actions = (
-    <div className="flex gap-2">
-      <Link href={`/admin/posts/${post.id}/edit`}>
-        <Button variant="outline" aria-label="Edit post">Edit</Button>
-      </Link>
-      <Dialog>
-        <DialogTrigger asChild>
-          <Button variant="destructive" aria-label="Delete post">Delete</Button>
-        </DialogTrigger>
-        <DialogContent>
-          <div className="p-4">
-            <h2 className="text-lg font-semibold mb-2">Delete Post?</h2>
-            <p className="mb-4">Are you sure you want to delete this post? This action cannot be undone.</p>
-            <form method="post" action={`/api/admin/posts/${post.id}/delete`}>
-              <div className="flex gap-2 justify-end">
-                <Button type="submit" variant="destructive" aria-label="Confirm delete">Confirm Delete</Button>
-                <DialogTrigger asChild>
-                  <Button type="button" variant="outline">Cancel</Button>
-                </DialogTrigger>
-              </div>
-            </form>
-          </div>
-        </DialogContent>
-      </Dialog>
-      <Link href="/admin/posts">
-        <Button variant="secondary" aria-label="Back to list">Back to list</Button>
-      </Link>
-    </div>
+    <PostDetailActions postId={post.id} postTitle={post.title} />
   );
 
   return <PostDetails post={mappedPost} actions={actions} />;

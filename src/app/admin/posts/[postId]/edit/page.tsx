@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/admin-auth";
 import { CategoryOption } from "@/components/ui/MultiCategorySelect";
 import EditPostClient from "./EditPostClient";
+import type { Category } from "@/types/Category";
 
 export default async function EditPostPage({ params }: { params: { postId: string } }) {
   // Enforce admin-only access
@@ -29,10 +30,10 @@ export default async function EditPostPage({ params }: { params: { postId: strin
     id: cat.id,
     name: cat.name,
   }));
-  const postCategories: CategoryOption[] = (post.categories || []).map((c: any) => ({
+  const postCategories: CategoryOption[] = (post.categories || []).map((c: { category: Category }) => ({
     id: c.category.id,
     name: c.category.name,
-    archived: !categories.some((cat: any) => cat.id === c.category.id),
+    archived: !categories.some((cat: { id: string }) => cat.id === c.category.id),
   }));
 
   // Initial form values
