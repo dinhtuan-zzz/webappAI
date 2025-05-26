@@ -30,6 +30,7 @@ model User {
   profile                 UserProfile?
   votes                   Vote[]
   role                    String                      @default("user")
+  notifications           Notification[]
 }
 
 model UserProfile {
@@ -241,6 +242,19 @@ model UserNotificationPreference {
   emailMention    Boolean @default(false)
   emailNewsletter Boolean @default(false)
   user            User    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model Notification {
+  id          String   @id @default(uuid())
+  userId      String
+  type        String   // e.g., 'reply', 'mention', 'like', 'report', 'system', etc.
+  title       String
+  message     String
+  link        String?  // URL to the relevant resource
+  isRead      Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  data        Json?    // Optional: extra data for extensibility
+  user        User     @relation(fields: [userId], references: [id])
 }
 
 model Role {

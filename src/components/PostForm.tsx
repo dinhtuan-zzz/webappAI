@@ -6,7 +6,7 @@ import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuIte
 import Cropper from "react-easy-crop";
 import { toast } from "sonner";
 import imageCompression from 'browser-image-compression';
-import TipTapEditor from './TipTapEditor';
+import CommentEditor from './CommentEditor';
 import Image from 'next/image';
 import type { PostFormValues } from "@/types/Post";
 import type { SelectOption } from '@/types';
@@ -30,7 +30,7 @@ interface PostFormProps {
   onImageUpload?: (file: File) => Promise<string>;
 }
 
-export function PostForm({ initial, categories, loading, error, onSubmit, onCancel, onCreateCategory, fieldErrors: externalFieldErrors, onImageUpload }: PostFormProps) {
+export function PostForm({ initial, categories, loading, error, onSubmit, onCancel, onCreateCategory, fieldErrors: externalFieldErrors, onImageUpload, canEdit = true }: PostFormProps & { canEdit?: boolean }) {
   const [title, setTitle] = useState(initial.title || "");
   const [content, setContent] = useState(initial.content || "");
   const [selectedCategories, setSelectedCategories] = useState<SelectOption[]>(
@@ -333,13 +333,11 @@ export function PostForm({ initial, categories, loading, error, onSubmit, onCanc
       </div>
       <div>
         <label className="block font-semibold mb-1" htmlFor="content">Content</label>
-        <TipTapEditor
+        <CommentEditor
           value={content}
           onChange={setContent}
           placeholder="Write your post content..."
-          minHeight="180px"
-          autoSaveKey="post-draft"
-          readOnly={loading}
+          readOnly={!canEdit || loading}
         />
         {fieldErrors.content && <div id="content-error" className="text-red-500 text-sm mt-1">{fieldErrors.content}</div>}
       </div>

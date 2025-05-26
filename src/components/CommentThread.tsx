@@ -18,7 +18,7 @@ export function CommentThread({
   return (
     <div className="flex flex-col">
       {comments.map((comment) => (
-        <div key={comment.id} className="">
+        <div key={comment.id} id={comment.id} className="">
           <CommentItem
             comment={comment}
             currentUserId={currentUserId}

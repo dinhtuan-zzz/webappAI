@@ -6,8 +6,8 @@ async function main() {
   // ROLES
   await prisma.role.createMany({
     data: [
-      { id: '11111111-1111-1111-1111-111111111111', name: 'ADMIN', description: 'Administrator role' },
-      { id: '22222222-2222-2222-2222-222222222222', name: 'USER', description: 'Regular user role' },
+      { id: '11111111-1111-1111-1111-111111111111', name: 'ADMIN' },
+      { id: '22222222-2222-2222-2222-222222222222', name: 'USER' },
     ],
     skipDuplicates: true,
   });
@@ -36,23 +36,11 @@ async function main() {
     skipDuplicates: true,
   });
 
-  // USER ROLES
-  await prisma.userRole.createMany({
-    data: [
-      { userId: 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', roleId: '11111111-1111-1111-1111-111111111111' },
-      { userId: 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', roleId: '22222222-2222-2222-2222-222222222222' },
-      { userId: 'cccccccc-cccc-cccc-cccc-cccccccccccc', roleId: '22222222-2222-2222-2222-222222222222' },
-      { userId: 'dddddddd-dddd-dddd-dddd-dddddddddddd', roleId: '22222222-2222-2222-2222-222222222222' },
-      { userId: 'eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee', roleId: '22222222-2222-2222-2222-222222222222' },
-    ],
-    skipDuplicates: true,
-  });
-
   // PERMISSIONS
   await prisma.permission.createMany({
     data: [
-      { id: 'p1p1p1p1-p1p1-p1p1-p1p1-p1p1p1p1p1p1', name: 'MANAGE_USERS', description: 'Can manage users' },
-      { id: 'p2p2p2p2-p2p2-p2p2-p2p2-p2p2p2p2p2p2', name: 'WRITE_POSTS', description: 'Can write posts' },
+      { id: 'p1p1p1p1-p1p1-p1p1-p1p1-p1p1p1p1p1p1', name: 'MANAGE_USERS' },
+      { id: 'p2p2p2p2-p2p2-p2p2-p2p2-p2p2p2p2p2p2', name: 'WRITE_POSTS' },
     ],
     skipDuplicates: true,
   });
@@ -105,9 +93,9 @@ async function main() {
   // TAGS
   await prisma.tag.createMany({
     data: [
-      { id: '55555555-5555-5555-5555-555555555555', name: 'Welcome', slug: 'welcome', description: 'Welcome tag' },
-      { id: '66666666-6666-6666-6666-666666666667', name: 'Review', slug: 'review', description: 'Review tag' },
-      { id: '66666666-6666-6666-6666-666666666668', name: 'Update', slug: 'update', description: 'Update tag' },
+      { id: '55555555-5555-5555-5555-555555555555', name: 'Welcome', slug: 'welcome' },
+      { id: '66666666-6666-6666-6666-666666666667', name: 'Review', slug: 'review' },
+      { id: '66666666-6666-6666-6666-666666666668', name: 'Update', slug: 'update' },
     ],
     skipDuplicates: true,
   });
@@ -216,6 +204,49 @@ async function main() {
       { id: 'd1d1d1d1-d1d1-d1d1-d1d1-d1d1d1d1d1d1', userId: 'cccccccc-cccc-cccc-cccc-cccccccccccc', emailComment: true, emailReply: false, emailFollower: false, emailMention: false, emailNewsletter: false },
       { id: 'eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeef', userId: 'dddddddd-dddd-dddd-dddd-dddddddddddd', emailComment: true, emailReply: false, emailFollower: false, emailMention: false, emailNewsletter: false },
       { id: 'ffffffff-ffff-ffff-ffff-fffffffffff0', userId: 'eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee', emailComment: false, emailReply: false, emailFollower: false, emailMention: false, emailNewsletter: false },
+    ],
+    skipDuplicates: true,
+  });
+
+  // NOTIFICATIONS
+  await prisma.notification.createMany({
+    data: [
+      {
+        userId: 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa',
+        type: 'system',
+        title: 'Welcome to Lavie!',
+        message: 'Your admin account has been created.',
+        link: '/admin',
+        isRead: false,
+        createdAt: new Date(),
+      },
+      {
+        userId: 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa',
+        type: 'report',
+        title: 'New user report',
+        message: 'A new report has been submitted.',
+        link: '/admin/reports',
+        isRead: false,
+        createdAt: new Date(),
+      },
+      {
+        userId: 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb',
+        type: 'reply',
+        title: 'New reply to your comment',
+        message: 'Someone replied to your comment on "Welcome to Lavie".',
+        link: '/post/welcome-to-lavie',
+        isRead: false,
+        createdAt: new Date(),
+      },
+      {
+        userId: 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb',
+        type: 'like',
+        title: 'Your post got a like!',
+        message: 'Your post "Manga News: June" received a new like.',
+        link: '/post/manga-news-june',
+        isRead: true,
+        createdAt: new Date(),
+      },
     ],
     skipDuplicates: true,
   });

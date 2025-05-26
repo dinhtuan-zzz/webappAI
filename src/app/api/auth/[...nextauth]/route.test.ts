@@ -55,7 +55,7 @@ describe('NextAuth API integration', () => {
   });
 
   it('should allow login with valid credentials and create a session', async () => {
-    const mockUser = { id: 'user1', email: 'good@user.com', password: 'hashed', status: 'ACTIVE', roles: [], username: 'gooduser', role: 'user' };
+    const mockUser = { id: 'user1', email: 'good@user.com', password: 'hashed', status: 'ACTIVE', username: 'gooduser', role: 'user' };
     (prisma.user.findUnique as jest.Mock).mockResolvedValue(mockUser);
     (prisma.session.create as jest.Mock).mockResolvedValue({ id: 'sess1', sessionToken: 'token', userId: 'user1', expires: new Date(), device: 'test', ip: '127.0.0.1', location: 'Test City' });
     const req = createRequest({
@@ -76,7 +76,7 @@ describe('NextAuth API integration', () => {
 describe('NextAuth API integration (session persistence)', () => {
   it('should persist session and allow access with session cookie', async () => {
     // 1. Mock user and session creation
-    const mockUser = { id: 'user1', email: 'good@user.com', password: 'hashed', status: 'ACTIVE', roles: [], username: 'gooduser', role: 'user' };
+    const mockUser = { id: 'user1', email: 'good@user.com', password: 'hashed', status: 'ACTIVE', username: 'gooduser', role: 'user' };
     (prisma.user.findUnique as jest.Mock).mockResolvedValue(mockUser);
     (prisma.session.create as jest.Mock).mockResolvedValue({ id: 'sess1', sessionToken: 'token', userId: 'user1', expires: new Date(Date.now() + 100000), device: 'test', ip: '127.0.0.1', location: 'Test City' });
 
@@ -150,7 +150,7 @@ describe('NextAuth API integration (logout, session expiry, 2FA)', () => {
   });
 
   it('should require 2FA if enabled', async () => {
-    const mockUser = { id: 'user2', email: '2fa@user.com', password: 'hashed', status: 'ACTIVE', roles: [], username: 'user2fa', role: 'user', twoFASecret: 'SECRET' };
+    const mockUser = { id: 'user2', email: '2fa@user.com', password: 'hashed', status: 'ACTIVE', username: 'user2fa', role: 'user', twoFASecret: 'SECRET' };
     (prisma.user.findUnique as jest.Mock).mockResolvedValue(mockUser);
     await testApiHandler({
       appHandler: { POST: nextAuthHandler },

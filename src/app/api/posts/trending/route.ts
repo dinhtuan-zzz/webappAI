@@ -15,10 +15,10 @@ function getTrendingScore(post: PostWithCount) {
 
 export async function GET() {
   try {
-    const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+    const fourteenDaysAgo = new Date(Date.now() - 14 * 24 * 60 * 60 * 1000);
     const posts = await prisma.post.findMany({
       where: {
-        createdAt: { gte: sevenDaysAgo },
+        createdAt: { gte: fourteenDaysAgo },
         status: "PUBLISHED",
       },
       orderBy: { createdAt: "desc" },

@@ -3,9 +3,11 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { CommentForm } from "@/components/CommentForm";
-import DOMPurify from 'dompurify';
+import DOMPurify from 'isomorphic-dompurify';
 import { Avatar } from "@/components/Avatar";
 import type { Comment } from "@/types/Comment";
+
+const sanitize = DOMPurify.sanitize || (DOMPurify as any).default?.sanitize;
 
 export function CommentItem({
   comment,
@@ -23,7 +25,7 @@ export function CommentItem({
   const [editMode, setEditMode] = useState(false);
   const [replyMode, setReplyMode] = useState(false);
   const [loading, setLoading] = useState(false);
-  const isAuthor = currentUserId && comment.author?.id === currentUserId;
+  const isAuthor = Boolean(currentUserId && comment.author?.id === currentUserId);
   const avatarUrl = comment.author?.profile?.avatarUrl;
   const email = comment.author?.email;
   const displayName = comment.author?.profile?.displayName || comment.author?.username || "User";
@@ -102,20 +104,23 @@ export function CommentItem({
             onCancel={() => setEditMode(false)}
             loading={loading}
             submitLabel="Save"
+            canEdit={isAuthor}
           />
         ) : (
           <div
             id={`comment-content-${comment.id}`}
             className="prose prose-editor max-w-none mb-2"
-            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(comment.content || '', {
-              ALLOWED_TAGS: [
-                'a', 'b', 'i', 'u', 's', 'em', 'strong', 'blockquote', 'ul', 'ol', 'li', 'pre', 'code', 'img', 'table', 'thead', 'tbody', 'tr', 'th', 'td', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'br', 'p', 'span'
-              ],
-              ALLOWED_ATTR: [
-                'href', 'src', 'alt', 'title', 'target', 'rel', 'class', 'style', 'width', 'height', 'align', 'colspan', 'rowspan'
-              ],
-              ALLOW_DATA_ATTR: true
-            }) }}
+            dangerouslySetInnerHTML={{
+              __html: sanitize(comment.content || '', {
+                ALLOWED_TAGS: [
+                  'a', 'b', 'i', 'u', 's', 'em', 'strong', 'blockquote', 'ul', 'ol', 'li', 'pre', 'code', 'img', 'table', 'thead', 'tbody', 'tr', 'th', 'td', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'br', 'p', 'span'
+                ],
+                ALLOWED_ATTR: [
+                  'href', 'src', 'alt', 'title', 'target', 'rel', 'class', 'style', 'width', 'height', 'align', 'colspan', 'rowspan'
+                ],
+                ALLOW_DATA_ATTR: true
+              })
+            }}
           />
         )}
         <div className="flex gap-2 text-xs mt-1">

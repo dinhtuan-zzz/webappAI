@@ -3,6 +3,7 @@ import Link from "next/link";
 import { SearchBar } from "./SearchBar";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import NotificationBell from './notifications/NotificationBell';
 
 export default function Header({ userMenu }: { userMenu: React.ReactNode }) {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
@@ -38,6 +39,7 @@ export default function Header({ userMenu }: { userMenu: React.ReactNode }) {
         </div>
         {/* User menu */}
         <div className="flex items-center gap-2">
+          <NotificationBell />
           {userMenu}
           {/* Hamburger for mobile */}
           <button

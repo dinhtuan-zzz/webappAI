@@ -90,6 +90,7 @@ export function CommentsSection({ postId, initialComments, currentUserId }: {
           submitLabel="Post"
           requireAuth={!session?.user}
           onRequireAuth={() => setShowLoginModal(true)}
+          canEdit={!!session?.user}
         />
       </div>
       {showLoginModal && (

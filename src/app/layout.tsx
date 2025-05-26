@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+//import "@/styles/globals.scss";
 import "./globals.css";
 import { Providers } from "@/app/providers";
 import { TrackSession } from "@/components/TrackSession";

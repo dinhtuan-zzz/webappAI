@@ -23,7 +23,6 @@ export const authOptions: NextAuthOptions = {
         }
         const user = await prisma.user.findUnique({
           where: { email: credentials.email },
-          include: { roles: { include: { role: true } } },
         });
         if (!user || !user.password) {
           //console.log("User not found");
@@ -38,10 +37,8 @@ export const authOptions: NextAuthOptions = {
           //console.log("Invalid password");
           return null;
         }
-        // Map roles to string array
-        const roleNames = user.roles.map((ur) => ur.role.name);
-        // Pick 'admin' if user has ADMIN role, otherwise 'user'
-        const role = roleNames.includes("ADMIN") ? "admin" : "user";
+        // Map role to 'admin' or 'user'
+        const role = user.role?.toLowerCase() === "admin" ? "admin" : "user";
         // Return only the fields you want in the session/JWT!
         return {
           id: user.id,

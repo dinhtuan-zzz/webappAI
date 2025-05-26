@@ -8,6 +8,7 @@ A modern, robust manga blog platform built with **Next.js**, **Prisma**, **Postg
 - **User Authentication** (NextAuth.js: credentials & Google)
 - **Role-based Access Control** (Admin, User)
 - **Session Management** (view, revoke, device/IP/location tracking)
+- **Real-Time Notifications**: In-app notification bell with real-time updates (WebSocket), instant badge updates, robust optimistic UI, mark all as read, relative timestamps ("2 minutes ago"), and extensible notification types.
 - **Blog Posts** with categories, tags, media, comments, and votes
 - **Image Upload & Optimization**: Client-side compression, server-side resizing/compression, and Next.js image optimization for all post thumbnails
 - **Admin Panel**: CRUD, search, filters (category, status, date), pagination
@@ -44,6 +45,9 @@ A modern, robust manga blog platform built with **Next.js**, **Prisma**, **Postg
 │   │   ├── post/           # Post detail pages
 │   │   └── ...             # Auth, search, register, etc.
 │   ├── components/         # Reusable UI components
+│   │   ├── notifications/   # NotificationBell, NotificationDropdown, NotificationItem, etc.
+│   ├── hooks/
+│   │   └── useNotifications.ts # Notification state, SWR, WebSocket logic
 │   ├── types/              # TypeScript domain models & API types
 │   ├── lib/                # Utilities, Prisma client, auth logic
 │   ├── __tests__/          # Integration tests (Jest)
@@ -162,7 +166,10 @@ Lavie uses Next.js app directory API routes. Handlers are in `src/app/api/` and 
 - `GET /api/admin/posts` — Admin post list (filters, pagination)
 - `PATCH /api/admin/posts/[postId]` — Update post (admin)
 - `GET|PATCH /api/users/[username]/profile` — User profile
-- `GET|PATCH /api/users/[username]/notifications` — Notification prefs
+- `GET /api/users/[username]/notifications/list` — List notifications (paginated)
+- `POST /api/users/[username]/notifications/mark-all-read` — Mark all as read
+- `POST /api/users/[username]/notifications/mark-read` — Mark specific notifications as read
+- `PATCH /api/users/[username]/notifications` — Update notification preferences
 - `GET|DELETE /api/users/[username]/sessions` — Session management
 - `POST /api/posts/[postId]/comments` — Add comment
 - `POST /api/posts/[postId]/vote` — Vote on post
@@ -347,3 +354,10 @@ These improvements ensure a robust, user-friendly, and accessible admin experien
 - UI-specific extensions (e.g., `archived?` on `CategoryOption`) should extend the base type in `src/types/`.
 - Do **not** redefine types in component files; always reuse or extend from `src/types/`.
 - This ensures type safety, reusability, and a single source of truth for all domain models.
+
+## 🛎️ Notification System Improvements (2024-06)
+- Added relative timestamps ("2 minutes ago") using `date-fns`
+- Optimistic UI for instant badge update when marking all as read
+- Robust SWR cache management for notifications
+- Debug logging for easier troubleshooting
+- No auto-expiry or deletion of notifications (persist until manually deleted)
