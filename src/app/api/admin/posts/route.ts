@@ -68,16 +68,16 @@ function extractMentions(content: string): string[] {
 }
 
 function getTestSession(req: Request) {
-  if (process.env.NODE_ENV === 'test') {
+  if (process.env.NODE_ENV === 'test' || process.env.NODE_ENV === 'development') {
     const testUser = req.headers.get('x-test-user');
     if (testUser) {
-      const userMap: Record<string, { id: string; role: string }> = {
-        admin: { id: 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', role: 'admin' },
-        alice: { id: 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', role: 'user' },
-        bob: { id: 'cccccccc-cccc-cccc-cccc-cccccccccccc', role: 'user' },
+      const userMap: Record<string, { id: string; role: string; profile: { displayName: string; avatarUrl: string } }> = {
+        admin: { id: 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', role: 'admin', profile: { displayName: 'Admin', avatarUrl: '' } },
+        alice: { id: 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', role: 'user', profile: { displayName: 'Alice', avatarUrl: '' } },
+        bob: { id: 'cccccccc-cccc-cccc-cccc-cccccccccccc', role: 'user', profile: { displayName: 'Bob', avatarUrl: '' } },
       };
       if (userMap[testUser]) {
-        return { user: { id: userMap[testUser].id, username: testUser, role: userMap[testUser].role } };
+        return { user: { id: userMap[testUser].id, username: testUser, role: userMap[testUser].role, profile: userMap[testUser].profile } };
       }
     }
   }

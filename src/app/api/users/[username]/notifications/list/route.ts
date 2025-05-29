@@ -4,7 +4,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
 
 function getTestSession(req: Request, username: string) {
-  if (process.env.NODE_ENV === 'test') {
+  if (process.env.NODE_ENV === 'test' || process.env.NODE_ENV === 'development') {
     const testUser = req.headers.get('x-test-user');
     if (testUser) {
       // Map username to userId and role for test users

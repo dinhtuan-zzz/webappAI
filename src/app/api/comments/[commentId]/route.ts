@@ -4,6 +4,8 @@ import { authOptions } from "@/lib/authOptions";
 import { prisma } from "@/lib/prisma";
 import { z } from "zod";
 import type { Comment } from "@/types/Comment";
+import DOMPurify from 'isomorphic-dompurify';
+import { isMeaningfulHtml } from '@/lib/htmlUtils';
 
 const commentUpdateSchema = z.object({
   content: z.string().min(1).max(2000),
@@ -13,6 +15,11 @@ const commentUpdateSchema = z.object({
  * PUT /api/comments/[commentId]
  *
  * Updates a comment's content. Only the author can update their comment.
+ *
+ * Backend validation:
+ * - Sanitizes HTML using DOMPurify (defense in depth)
+ * - Checks for meaningful content after sanitization
+ * - Only allows a safe subset of tags/attributes
  *
  * @returns {Response} JSON response with the updated comment.
  */
@@ -27,13 +34,27 @@ export async function PUT(req: Request, { params }: { params: { commentId: strin
   if (!parsed.success) {
     return NextResponse.json({ error: "Invalid input", details: parsed.error.flatten() }, { status: 400 });
   }
+  // Sanitize and validate content
+  const sanitizedContent = DOMPurify.sanitize(parsed.data.content, {
+    ALLOWED_TAGS: [
+      'a', 'b', 'i', 'u', 's', 'em', 'strong', 'blockquote', 'ul', 'ol', 'li', 'pre', 'code', 'img', 'table',
+      'thead', 'tbody', 'tr', 'th', 'td', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'br', 'p', 'span'
+    ],
+    ALLOWED_ATTR: [
+      'href', 'src', 'alt', 'title', 'target', 'rel', 'class', 'style', 'width', 'height', 'align', 'colspan', 'rowspan'
+    ],
+    ALLOW_DATA_ATTR: true
+  });
+  if (!isMeaningfulHtml(sanitizedContent)) {
+    return NextResponse.json({ error: "Comment cannot be empty." }, { status: 400 });
+  }
   // Check author
   const comment = await prisma.comment.findUnique({ where: { id: commentId } });
   if (!comment || comment.authorId !== session.user.id) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
   try {
-    const updated = await prisma.comment.update({ where: { id: commentId }, data: { content: parsed.data.content } });
+    const updated = await prisma.comment.update({ where: { id: commentId }, data: { content: sanitizedContent } });
     const result: Pick<Comment, "id" | "content"> = { id: updated.id, content: updated.content };
     return NextResponse.json({ comment: result });
   } catch (error) {

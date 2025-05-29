@@ -11,6 +11,7 @@ import Image from 'next/image';
 import type { PostFormValues } from "@/types/Post";
 import type { SelectOption } from '@/types';
 import type { CroppedAreaPixels } from "@/types/Image";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 
 const STATUS_OPTIONS = [
   { value: "DRAFT", label: "Draft" },
@@ -61,6 +62,7 @@ export function PostForm({ initial, categories, loading, error, onSubmit, onCanc
   const [lastCropImage, setLastCropImage] = useState<string | null>(null);
   const [lastCroppedAreaPixels, setLastCroppedAreaPixels] = useState<CroppedAreaPixels | null>(null);
   const [pendingUpload, setPendingUpload] = useState<null | { image: string; area: CroppedAreaPixels }>(null);
+  const [showConfirm, setShowConfirm] = useState(false);
 
   // Auto-focus title field on mount
   useEffect(() => {
@@ -290,10 +292,17 @@ export function PostForm({ initial, categories, loading, error, onSubmit, onCanc
   // Handle cancel
   const handleCancel = () => {
     if (dirty) {
-      setResetCount(c => c + 1);
+      setShowConfirm(true);
     } else {
+      setResetCount(c => c + 1);
       onCancel();
     }
+  };
+
+  const actuallyCancel = () => {
+    setShowConfirm(false);
+    setResetCount(c => c + 1);
+    onCancel();
   };
 
   // Show toast after image upload
@@ -325,168 +334,182 @@ export function PostForm({ initial, categories, loading, error, onSubmit, onCanc
   }, [fieldErrors]);
 
   return (
-    <form ref={formRef} onSubmit={handleSubmit} className="space-y-6 max-w-xl mx-auto bg-white rounded-lg shadow p-6" aria-label="Edit Post Form">
-      <div>
-        <label className="block font-semibold mb-1" htmlFor="title">Title</label>
-        <Input ref={titleRef} id="title" value={title} onChange={e => setTitle(e.target.value)} aria-invalid={!!fieldErrors.title} aria-describedby="title-error" />
-        {fieldErrors.title && <div id="title-error" className="text-red-500 text-sm mt-1">{fieldErrors.title}</div>}
-      </div>
-      <div>
-        <label className="block font-semibold mb-1" htmlFor="content">Content</label>
-        <CommentEditor
-          value={content}
-          onChange={setContent}
-          placeholder="Write your post content..."
-          readOnly={!canEdit || loading}
-        />
-        {fieldErrors.content && <div id="content-error" className="text-red-500 text-sm mt-1">{fieldErrors.content}</div>}
-      </div>
-      <div>
-        <MultiCategorySelect
-          value={selectedCategories}
-          onChange={setSelectedCategories}
-          options={categories}
-          required
-          error={fieldErrors.categories}
-          onCreate={onCreateCategory}
-        />
-      </div>
-      <div>
-        <label className="block font-semibold mb-1">Status</label>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button type="button" variant="outline" className="w-full justify-between">
-              {STATUS_OPTIONS.find(s => s.value === status)?.label || "Select status"}
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            {STATUS_OPTIONS.map(opt => (
-              <DropdownMenuItem key={opt.value} onSelect={() => setStatus(opt.value)}>
-                {opt.label}
-              </DropdownMenuItem>
-            ))}
-          </DropdownMenuContent>
-        </DropdownMenu>
-        {fieldErrors.status && <div className="text-red-500 text-sm mt-1">{fieldErrors.status}</div>}
-      </div>
-      <div>
-        <label className="block font-semibold mb-1" htmlFor="thumbnail">Thumbnail/Cover Image</label>
-        <label
-          htmlFor="thumbnail"
-          className={`block w-full h-32 border-2 border-dashed rounded flex flex-col items-center justify-center cursor-pointer transition-colors ${dragActive ? "border-blue-400 bg-blue-50" : "border-gray-300 bg-gray-50"}`}
-          onDragOver={handleDragOver}
-          onDragLeave={handleDragLeave}
-          onDrop={handleDrop}
-          tabIndex={0}
-          aria-label="Upload thumbnail image"
-        >
-          {uploading ? (
-            <div className="flex flex-col items-center justify-center text-blue-500">
-              <svg className="animate-spin h-8 w-8 mb-2" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" /><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" /></svg>
-              <span>Uploading...</span>
-            </div>
-          ) : thumbnail ? (
-            <div className="relative w-full h-full flex items-center justify-center">
-              <Image
-                src={thumbnail}
-                alt="Thumbnail preview"
-                width={320}
-                height={180}
-                className="max-h-28 object-contain rounded"
-                style={{ width: "auto", height: "100%" }}
-                unoptimized
-              />
-              <button
-                type="button"
-                className="absolute top-2 right-2 bg-white/80 rounded-full p-1 text-red-500 hover:bg-white"
-                onClick={e => { e.stopPropagation(); setThumbnail(undefined); setThumbnailFile(null); }}
-                aria-label="Remove image"
-              >
-                ×
-              </button>
-              {thumbnail !== initial.thumbnail && initial.thumbnail && (
+    <>
+      <form ref={formRef} onSubmit={handleSubmit} className="space-y-6 max-w-xl mx-auto bg-white rounded-lg shadow p-6" aria-label="Edit Post Form">
+        <div>
+          <label className="block font-semibold mb-1" htmlFor="title">Title</label>
+          <Input ref={titleRef} id="title" value={title} onChange={e => setTitle(e.target.value)} aria-invalid={!!fieldErrors.title} aria-describedby="title-error" />
+          {fieldErrors.title && <div id="title-error" className="text-red-500 text-sm mt-1">{fieldErrors.title}</div>}
+        </div>
+        <div>
+          <label className="block font-semibold mb-1" htmlFor="content">Content</label>
+          <CommentEditor
+            value={content}
+            onChange={setContent}
+            placeholder="Write your post content..."
+            readOnly={!canEdit || loading}
+          />
+          {fieldErrors.content && <div id="content-error" className="text-red-500 text-sm mt-1">{fieldErrors.content}</div>}
+        </div>
+        <div>
+          <MultiCategorySelect
+            value={selectedCategories}
+            onChange={setSelectedCategories}
+            options={categories}
+            required
+            error={fieldErrors.categories}
+            onCreate={onCreateCategory}
+          />
+        </div>
+        <div>
+          <label className="block font-semibold mb-1">Status</label>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button type="button" variant="outline" className="w-full justify-between">
+                {STATUS_OPTIONS.find(s => s.value === status)?.label || "Select status"}
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              {STATUS_OPTIONS.map(opt => (
+                <DropdownMenuItem key={opt.value} onSelect={() => setStatus(opt.value)}>
+                  {opt.label}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+          {fieldErrors.status && <div className="text-red-500 text-sm mt-1">{fieldErrors.status}</div>}
+        </div>
+        <div>
+          <label className="block font-semibold mb-1" htmlFor="thumbnail">Thumbnail/Cover Image</label>
+          <label
+            htmlFor="thumbnail"
+            className={`block w-full h-32 border-2 border-dashed rounded flex flex-col items-center justify-center cursor-pointer transition-colors ${dragActive ? "border-blue-400 bg-blue-50" : "border-gray-300 bg-gray-50"}`}
+            onDragOver={handleDragOver}
+            onDragLeave={handleDragLeave}
+            onDrop={handleDrop}
+            tabIndex={0}
+            aria-label="Upload thumbnail image"
+          >
+            {uploading ? (
+              <div className="flex flex-col items-center justify-center text-blue-500">
+                <svg className="animate-spin h-8 w-8 mb-2" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" /><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" /></svg>
+                <span>Uploading...</span>
+              </div>
+            ) : thumbnail ? (
+              <div className="relative w-full h-full flex items-center justify-center">
+                <Image
+                  src={thumbnail}
+                  alt="Thumbnail preview"
+                  width={320}
+                  height={180}
+                  className="max-h-28 object-contain rounded"
+                  style={{ width: "auto", height: "100%" }}
+                  unoptimized
+                />
                 <button
                   type="button"
-                  className="absolute bottom-2 right-2 bg-white/80 rounded-full p-1 text-blue-500 hover:bg-white border border-blue-200 text-xs px-2 py-1"
-                  onClick={e => { e.stopPropagation(); setThumbnail(initial.thumbnail); setThumbnailFile(null); }}
-                  aria-label="Revert to original image"
+                  className="absolute top-2 right-2 bg-white/80 rounded-full p-1 text-red-500 hover:bg-white"
+                  onClick={e => { e.stopPropagation(); setThumbnail(undefined); setThumbnailFile(null); }}
+                  aria-label="Remove image"
                 >
-                  Revert
+                  ×
+                </button>
+                {thumbnail !== initial.thumbnail && initial.thumbnail && (
+                  <button
+                    type="button"
+                    className="absolute bottom-2 right-2 bg-white/80 rounded-full p-1 text-blue-500 hover:bg-white border border-blue-200 text-xs px-2 py-1"
+                    onClick={e => { e.stopPropagation(); setThumbnail(initial.thumbnail); setThumbnailFile(null); }}
+                    aria-label="Revert to original image"
+                  >
+                    Revert
+                  </button>
+                )}
+              </div>
+            ) : (
+              <div className="flex flex-col items-center justify-center text-gray-400">
+                <span className="text-2xl mb-1">📷</span>
+                <span>Drag & drop or click to upload</span>
+                <span className="text-xs mt-1">(JPEG, PNG, WebP, max 2MB, 16:9 crop)</span>
+              </div>
+            )}
+            <input
+              ref={fileInputRef}
+              id="thumbnail"
+              type="file"
+              accept="image/jpeg,image/png,image/webp"
+              className="hidden"
+              onChange={handleImageChange}
+              disabled={loading || uploading}
+            />
+          </label>
+          {imageError && (
+            <div className="text-red-500 text-xs mt-1 flex items-center gap-2">
+              <span>{imageError}</span>
+              {lastCropImage && lastCroppedAreaPixels && (
+                <button
+                  type="button"
+                  className="underline text-blue-600 text-xs"
+                  onClick={() => {
+                    setCropImage(lastCropImage);
+                    setCroppedAreaPixels(lastCroppedAreaPixels);
+                    setCropModalOpen(true);
+                    setImageError(null);
+                  }}
+                >
+                  Retry
                 </button>
               )}
             </div>
-          ) : (
-            <div className="flex flex-col items-center justify-center text-gray-400">
-              <span className="text-2xl mb-1">📷</span>
-              <span>Drag & drop or click to upload</span>
-              <span className="text-xs mt-1">(JPEG, PNG, WebP, max 2MB, 16:9 crop)</span>
-            </div>
           )}
-          <input
-            ref={fileInputRef}
-            id="thumbnail"
-            type="file"
-            accept="image/jpeg,image/png,image/webp"
-            className="hidden"
-            onChange={handleImageChange}
-            disabled={loading || uploading}
-          />
-        </label>
-        {imageError && (
-          <div className="text-red-500 text-xs mt-1 flex items-center gap-2">
-            <span>{imageError}</span>
-            {lastCropImage && lastCroppedAreaPixels && (
-              <button
-                type="button"
-                className="underline text-blue-600 text-xs"
-                onClick={() => {
-                  setCropImage(lastCropImage);
-                  setCroppedAreaPixels(lastCroppedAreaPixels);
-                  setCropModalOpen(true);
-                  setImageError(null);
-                }}
-              >
-                Retry
-              </button>
-            )}
-          </div>
-        )}
-      </div>
-      {/* Crop modal */}
-      {cropModalOpen && cropImage && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
-          <div className="bg-white rounded-lg shadow-lg p-4 max-w-lg w-full flex flex-col items-center">
-            <h2 className="font-semibold mb-2">Crop Image (16:9)</h2>
-            <div className="relative w-full h-64 bg-gray-100">
-              <Cropper
-                image={cropImage}
-                crop={crop}
-                zoom={zoom}
-                aspect={16 / 9}
-                onCropChange={setCrop}
-                onZoomChange={setZoom}
-                onCropComplete={onCropComplete}
-              />
-            </div>
-            <div className="flex gap-2 mt-4">
-              <button className="px-4 py-2 rounded bg-blue-600 text-white disabled:opacity-60" onClick={handleCropConfirm} disabled={uploading}>Crop & Upload</button>
-              <button className="px-4 py-2 rounded bg-gray-200" onClick={() => { if (!uploading) { setCropModalOpen(false); setCropImage(null); }}} disabled={uploading}>Cancel</button>
-            </div>
-            {uploading && <div className="mt-2 text-blue-600 flex items-center gap-2"><svg className="animate-spin h-5 w-5" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" /><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" /></svg> Uploading...</div>}
-          </div>
         </div>
-      )}
-      {error && <div className="text-red-600 text-sm mb-2">{error}</div>}
-      <div className="flex gap-2 justify-end">
-        <Button type="button" variant="outline" onClick={handleCancel} disabled={loading || uploading} aria-label="Cancel">
-          Cancel
-        </Button>
-        {dirty && (
-          <Button type="submit" disabled={loading || uploading} aria-label="Save">
-            {(loading || uploading) ? "Saving..." : "Save"}
-          </Button>
+        {/* Crop modal */}
+        {cropModalOpen && cropImage && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
+            <div className="bg-white rounded-lg shadow-lg p-4 max-w-lg w-full flex flex-col items-center">
+              <h2 className="font-semibold mb-2">Crop Image (16:9)</h2>
+              <div className="relative w-full h-64 bg-gray-100">
+                <Cropper
+                  image={cropImage}
+                  crop={crop}
+                  zoom={zoom}
+                  aspect={16 / 9}
+                  onCropChange={setCrop}
+                  onZoomChange={setZoom}
+                  onCropComplete={onCropComplete}
+                />
+              </div>
+              <div className="flex gap-2 mt-4">
+                <button className="px-4 py-2 rounded bg-blue-600 text-white disabled:opacity-60" onClick={handleCropConfirm} disabled={uploading}>Crop & Upload</button>
+                <button className="px-4 py-2 rounded bg-gray-200" onClick={() => { if (!uploading) { setCropModalOpen(false); setCropImage(null); }}} disabled={uploading}>Cancel</button>
+              </div>
+              {uploading && <div className="mt-2 text-blue-600 flex items-center gap-2"><svg className="animate-spin h-5 w-5" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" /><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" /></svg> Uploading...</div>}
+            </div>
+          </div>
         )}
-      </div>
-    </form>
+        {error && <div className="text-red-600 text-sm mb-2">{error}</div>}
+        <div className="flex gap-2 justify-end">
+          <Button type="button" variant="outline" onClick={handleCancel} disabled={loading || uploading} aria-label="Cancel">
+            Cancel
+          </Button>
+          {dirty && (
+            <Button type="submit" disabled={loading || uploading} aria-label="Save">
+              {(loading || uploading) ? <span className="inline-flex items-center gap-1"><span className="animate-spin h-4 w-4 border-2 border-t-transparent border-current rounded-full"></span>Saving...</span> : "Save"}
+            </Button>
+          )}
+        </div>
+      </form>
+      <Dialog open={showConfirm} onOpenChange={setShowConfirm}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Discard your changes?</DialogTitle>
+          </DialogHeader>
+          <div className="py-2">You have unsaved changes. Are you sure you want to discard them?</div>
+          <DialogFooter>
+            <Button variant="destructive" onClick={actuallyCancel}>Discard</Button>
+            <Button variant="outline" onClick={() => setShowConfirm(false)}>Continue Editing</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 } 

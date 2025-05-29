@@ -22,6 +22,26 @@ A modern, robust manga blog platform built with **Next.js**, **Prisma**, **Postg
 
 ---
 
+## 📝 Recent Comment System Improvements (2024-06)
+
+- **Jump to Comment Form Button:**
+  - A compact, right-aligned "Jump" button appears at the bottom of the comment thread, allowing users to quickly return to the comment form. The button uses a light blue color, is responsive, and is accessible with an icon, tooltip, and ARIA label.
+
+- **Scroll to New Comment:**
+  - When a user posts a new comment, the UI automatically scrolls to the newly created comment (both for optimistic and confirmed states), ensuring immediate feedback and visibility even in long threads.
+
+- **Accessibility & Navigation:**
+  - All comment actions and navigation buttons are keyboard accessible and screen reader friendly.
+  - ARIA labels, roles, and tooltips are used throughout for clarity and accessibility.
+  - Responsive design ensures comments and controls look great on all screen sizes.
+
+- **Best Practices:**
+  - Only one navigation button ("Jump") is shown for clarity and minimalism.
+  - Button text is compact and hidden on mobile, visible on larger screens or on hover/focus.
+  - Comment containers use unique IDs for robust scroll targeting.
+
+---
+
 ## 🛠️ Tech Stack
 - **Next.js 15** (App Router, TypeScript)
 - **Prisma** ORM

@@ -76,12 +76,6 @@ export function Home({ session }: { session: unknown }) {
       <h1 className="text-3xl sm:text-4xl font-bold text-[#2a4257] mb-8 text-center tracking-tight">
         Latest Blogs
       </h1>
-      <div className="prose prose-editor">
-        <h1>Test Heading 1</h1>
-        <h2>Test Heading 2</h2>
-        <h3>Test Heading 3</h3>
-        <p>Normal paragraph</p>
-      </div>
       {(isLoading || loadingCats) ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8 animate-pulse">
           {Array.from({ length: 6 }).map((_, i) => (

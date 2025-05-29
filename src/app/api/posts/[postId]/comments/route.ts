@@ -6,6 +6,8 @@ import { z } from "zod";
 import type { Comment } from "@/types/Comment";
 import { createNotification } from '@/lib/notifications';
 import { NotificationType } from '@/types/Notification';
+import DOMPurify from 'isomorphic-dompurify';
+import { isMeaningfulHtml } from '@/lib/htmlUtils';
 
 const commentCreateSchema = z.object({
   content: z.string().min(1).max(2000),
@@ -21,7 +23,7 @@ function extractMentions(content: string): string[] {
 }
 
 function getTestSession(req: Request) {
-  if (process.env.NODE_ENV === 'test') {
+  if (process.env.NODE_ENV === 'test' || process.env.NODE_ENV === 'development') {
     const testUser = req.headers.get('x-test-user');
     if (testUser) {
       const userMap: Record<string, { id: string; role: string }> = {
@@ -42,6 +44,11 @@ function getTestSession(req: Request) {
  *
  * Creates a new comment on a post. Requires authentication.
  *
+ * Backend validation:
+ * - Sanitizes HTML using DOMPurify (defense in depth)
+ * - Checks for meaningful content after sanitization
+ * - Only allows a safe subset of tags/attributes
+ *
  * @returns {Response} JSON response with the created comment.
  */
 export async function POST(req: Request, { params }: { params: { postId: string } }) {
@@ -57,16 +64,30 @@ export async function POST(req: Request, { params }: { params: { postId: string 
   if (!session?.user?.id) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  const { postId } = params;
+  const { postId } = await params;
   const body = await req.json();
   const parsed = commentCreateSchema.safeParse(body);
   if (!parsed.success) {
     return NextResponse.json({ error: "Invalid input", details: parsed.error.flatten() }, { status: 400 });
   }
+  // Sanitize and validate content
+  const sanitizedContent = DOMPurify.sanitize(parsed.data.content, {
+    ALLOWED_TAGS: [
+      'a', 'b', 'i', 'u', 's', 'em', 'strong', 'blockquote', 'ul', 'ol', 'li', 'pre', 'code', 'img', 'table',
+      'thead', 'tbody', 'tr', 'th', 'td', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'br', 'p', 'span'
+    ],
+    ALLOWED_ATTR: [
+      'href', 'src', 'alt', 'title', 'target', 'rel', 'class', 'style', 'width', 'height', 'align', 'colspan', 'rowspan'
+    ],
+    ALLOW_DATA_ATTR: true
+  });
+  if (!isMeaningfulHtml(sanitizedContent)) {
+    return NextResponse.json({ error: "Comment cannot be empty." }, { status: 400 });
+  }
   try {
     const comment = await prisma.comment.create({
       data: {
-        content: parsed.data.content,
+        content: sanitizedContent,
         postId,
         authorId: session.user.id,
         parentId: parsed.data.parentId || null,

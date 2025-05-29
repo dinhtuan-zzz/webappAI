@@ -1,0 +1,109 @@
+/* TipTap Editor Styles - Reset to Default */
+.tiptap-editor-wrapper {
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: #fafbfc;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+.tiptap-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  background: #fafbfc;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 0.25rem 0.5rem;
+}
+.tiptap-editor {
+  min-height: 100px;
+  max-height: 400px;
+  padding: 12px 14px;
+  font-size: 1rem;
+  line-height: 1.5;
+  font-family: inherit;
+  background: transparent;
+  border: none;
+  outline: none;
+  margin: 0;
+}
+.tiptap-editor:focus-within {
+  border-color: #6bb7b7;
+  background: #fff;
+}
+.tiptap-editor-readonly {
+  background: #f3f4f6;
+  color: #888;
+}
+.tiptap-editor-empty {
+  color: #bdbdbd;
+  font-style: italic;
+}
+.tiptap-editor .tiptap-editor-empty {
+  position: relative;
+}
+.tiptap-editor .tiptap-editor-empty::before {
+  content: attr(data-placeholder);
+  color: #bdbdbd;
+  font-style: italic;
+  pointer-events: none;
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: inherit;
+  line-height: inherit;
+  font-family: inherit;
+  padding: 0;
+  white-space: pre-line;
+}
+.tiptap-toolbar-group {
+  display: flex;
+  align-items: center;
+  gap: 0.125rem;
+}
+.tiptap-toolbar-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: none;
+  border: none;
+  color: #222;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  padding: 0;
+}
+.tiptap-toolbar-btn:hover,
+.tiptap-toolbar-btn:focus {
+  background: #f0f9ff;
+  color: #0369a1;
+}
+.tiptap-toolbar .tiptap-toolbar-btn.active:hover,
+.tiptap-toolbar .tiptap-toolbar-btn.active:focus {
+  background: #0369a1;
+  color: #fff;
+}
+.tiptap-toolbar-btn:focus {
+  outline: 2px solid #38bdf8;
+  outline-offset: 2px;
+}
+.tiptap-toolbar-btn svg {
+  width: 18px;
+  height: 18px;
+  display: block;
+}
+.tiptap-toolbar .tiptap-button[data-style="ghost"][data-active-state="on"] {
+  --tt-button-active-bg-color: #0369a1;
+  --tt-button-active-text-color: #fff;
+  background-color: #0369a1 !important;
+  color: #fff !important;
+}
+.tiptap-toolbar .tiptap-button[data-style="ghost"][data-active-state="on"]:hover,
+.tiptap-toolbar .tiptap-button[data-style="ghost"][data-active-state="on"]:focus {
+  --tt-button-active-hover-bg-color: #0369a1;
+  --tt-button-active-hover-text-color: #fff;
+  background-color: #0369a1 !important;
+  color: #fff !important;
+} 

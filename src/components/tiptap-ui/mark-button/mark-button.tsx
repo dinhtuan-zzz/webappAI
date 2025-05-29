@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import { isNodeSelection, type Editor } from "@tiptap/react"
+import { useEffect, useState, useSyncExternalStore } from 'react';
 
 // --- Hooks ---
 import { useTiptapEditor } from "@/hooks/use-tiptap-editor"
@@ -81,8 +82,11 @@ export function canToggleMark(editor: Editor | null, type: Mark): boolean {
 }
 
 export function isMarkActive(editor: Editor | null, type: Mark): boolean {
-  if (!editor) return false
-  return editor.isActive(type)
+  if (!editor) return false;
+  // Check if mark is active at selection or in storedMarks
+  if (editor.isActive(type)) return true;
+  if (editor.state.storedMarks?.some(mark => mark.type.name === type)) return true;
+  return false;
 }
 
 export function toggleMark(editor: Editor | null, type: Mark): void {
@@ -153,6 +157,20 @@ export function useMarkState(
   }
 }
 
+// Robust hook to force re-render on every editor transaction
+function useEditorStateVersion(editor: Editor | null) {
+  const [version, setVersion] = useState(0);
+  useEffect(() => {
+    if (!editor) return;
+    const update = () => setVersion(v => v + 1);
+    editor.on('transaction', update);
+    return () => {
+      editor.off('transaction', update);
+    };
+  }, [editor]);
+  return version;
+}
+
 export const MarkButton = React.forwardRef<HTMLButtonElement, MarkButtonProps>(
   (
     {
@@ -169,11 +187,18 @@ export const MarkButton = React.forwardRef<HTMLButtonElement, MarkButtonProps>(
     ref
   ) => {
     const editor = useTiptapEditor(providedEditor)
+    useEditorStateVersion(editor) // Force re-render on every editor state change
+    const isActive = isMarkActive(editor, type)
+    useEffect(() => {
+      if (editor) {
+        console.log(`[MarkButton] type: ${type}, isActive:`, isActive, 'selection:', editor.state.selection, 'doc:', editor.getHTML());
+      }
+    });
 
     const {
       markInSchema,
       isDisabled,
-      isActive,
+      isActive: stateActive,
       Icon,
       shortcutKey,
       formattedName,
@@ -182,9 +207,12 @@ export const MarkButton = React.forwardRef<HTMLButtonElement, MarkButtonProps>(
     const handleClick = React.useCallback(
       (e: React.MouseEvent<HTMLButtonElement>) => {
         onClick?.(e)
-
         if (!e.defaultPrevented && !isDisabled && editor) {
           toggleMark(editor, type)
+          editor.commands.focus()
+          setTimeout(() => {
+            console.log(`[MarkButton][afterClick] type: ${type}, isActive:`, editor.isActive(type), 'selection:', editor.state.selection, 'doc:', editor.getHTML());
+          }, 0);
         }
       },
       [onClick, isDisabled, editor, type]
@@ -206,7 +234,7 @@ export const MarkButton = React.forwardRef<HTMLButtonElement, MarkButtonProps>(
     return (
       <Button
         type="button"
-        className={className.trim()}
+        className={`tiptap-toolbar-btn ${className}`.trim()}
         disabled={isDisabled}
         data-style="ghost"
         data-active-state={isActive ? "on" : "off"}

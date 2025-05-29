@@ -6,6 +6,7 @@ import { CommentForm } from "@/components/CommentForm";
 import DOMPurify from 'isomorphic-dompurify';
 import { Avatar } from "@/components/Avatar";
 import type { Comment } from "@/types/Comment";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 
 const sanitize = DOMPurify.sanitize || (DOMPurify as any).default?.sanitize;
 
@@ -15,16 +16,19 @@ export function CommentItem({
   onEdit,
   onDelete,
   onReply,
+  optimistic,
 }: {
   comment: Comment;
   currentUserId?: string;
   onEdit: (content: string) => Promise<void>;
-  onDelete: () => Promise<void>;
+  onDelete: (id: string) => Promise<void>;
   onReply: (content: string) => Promise<void>;
+  optimistic?: { saving?: boolean; error?: string; retry?: () => void };
 }) {
   const [editMode, setEditMode] = useState(false);
   const [replyMode, setReplyMode] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const isAuthor = Boolean(currentUserId && comment.author?.id === currentUserId);
   const avatarUrl = comment.author?.profile?.avatarUrl;
   const email = comment.author?.email;
@@ -84,16 +88,35 @@ export function CommentItem({
     };
   }, [editMode, comment.id, comment.content]);
 
+  const handleEditClick = () => {
+    setEditMode(true);
+    setReplyMode(false);
+  };
+  const handleReplyClick = () => {
+    setReplyMode((v) => !v);
+    setEditMode(false);
+  };
+
   return (
-    <div className="flex gap-3 py-3 border-b border-[#e6e6e6]">
+    <div className="flex gap-3 py-3 border-b border-[#e6e6e6] opacity-100" style={optimistic?.saving ? { opacity: 0.6, pointerEvents: 'none' } : {}}>
       <Avatar avatarUrl={avatarUrl} email={email} name={displayName} size={32} />
       <div className="flex-1">
         <div className="flex items-center gap-2 mb-1">
           <span className="font-semibold text-[#2a4257] text-sm">{displayName}</span>
           <span className="text-xs text-gray-400">{timestamp}</span>
+          {optimistic?.saving && <span className="ml-2 text-xs text-blue-500 flex items-center gap-1" role="status" aria-live="polite"><span className="animate-spin h-3 w-3 border-2 border-t-transparent border-current rounded-full" aria-hidden="true"></span>Saving…</span>}
         </div>
+        {optimistic?.error && (
+          <div className="text-red-500 text-xs mb-1 flex items-center gap-2" role="alert" aria-live="assertive">
+            {optimistic.error}
+            {optimistic.retry && (
+              <button className="underline focus:outline focus:ring-2 focus:ring-blue-500" onClick={optimistic.retry} tabIndex={0} aria-label="Retry posting comment">Retry</button>
+            )}
+          </div>
+        )}
         {editMode ? (
           <CommentForm
+            key={`edit-${comment.id}`}
             initialContent={comment.content}
             onSubmit={async (content) => {
               setLoading(true);
@@ -105,6 +128,8 @@ export function CommentItem({
             loading={loading}
             submitLabel="Save"
             canEdit={isAuthor}
+            contextKey={`edit-${comment.id}`}
+            autoFocus={true}
           />
         ) : (
           <div
@@ -124,29 +149,35 @@ export function CommentItem({
           />
         )}
         <div className="flex gap-2 text-xs mt-1">
-          {isAuthor && !editMode && (
+          {isAuthor && !editMode && !optimistic?.saving && (
             <>
-              <Button variant="ghost" size="sm" onClick={() => setEditMode(true)}>
+              <Button variant="ghost" size="sm" onClick={handleEditClick}>
                 Edit
               </Button>
               <Button
                 variant="ghost"
                 size="sm"
                 className="text-red-600"
-                onClick={async () => {
-                  if (window.confirm("Delete this comment?")) {
-                    setLoading(true);
-                    await onDelete();
-                    setLoading(false);
-                  }
-                }}
+                onClick={() => setShowDeleteConfirm(true)}
               >
                 Delete
               </Button>
+              <Dialog open={showDeleteConfirm} onOpenChange={setShowDeleteConfirm}>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Delete comment?</DialogTitle>
+                  </DialogHeader>
+                  <div className="py-2">Are you sure you want to delete this comment? This action cannot be undone.</div>
+                  <DialogFooter>
+                    <Button variant="destructive" onClick={async () => { setShowDeleteConfirm(false); setLoading(true); await onDelete(comment.id); setLoading(false); }}>Delete</Button>
+                    <Button variant="outline" onClick={() => setShowDeleteConfirm(false)}>Cancel</Button>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
             </>
           )}
-          {!editMode && (
-            <Button variant="ghost" size="sm" onClick={() => setReplyMode((v) => !v)}>
+          {!editMode && !optimistic?.saving && (
+            <Button variant="ghost" size="sm" onClick={handleReplyClick}>
               Reply
             </Button>
           )}
@@ -154,6 +185,7 @@ export function CommentItem({
         {replyMode && !editMode && (
           <div className="mt-2">
             <CommentForm
+              key={`reply-${comment.id}`}
               onSubmit={async (content) => {
                 setLoading(true);
                 await onReply(content);
@@ -163,6 +195,8 @@ export function CommentItem({
               onCancel={() => setReplyMode(false)}
               loading={loading}
               submitLabel="Reply"
+              contextKey={`reply-${comment.id}`}
+              autoFocus={true}
             />
           </div>
         )}
