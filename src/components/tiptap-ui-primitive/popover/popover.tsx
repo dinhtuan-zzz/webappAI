@@ -176,10 +176,12 @@ const PopoverTrigger = React.forwardRef<HTMLElement, TriggerElementProps>(
     const ref = useMergeRefs([context.refs.setReference, propRef, childrenRef])
 
     if (asChild && React.isValidElement(children)) {
+      const childType = (children.props as any)?.type || undefined;
       return React.cloneElement(
         children,
         context.getReferenceProps({
           ref,
+          type: childType || "button",
           ...props,
           ...(children.props as any),
           "data-state": context.open ? "open" : "closed",

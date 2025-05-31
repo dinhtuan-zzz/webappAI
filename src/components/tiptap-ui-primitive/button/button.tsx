@@ -73,10 +73,15 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       showTooltip = true,
       shortcutKeys,
       "aria-label": ariaLabel,
+      type = "button",
       ...props
     },
     ref
   ) => {
+    if (process.env.NODE_ENV === "development" && type !== "button") {
+      // eslint-disable-next-line no-console
+      console.warn("[Button] type prop should be 'button' to prevent form submission. Received:", type);
+    }
     const isMac = React.useMemo(
       () =>
         typeof navigator !== "undefined" &&
@@ -92,6 +97,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     if (!tooltip || !showTooltip) {
       return (
         <button
+          type={type}
           className={`tiptap-button ${className}`.trim()}
           ref={ref}
           aria-label={ariaLabel}
@@ -105,6 +111,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <Tooltip delay={200}>
         <TooltipTrigger
+          type={type}
           className={`tiptap-button ${className}`.trim()}
           ref={ref}
           aria-label={ariaLabel}

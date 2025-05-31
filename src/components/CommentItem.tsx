@@ -7,6 +7,7 @@ import DOMPurify from 'isomorphic-dompurify';
 import { Avatar } from "@/components/Avatar";
 import type { Comment } from "@/types/Comment";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
+import CollapsibleComment from './CollapsibleComment';
 
 const sanitize = DOMPurify.sanitize || (DOMPurify as any).default?.sanitize;
 
@@ -132,21 +133,23 @@ export function CommentItem({
             autoFocus={true}
           />
         ) : (
-          <div
-            id={`comment-content-${comment.id}`}
-            className="prose prose-editor max-w-none mb-2"
-            dangerouslySetInnerHTML={{
-              __html: sanitize(comment.content || '', {
-                ALLOWED_TAGS: [
-                  'a', 'b', 'i', 'u', 's', 'em', 'strong', 'blockquote', 'ul', 'ol', 'li', 'pre', 'code', 'img', 'table', 'thead', 'tbody', 'tr', 'th', 'td', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'br', 'p', 'span'
-                ],
-                ALLOWED_ATTR: [
-                  'href', 'src', 'alt', 'title', 'target', 'rel', 'class', 'style', 'width', 'height', 'align', 'colspan', 'rowspan'
-                ],
-                ALLOW_DATA_ATTR: true
-              })
-            }}
-          />
+          <CollapsibleComment maxHeight={300}>
+            <div
+              id={`comment-content-${comment.id}`}
+              className="prose prose-editor max-w-none mb-2"
+              dangerouslySetInnerHTML={{
+                __html: sanitize(comment.content || '', {
+                  ALLOWED_TAGS: [
+                    'a', 'b', 'i', 'u', 's', 'em', 'strong', 'blockquote', 'ul', 'ol', 'li', 'pre', 'code', 'img', 'table', 'thead', 'tbody', 'tr', 'th', 'td', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'br', 'p', 'span'
+                  ],
+                  ALLOWED_ATTR: [
+                    'href', 'src', 'alt', 'title', 'target', 'rel', 'class', 'style', 'width', 'height', 'align', 'colspan', 'rowspan'
+                  ],
+                  ALLOW_DATA_ATTR: true
+                })
+              }}
+            />
+          </CollapsibleComment>
         )}
         <div className="flex gap-2 text-xs mt-1">
           {isAuthor && !editMode && !optimistic?.saving && (

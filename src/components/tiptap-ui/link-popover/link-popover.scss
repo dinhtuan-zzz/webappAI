@@ -25,3 +25,29 @@
     }
   }
 }
+
+.tiptap-input-error {
+  border: 1px solid #dc2626 !important;
+  background: #fff0f0;
+}
+
+.link-popover-content {
+  min-width: 10rem;
+  padding: 0.5rem 0.75rem;
+  background: var(--tt-popover-bg-color, #fff);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+  border-radius: 8px;
+  z-index: 1000;
+}
+
+.tiptap-link-input-group {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.link-popover-content .tiptap-button:not(:disabled):hover,
+.link-popover-content .tiptap-button:not(:disabled):focus-visible {
+  background: #e0f2fe;
+  transition: background 0.15s;
+}

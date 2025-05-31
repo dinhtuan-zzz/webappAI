@@ -37,6 +37,8 @@ export interface LinkHandlerProps {
 export interface LinkMainProps {
   url: string
   setUrl: React.Dispatch<React.SetStateAction<string>>
+  alias: string
+  setAlias: React.Dispatch<React.SetStateAction<string>>
   setLink: () => void
   removeLink: () => void
   isActive: boolean
@@ -45,16 +47,22 @@ export interface LinkMainProps {
 export const useLinkHandler = (props: LinkHandlerProps) => {
   const { editor, onSetLink, onLinkActive } = props
   const [url, setUrl] = React.useState<string>("")
+  const [alias, setAlias] = React.useState<string>("")
 
   React.useEffect(() => {
     if (!editor) return
 
-    // Get URL immediately on mount
+    // Get URL and alias immediately on mount
     const { href } = editor.getAttributes("link")
+    const { from, to } = editor.state.selection
+    const selectedText = editor.state.doc.textBetween(from, to)
 
     if (editor.isActive("link") && !url) {
       setUrl(href || "")
+      setAlias(selectedText || "")
       onLinkActive?.()
+    } else if (!editor.isActive("link") && selectedText) {
+      setAlias(selectedText)
     }
   }, [editor, onLinkActive, url])
 
@@ -64,10 +72,12 @@ export const useLinkHandler = (props: LinkHandlerProps) => {
     const updateLinkState = () => {
       const { href } = editor.getAttributes("link")
       setUrl(href || "")
-
+      const { from, to } = editor.state.selection
+      const selectedText = editor.state.doc.textBetween(from, to)
       if (editor.isActive("link") && !url) {
         onLinkActive?.()
       }
+      if (selectedText) setAlias(selectedText)
     }
 
     editor.on("selectionUpdate", updateLinkState)
@@ -80,7 +90,7 @@ export const useLinkHandler = (props: LinkHandlerProps) => {
     if (!url || !editor) return
 
     const { from, to } = editor.state.selection
-    const text = editor.state.doc.textBetween(from, to)
+    const text = alias || editor.state.doc.textBetween(from, to) || url
 
     editor
       .chain()
@@ -88,13 +98,13 @@ export const useLinkHandler = (props: LinkHandlerProps) => {
       .extendMarkRange("link")
       .insertContent({
         type: "text",
-        text: text || url,
+        text,
         marks: [{ type: "link", attrs: { href: url } }],
       })
       .run()
 
     onSetLink?.()
-  }, [editor, onSetLink, url])
+  }, [editor, onSetLink, url, alias])
 
   const removeLink = React.useCallback(() => {
     if (!editor) return
@@ -105,11 +115,14 @@ export const useLinkHandler = (props: LinkHandlerProps) => {
       .setMeta("preventAutolink", true)
       .run()
     setUrl("")
+    setAlias("")
   }, [editor])
 
   return {
     url,
     setUrl,
+    alias,
+    setAlias,
     setLink,
     removeLink,
     isActive: editor?.isActive("link") || false,
@@ -117,10 +130,14 @@ export const useLinkHandler = (props: LinkHandlerProps) => {
 }
 
 export const LinkButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, children, ...props }, ref) => {
+  ({ className, children, type = "button", ...props }, ref) => {
+    if (process.env.NODE_ENV === "development" && type !== "button") {
+      // eslint-disable-next-line no-console
+      console.warn("[LinkButton] type prop should be 'button' to prevent form submission. Received:", type);
+    }
     return (
       <Button
-        type="button"
+        type={type}
         className={className}
         data-style="ghost"
         role="button"
@@ -148,40 +165,95 @@ export const LinkContent: React.FC<{
   return <LinkMain {...linkHandler} />
 }
 
-const LinkMain: React.FC<LinkMainProps> = ({
+const isValidUrl = (url: string) => {
+  if (!url) return false;
+  try {
+    const parsed = new URL(url);
+    const allowedProtocols = ["http:", "https:", "mailto:"];
+    return allowedProtocols.includes(parsed.protocol);
+  } catch {
+    return false;
+  }
+};
+
+const LinkMain: React.FC<LinkMainProps & { onClose?: () => void }> = ({
   url,
   setUrl,
+  alias,
+  setAlias,
   setLink,
   removeLink,
   isActive,
+  onClose,
 }) => {
+  const inputRef = React.useRef<HTMLInputElement>(null);
+  const [touched, setTouched] = React.useState(false);
+  const urlValid = isValidUrl(url);
+
+  React.useEffect(() => {
+    inputRef.current?.focus({ preventScroll: true });
+  }, []);
+
   const handleKeyDown = (event: React.KeyboardEvent) => {
     if (event.key === "Enter") {
-      event.preventDefault()
-      setLink()
+      event.preventDefault();
+      setLink();
+      onClose?.();
     }
-  }
+    if (event.key === "Escape") {
+      onClose?.();
+    }
+  };
+
+  const showError = touched && url.length > 0 && !urlValid;
 
   return (
     <>
-      <input
-        type="url"
-        placeholder="Paste a link..."
-        value={url}
-        onChange={(e) => setUrl(e.target.value)}
-        onKeyDown={handleKeyDown}
-        autoComplete="off"
-        autoCorrect="off"
-        autoCapitalize="off"
-        className="tiptap-input tiptap-input-clamp"
-      />
+      <div className="tiptap-link-input-group">
+        <input
+          type="text"
+          placeholder="Text to display (optional)"
+          value={alias}
+          onChange={e => setAlias(e.target.value)}
+          className="tiptap-input tiptap-input-clamp"
+          aria-label="Text to display"
+          style={{ marginBottom: 6 }}
+        />
+        <input
+          ref={inputRef}
+          type="url"
+          placeholder="Paste a link..."
+          value={url}
+          onChange={(e) => {
+            setUrl(e.target.value);
+            if (!touched) setTouched(true);
+          }}
+          onBlur={() => setTouched(true)}
+          onKeyDown={handleKeyDown}
+          autoComplete="off"
+          autoCorrect="off"
+          autoCapitalize="off"
+          className={`tiptap-input tiptap-input-clamp${showError ? " tiptap-input-error" : ""}`}
+          aria-label="Link URL"
+          aria-describedby={showError ? "link-url-error" : undefined}
+        />
+        {showError && (
+          <div id="link-url-error" role="alert" aria-live="polite" style={{ color: '#dc2626', fontSize: '0.85em', marginTop: 2 }}>
+            Please enter a valid URL (e.g., https://example.com)
+          </div>
+        )}
+      </div>
 
       <div className="tiptap-button-group" data-orientation="horizontal">
         <Button
           type="button"
-          onClick={setLink}
+          onClick={() => {
+            setLink();
+            onClose?.();
+          }}
           title="Apply link"
-          disabled={!url && !isActive}
+          aria-label="Apply link"
+          disabled={!urlValid}
           data-style="ghost"
         >
           <CornerDownLeftIcon className="tiptap-button-icon" />
@@ -195,7 +267,8 @@ const LinkMain: React.FC<LinkMainProps> = ({
           type="button"
           onClick={() => window.open(url, "_blank")}
           title="Open in new window"
-          disabled={!url && !isActive}
+          aria-label="Open in new window"
+          disabled={!urlValid}
           data-style="ghost"
         >
           <ExternalLinkIcon className="tiptap-button-icon" />
@@ -205,15 +278,15 @@ const LinkMain: React.FC<LinkMainProps> = ({
           type="button"
           onClick={removeLink}
           title="Remove link"
-          disabled={!url && !isActive}
+          aria-label="Remove link"
           data-style="ghost"
         >
           <TrashIcon className="tiptap-button-icon" />
         </Button>
       </div>
     </>
-  )
-}
+  );
+};
 
 export interface LinkPopoverProps extends Omit<ButtonProps, "type"> {
   /**
@@ -308,6 +381,7 @@ export function LinkPopover({
     <Popover open={isOpen} onOpenChange={handleOnOpenChange}>
       <PopoverTrigger asChild>
         <LinkButton
+          type="button"
           disabled={isDisabled}
           data-active-state={isActive ? "on" : "off"}
           data-disabled={isDisabled}
@@ -315,8 +389,8 @@ export function LinkPopover({
         />
       </PopoverTrigger>
 
-      <PopoverContent>
-        <LinkMain {...linkHandler} />
+      <PopoverContent className="link-popover-content">
+        <LinkMain {...linkHandler} isActive={isActive} onClose={() => setIsOpen(false)} />
       </PopoverContent>
     </Popover>
   )

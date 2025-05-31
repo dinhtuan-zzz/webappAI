@@ -17,7 +17,6 @@
 }
 .tiptap-editor {
   min-height: 100px;
-  max-height: 400px;
   padding: 12px 14px;
   font-size: 1rem;
   line-height: 1.5;
@@ -106,4 +105,69 @@
   --tt-button-active-hover-text-color: #fff;
   background-color: #0369a1 !important;
   color: #fff !important;
+}
+.tiptap-editor a {
+  color: #2563eb;
+  text-decoration: underline;
+  cursor: pointer;
+  transition: color 0.15s, background 0.15s;
+}
+.tiptap-editor a:hover,
+.tiptap-editor a:focus-visible {
+  color: #1d4ed8;
+  background: #e0f2fe;
+  outline: none;
+}
+.prose-editor a {
+  color: #2563eb;
+  text-decoration: underline;
+  cursor: pointer;
+  transition: color 0.15s, background 0.15s;
+}
+.prose-editor a:hover,
+.prose-editor a:focus-visible {
+  color: #1d4ed8;
+  background: #e0f2fe;
+  outline: none;
+}
+.tiptap-editor img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0.5em 0;
+  border-radius: 6px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  max-height: 400px;
+  object-fit: contain;
+}
+.collapsible-comment-content {
+  /* Already handled inline, but you can move max-height/overflow here if desired */
+}
+.collapsible-fade-bottom {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 2.5em;
+  background: linear-gradient(to bottom, transparent, #e8ecf1 80%) !important;
+  pointer-events: none;
+  z-index: 1;
+}
+.dark .collapsible-fade-bottom {
+  background: linear-gradient(to bottom, transparent, #1e293b 80%) !important;
+}
+.collapsible-show-more-btn {
+  display: block;
+  margin: 0.5em auto 0;
+  background: none;
+  border: none;
+  color: #2563eb;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 1em;
+  z-index: 2;
+  position: relative;
+  transition: color 0.15s;
+}
+.collapsible-show-more-btn:hover {
+  color: #1d4ed8;
+  text-decoration: underline;
 } 

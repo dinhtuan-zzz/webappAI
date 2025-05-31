@@ -97,7 +97,7 @@ export function CommentsSection({ postId, initialComments, currentUserId }: {
   const handleDelete = async (commentId: string, retryData?: { comment: any }) => {
     // Optimistically remove from UI
     const deletedComment = findComment(comments, commentId);
-    let parentId = deletedComment?.parentId || null;
+    const parentId = deletedComment?.parentId || null;
     let index = -1;
     if (parentId) {
       const parent = findComment(comments, parentId);

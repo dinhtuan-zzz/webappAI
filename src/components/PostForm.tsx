@@ -333,6 +333,28 @@ export function PostForm({ initial, categories, loading, error, onSubmit, onCanc
     }
   }, [fieldErrors]);
 
+  // Image upload handler for Tiptap (default)
+  const handleImageUpload = async (file: File): Promise<string> => {
+    if (!file.type.match(/^image\/(jpeg|png|webp|gif)$/)) {
+      throw new Error("Only JPEG, PNG, WebP, or GIF images are allowed.");
+    }
+    if (file.size > 2 * 1024 * 1024) {
+      throw new Error("Image must be less than 2MB.");
+    }
+    const formData = new FormData();
+    formData.append("file", file);
+    const res = await fetch("/api/upload", {
+      method: "POST",
+      body: formData,
+    });
+    if (!res.ok) {
+      const data = await res.json().catch(() => ({}));
+      throw new Error(data.error || "Upload failed");
+    }
+    const data = await res.json();
+    return data.url;
+  };
+
   return (
     <>
       <form ref={formRef} onSubmit={handleSubmit} className="space-y-6 max-w-xl mx-auto bg-white rounded-lg shadow p-6" aria-label="Edit Post Form">
@@ -348,6 +370,7 @@ export function PostForm({ initial, categories, loading, error, onSubmit, onCanc
             onChange={setContent}
             placeholder="Write your post content..."
             readOnly={!canEdit || loading}
+            onImageUpload={onImageUpload || handleImageUpload}
           />
           {fieldErrors.content && <div id="content-error" className="text-red-500 text-sm mt-1">{fieldErrors.content}</div>}
         </div>

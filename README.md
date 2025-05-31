@@ -42,6 +42,34 @@ A modern, robust manga blog platform built with **Next.js**, **Prisma**, **Postg
 
 ---
 
+## 🖋️ Editor & Comment UX Improvements (2024-06)
+
+- **Tiptap Image Upload & Display**
+  - Refactored the image upload button to use the standard Tiptap `"image"` node.
+  - Added a file picker and upload flow: images are uploaded to `/api/upload`, and the returned URL is inserted into the editor.
+  - Images are responsive in the editor with CSS (`max-width: 100%`, `max-height: 400px`, `object-fit: contain`).
+  - Editor now grows vertically with content (no `max-height`), providing a document-like experience.
+
+- **Collapsible Long Comments (Voz/XenForo Style)**
+  - Implemented a reusable `CollapsibleComment` component:
+    - Collapses comments taller than 300px.
+    - Shows a fade-out effect and a "Show more" button.
+    - Expands/collapses on click, keeping the UI clean for long comments.
+  - Integrated `CollapsibleComment` into comment rendering so all long comments are now collapsed by default.
+
+- **Fade-Out Visual Improvements**
+  - Fade-out color is now theme-aware:
+    - Light mode: soft blue (`#e8ecf1`)
+    - Dark mode: dark blue-gray (`#1e293b`)
+  - Switched from media query to `.dark` class for dark mode, ensuring the fade always matches your app's actual theme.
+  - Used `!important` to ensure the fade color is never overridden.
+
+- **General UX/Code Quality**
+  - All changes follow best practices for maintainability, accessibility, and modern UI/UX.
+  - Solutions are reusable and extensible for future needs.
+
+---
+
 ## 🛠️ Tech Stack
 - **Next.js 15** (App Router, TypeScript)
 - **Prisma** ORM
@@ -66,6 +94,7 @@ A modern, robust manga blog platform built with **Next.js**, **Prisma**, **Postg
 │   │   └── ...             # Auth, search, register, etc.
 │   ├── components/         # Reusable UI components
 │   │   ├── notifications/   # NotificationBell, NotificationDropdown, NotificationItem, etc.
+│   │   └── ...             # New components
 │   ├── hooks/
 │   │   └── useNotifications.ts # Notification state, SWR, WebSocket logic
 │   ├── types/              # TypeScript domain models & API types

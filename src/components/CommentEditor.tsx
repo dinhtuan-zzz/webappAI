@@ -18,6 +18,7 @@ interface CommentEditorProps {
   placeholder?: string;
   readOnly?: boolean;
   autoFocus?: boolean;
+  onImageUpload?: (file: File) => Promise<string>;
 }
 
 const CommentEditor: React.FC<CommentEditorProps> = ({
@@ -26,11 +27,18 @@ const CommentEditor: React.FC<CommentEditorProps> = ({
   placeholder = 'Type your comment...',
   readOnly = false,
   autoFocus = false,
+  onImageUpload,
 }) => {
   const extensions = [
     StarterKit,
     Underline,
-    Link.configure({ openOnClick: false }),
+    Link.configure({
+      openOnClick: false,
+      HTMLAttributes: {
+        target: '_blank',
+        rel: 'noopener noreferrer',
+      },
+    }),
     Image,
     Placeholder.configure({
       placeholder,
@@ -51,6 +59,17 @@ const CommentEditor: React.FC<CommentEditorProps> = ({
         class: `tiptap-editor${readOnly ? ' tiptap-editor-readonly' : ''}`,
         spellCheck: readOnly ? 'false' : 'true',
         'aria-label': placeholder,
+      },
+      handleClickOn(view, pos, node, nodePos, event, direct) {
+        if (
+          event.target instanceof HTMLAnchorElement &&
+          (event.ctrlKey || event.metaKey)
+        ) {
+          window.open(event.target.href, '_blank', 'noopener,noreferrer');
+          event.preventDefault();
+          return true;
+        }
+        return false;
       },
     },
   });
@@ -82,7 +101,7 @@ const CommentEditor: React.FC<CommentEditorProps> = ({
         <ToolbarSeparator />
         <ToolbarGroup>
           <LinkPopover editor={editor} />
-          <ImageUploadButton editor={editor} />
+          <ImageUploadButton editor={editor} onImageUpload={onImageUpload} />
         </ToolbarGroup>
         <ToolbarSeparator />
         <ToolbarGroup>
