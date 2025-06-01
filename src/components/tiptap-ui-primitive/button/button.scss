@@ -305,3 +305,9 @@
     }
   }
 }
+
+.tiptap-button[data-active-state="on"],
+.tiptap-toolbar-btn[data-active-state="on"] {
+  background-color: #e0f2fe !important;
+  color: #0369a1 !important;
+}

@@ -40,6 +40,22 @@ A modern, robust manga blog platform built with **Next.js**, **Prisma**, **Postg
   - Button text is compact and hidden on mobile, visible on larger screens or on hover/focus.
   - Comment containers use unique IDs for robust scroll targeting.
 
+## ✅ Checklist (Task List) UX & CSS Improvements (2024-06)
+
+- **Robust Checklist Alignment & Nesting:**
+  - Checklists (task lists) now render with checkboxes and text perfectly aligned on the same line in the editor, preview, and comment display.
+  - Nested checklists are always indented and start on a new line, matching best-practice UX for task lists.
+- **Consistent Experience Across Views:**
+  - Fixed differences between editor, preview, and comment display by targeting both `.tiptap-editor` and `.comment-readonly.tiptap-editor` in CSS.
+  - Ensured that checkboxes and text remain horizontally aligned regardless of HTML structure (whether text is in a `<div><p>` or direct `<p>`).
+- **Accessibility & Visual Polish:**
+  - Increased checkbox size for better visibility and accessibility.
+  - Disabled checkboxes in comment display for read-only UX, with consistent accent color.
+  - All list types (bullet, numbered, checklist) now have visually distinct, accessible, and maintainable styles.
+- **Maintainability:**
+  - CSS is now robust to future HTML changes from TipTap, using block layout for `<li>`, inline-block for `<label>` and `<p>`, and restoring indentation for nested checklists.
+  - All changes are documented and follow best practices for extensibility and reusability.
+
 ---
 
 ## 🖋️ Editor & Comment UX Improvements (2024-06)
@@ -329,84 +345,3 @@ This section documents the architecture and implementation of robust, reusable f
   <DateFilter ... />
 </div>
 ```
-
----
-
-### 5. Best Practices & Extensibility
-- Type safety with generics for filter options.
-- useMemo for derived options.
-- Reuse MultiSelectNav for any multi-select filter.
-- "All" button handled by the component, not the options array.
-- Backend: Always include necessary relations (e.g., categories) in API responses for filtering.
-
----
-
-### 6. Example Usage (Admin Posts Page)
-
-```tsx
-<MultiSelectNav<CategoryOption>
-  label="Chuyên mục:"
-  options={categoryOptions}
-  selected={selectedCategories}
-  onSelect={setSelectedCategories}
-  loading={categoriesLoading}
-  error={categoriesError ? "Không thể tải chuyên mục." : ""}
-  allLabel="Tất cả"
-/>
-<MultiSelectNav<StatusOption>
-  label="Trạng thái:"
-  options={statusOptions}
-  selected={selectedStatuses}
-  onSelect={setSelectedStatuses}
-  allLabel="Tất cả"
-/>
-<DateFilter value={date} onChange={setDate} />
-```
-
----
-
-### 7. Troubleshooting Checklist
-- Ensure all filter options exist in the database.
-- Ensure API responses include all necessary fields for filtering.
-- Ensure client-side filter logic matches the data structure returned by the API.
-
----
-
-This architecture ensures your filter UI is robust, maintainable, and easily extensible for future needs.
-
-## Feature Documentation
-
-- [Post Filtering UI & Logic (Admin & User)](src/components/MultiSelectNav.README.md)
-
-## 🛡️ Accessibility & UX Improvements (Admin Posts)
-
-The admin posts management interface is designed for modern accessibility and usability:
-
-- **Accessible Delete Dialog**: Confirmation dialog uses semantic `<DialogTitle>` and `<DialogDescription>` for screen readers, and only appears when triggered.
-- **Focus Management**: 
-  - Auto-focuses the Cancel button when the dialog opens for keyboard users.
-  - Returns focus to the delete icon after closing the dialog for seamless navigation.
-- **Undo Feature**: 
-  - After deleting a post, a toast appears with an auto-focused Undo button for quick keyboard access.
-  - Undo restores the post and refreshes the list instantly.
-- **Destructive Action Styling**: Delete actions are visually distinct and safe.
-- **Loading State**: Shows progress indicator on destructive actions.
-- **Mobile Responsiveness**: Dialog and table are fully responsive and usable on all screen sizes.
-- **Keyboard & Screen Reader Friendly**: All actions are reachable and announced appropriately.
-
-These improvements ensure a robust, user-friendly, and accessible admin experience.
-
-## Type Conventions & Reusability
-
-- All shared types (e.g., `CategoryOption`, `PostFormValues`, `Tag`, `Category`, `User`, etc.) are defined in `src/types/`.
-- UI components and API code **must import these types from `src/types/`** for consistency and maintainability.
-- UI-specific extensions (e.g., `archived?` on `CategoryOption`) should extend the base type in `src/types/`.
-- Do **not** redefine types in component files; always reuse or extend from `src/types/`.
-- This ensures type safety, reusability, and a single source of truth for all domain models.
-
-## 🛎️ Notification System Improvements (2024-06)
-- Added relative timestamps ("2 minutes ago") using `date-fns`
-- Optimistic UI for instant badge update when marking all as read
-- Robust SWR cache management for notifications
-- Debug logging for easier troubleshooting
-- No auto-expiry or deletion of notifications (persist until manually deleted)

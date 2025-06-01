@@ -7,10 +7,7 @@ import { isNodeSelection, type Editor } from "@tiptap/react"
 import { useTiptapEditor } from "@/hooks/use-tiptap-editor"
 
 // --- Icons ---
-import { CornerDownLeftIcon } from "@/components/tiptap-icons/corner-down-left-icon"
-import { ExternalLinkIcon } from "@/components/tiptap-icons/external-link-icon"
-import { LinkIcon } from "@/components/tiptap-icons/link-icon"
-import { TrashIcon } from "@/components/tiptap-icons/trash-icon"
+import { Link, CornerDownLeft, ExternalLink, Trash } from 'lucide-react';
 
 // --- Lib ---
 import { isMarkInSchema } from "@/lib/tiptap-utils"
@@ -132,7 +129,7 @@ export const useLinkHandler = (props: LinkHandlerProps) => {
 export const LinkButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, children, type = "button", ...props }, ref) => {
     if (process.env.NODE_ENV === "development" && type !== "button") {
-      // eslint-disable-next-line no-console
+       
       console.warn("[LinkButton] type prop should be 'button' to prevent form submission. Received:", type);
     }
     return (
@@ -147,7 +144,7 @@ export const LinkButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         {...props}
       >
-        {children || <LinkIcon className="tiptap-button-icon" />}
+        {children || <Link className="tiptap-button-icon" />}
       </Button>
     )
   }
@@ -256,7 +253,7 @@ const LinkMain: React.FC<LinkMainProps & { onClose?: () => void }> = ({
           disabled={!urlValid}
           data-style="ghost"
         >
-          <CornerDownLeftIcon className="tiptap-button-icon" />
+          <CornerDownLeft className="tiptap-button-icon" />
         </Button>
       </div>
 
@@ -271,7 +268,7 @@ const LinkMain: React.FC<LinkMainProps & { onClose?: () => void }> = ({
           disabled={!urlValid}
           data-style="ghost"
         >
-          <ExternalLinkIcon className="tiptap-button-icon" />
+          <ExternalLink className="tiptap-button-icon" />
         </Button>
 
         <Button
@@ -281,7 +278,7 @@ const LinkMain: React.FC<LinkMainProps & { onClose?: () => void }> = ({
           aria-label="Remove link"
           data-style="ghost"
         >
-          <TrashIcon className="tiptap-button-icon" />
+          <Trash className="tiptap-button-icon" />
         </Button>
       </div>
     </>

@@ -22,6 +22,7 @@ import {
 } from "@floating-ui/react"
 import "@/components/tiptap-ui-primitive/dropdown-menu/dropdown-menu.scss"
 import { Separator } from "@/components/tiptap-ui-primitive/separator"
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion"
 
 interface DropdownMenuOptions {
   initialOpen?: boolean
@@ -227,6 +228,7 @@ export const DropdownMenuContent = React.forwardRef<
   ) => {
     const context = useDropdownMenuContext()
     const ref = useMergeRefs([context.refs.setFloating, propRef])
+    const shouldReduceMotion = useReducedMotion()
 
     React.useEffect(() => {
       context.updatePosition(side, align)
@@ -241,25 +243,35 @@ export const DropdownMenuContent = React.forwardRef<
         initialFocus={0}
         returnFocus={true}
       >
-        <div
-          ref={ref}
-          className={`tiptap-dropdown-menu ${className || ""}`}
-          style={{
-            position: context.strategy,
-            top: context.y ?? 0,
-            left: context.x ?? 0,
-            outline: "none",
-            ...style,
-          }}
-          aria-orientation={orientation}
-          data-orientation={orientation}
-          data-state={context.open ? "open" : "closed"}
-          data-side={side}
-          data-align={align}
-          {...context.getFloatingProps(props)}
-        >
-          {props.children}
-        </div>
+        <AnimatePresence>
+          <motion.div
+            ref={ref}
+            key="dropdown-menu"
+            initial={{ opacity: 0, y: -8, scale: 0.96 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -8, scale: 0.96 }}
+            transition={{
+              duration: shouldReduceMotion ? 0 : 0.28,
+              ease: [0.46, 0.03, 0.52, 0.96],
+            }}
+            className={`tiptap-dropdown-menu ${className || ""}`}
+            style={{
+              position: context.strategy,
+              top: context.y ?? 0,
+              left: context.x ?? 0,
+              outline: "none",
+              ...style,
+            }}
+            aria-orientation={orientation}
+            data-orientation={orientation}
+            data-state={context.open ? "open" : "closed"}
+            data-side={side}
+            data-align={align}
+            {...context.getFloatingProps(props)}
+          >
+            {props.children}
+          </motion.div>
+        </AnimatePresence>
       </FloatingFocusManager>
     )
 

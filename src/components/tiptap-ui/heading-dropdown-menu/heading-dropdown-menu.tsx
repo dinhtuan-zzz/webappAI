@@ -41,7 +41,7 @@ export interface HeadingDropdownMenuProps extends Omit<ButtonProps, "type"> {
 
 export function HeadingDropdownMenu({
   editor: providedEditor,
-  levels = [1, 2, 3, 4, 5, 6],
+  levels = [1, 2, 3],
   hideWhenUnavailable = false,
   onOpenChange,
   ...props
@@ -105,6 +105,7 @@ export function HeadingDropdownMenu({
       <DropdownMenuTrigger asChild>
         <Button
           type="button"
+          className="tiptap-toolbar-btn flex items-center justify-center h-8 w-8"
           disabled={isDisabled}
           data-style="ghost"
           data-active-state={isAnyHeadingActive ? "on" : "off"}
@@ -117,22 +118,45 @@ export function HeadingDropdownMenu({
           {...props}
         >
           {getActiveIcon()}
-          <ChevronDownIcon className="tiptap-button-dropdown-small" />
         </Button>
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent>
+      <DropdownMenuContent
+        side="bottom"
+        className="tiptap-dropdown-menu-content bg-white dark:bg-gray-900 shadow-lg rounded border border-gray-200 dark:border-gray-700 w-auto min-w-fit max-w-xs max-h-60 overflow-y-auto p-1"
+        style={{ backgroundColor: '#fff', zIndex: 9999 }}
+      >
         <DropdownMenuGroup>
-          {levels.map((level) => (
-            <DropdownMenuItem key={`heading-${level}`} asChild>
-              <HeadingButton
-                editor={editor}
-                level={level}
-                text={getFormattedHeadingName(level)}
-                tooltip={""}
-              />
-            </DropdownMenuItem>
-          ))}
+          {/* Normal/Paragraph option */}
+          <DropdownMenuItem
+            key="heading-normal"
+            role="option"
+            aria-selected={!editor?.isActive('heading')}
+            className={`flex items-center px-3 py-2 rounded cursor-pointer transition-colors select-none hover:bg-gray-100 ${!editor?.isActive('heading') ? 'bg-blue-50' : ''}`}
+            onClick={() => editor?.chain().focus().setParagraph().run()}
+          >
+            <span className="flex items-center justify-start w-6 h-6">
+              <HeadingIcon className="w-5 h-5 text-gray-500" />
+            </span>
+          </DropdownMenuItem>
+          {/* Heading options */}
+          {levels.map((level) => {
+            const ActiveIcon = headingIcons[level];
+            const isActive = editor?.isActive('heading', { level });
+            return (
+              <DropdownMenuItem
+                key={`heading-${level}`}
+                role="option"
+                aria-selected={isActive}
+                className={`flex items-center px-3 py-2 rounded cursor-pointer transition-colors select-none hover:bg-gray-100 ${isActive ? 'bg-blue-50' : ''}`}
+                onClick={() => editor?.chain().focus().toggleHeading({ level }).run()}
+              >
+                <span className="flex items-center justify-start w-6 h-6">
+                  <ActiveIcon className="w-5 h-5 text-gray-700" />
+                </span>
+              </DropdownMenuItem>
+            );
+          })}
         </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>

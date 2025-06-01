@@ -7,7 +7,7 @@ import type { Comment } from "@/types/Comment";
 import { createNotification } from '@/lib/notifications';
 import { NotificationType } from '@/types/Notification';
 import DOMPurify from 'isomorphic-dompurify';
-import { isMeaningfulHtml } from '@/lib/htmlUtils';
+import { isMeaningfulHtml, enforceSafeCheckboxInputs } from '@/lib/htmlUtils';
 
 const commentCreateSchema = z.object({
   content: z.string().min(1).max(2000),
@@ -71,16 +71,20 @@ export async function POST(req: Request, { params }: { params: { postId: string 
     return NextResponse.json({ error: "Invalid input", details: parsed.error.flatten() }, { status: 400 });
   }
   // Sanitize and validate content
-  const sanitizedContent = DOMPurify.sanitize(parsed.data.content, {
+  let sanitizedContent = DOMPurify.sanitize(parsed.data.content, {
     ALLOWED_TAGS: [
       'a', 'b', 'i', 'u', 's', 'em', 'strong', 'blockquote', 'ul', 'ol', 'li', 'pre', 'code', 'img', 'table',
-      'thead', 'tbody', 'tr', 'th', 'td', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'br', 'p', 'span'
+      'thead', 'tbody', 'tr', 'th', 'td', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'br', 'p', 'span',
+      'label', 'input'
     ],
     ALLOWED_ATTR: [
-      'href', 'src', 'alt', 'title', 'target', 'rel', 'class', 'style', 'width', 'height', 'align', 'colspan', 'rowspan'
+      'href', 'src', 'alt', 'title', 'target', 'rel', 'class', 'style', 'width', 'height', 'align', 'colspan', 'rowspan',
+      'type', 'checked', 'data-checked', 'name', 'value', 'disabled'
     ],
     ALLOW_DATA_ATTR: true
   });
+  sanitizedContent = enforceSafeCheckboxInputs(sanitizedContent);
+  console.log('Sanitized comment HTML:', sanitizedContent);
   if (!isMeaningfulHtml(sanitizedContent)) {
     return NextResponse.json({ error: "Comment cannot be empty." }, { status: 400 });
   }

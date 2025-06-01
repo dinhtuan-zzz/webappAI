@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import { type Editor } from "@tiptap/react"
+import { ImagePlus } from 'lucide-react';
 
 // --- Hooks ---
 import { useTiptapEditor } from "@/hooks/use-tiptap-editor"
@@ -117,7 +118,7 @@ export const ImageUploadButton = React.forwardRef<
       >
         {children || (
           <>
-            <ImagePlusIcon className="tiptap-button-icon" />
+            <ImagePlus className="tiptap-button-icon" />
             {text && <span className="tiptap-button-text">{text}</span>}
             {loading && <span className="ml-2 text-xs text-blue-500">Uploading...</span>}
           </>

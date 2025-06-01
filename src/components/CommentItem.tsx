@@ -89,6 +89,27 @@ export function CommentItem({
     };
   }, [editMode, comment.id, comment.content]);
 
+  useEffect(() => {
+    if (editMode) return;
+    const container = document.getElementById(`comment-content-${comment.id}`);
+    if (!container) return;
+
+    // Function to disable all checkboxes
+    const disableCheckboxes = () => {
+      const checkboxes = container.querySelectorAll('input[type="checkbox"]');
+      checkboxes.forEach(cb => cb.setAttribute('disabled', 'true'));
+    };
+
+    // Initial disable
+    disableCheckboxes();
+
+    // Observe for DOM changes
+    const observer = new MutationObserver(disableCheckboxes);
+    observer.observe(container, { childList: true, subtree: true });
+
+    return () => observer.disconnect();
+  }, [editMode, comment.id, comment.content]);
+
   const handleEditClick = () => {
     setEditMode(true);
     setReplyMode(false);
@@ -136,14 +157,16 @@ export function CommentItem({
           <CollapsibleComment maxHeight={300}>
             <div
               id={`comment-content-${comment.id}`}
-              className="prose prose-editor max-w-none mb-2"
+              className="prose prose-editor tiptap-editor max-w-none mb-2 comment-readonly"
               dangerouslySetInnerHTML={{
                 __html: sanitize(comment.content || '', {
                   ALLOWED_TAGS: [
-                    'a', 'b', 'i', 'u', 's', 'em', 'strong', 'blockquote', 'ul', 'ol', 'li', 'pre', 'code', 'img', 'table', 'thead', 'tbody', 'tr', 'th', 'td', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'br', 'p', 'span'
+                    'a', 'b', 'i', 'u', 's', 'em', 'strong', 'blockquote', 'ul', 'ol', 'li', 'pre', 'code', 'img', 'table', 'thead', 'tbody', 'tr', 'th', 'td', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'br', 'p', 'span',
+                    'label', 'input'
                   ],
                   ALLOWED_ATTR: [
-                    'href', 'src', 'alt', 'title', 'target', 'rel', 'class', 'style', 'width', 'height', 'align', 'colspan', 'rowspan'
+                    'href', 'src', 'alt', 'title', 'target', 'rel', 'class', 'style', 'width', 'height', 'align', 'colspan', 'rowspan',
+                    'type', 'checked', 'data-checked', 'name', 'value', 'disabled'
                   ],
                   ALLOW_DATA_ATTR: true
                 })

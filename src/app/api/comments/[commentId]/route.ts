@@ -5,7 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { z } from "zod";
 import type { Comment } from "@/types/Comment";
 import DOMPurify from 'isomorphic-dompurify';
-import { isMeaningfulHtml } from '@/lib/htmlUtils';
+import { isMeaningfulHtml, enforceSafeCheckboxInputs } from '@/lib/htmlUtils';
 
 const commentUpdateSchema = z.object({
   content: z.string().min(1).max(2000),
@@ -24,6 +24,7 @@ const commentUpdateSchema = z.object({
  * @returns {Response} JSON response with the updated comment.
  */
 export async function PUT(req: Request, { params }: { params: { commentId: string } }) {
+  console.log('PUT request received');
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -35,16 +36,20 @@ export async function PUT(req: Request, { params }: { params: { commentId: strin
     return NextResponse.json({ error: "Invalid input", details: parsed.error.flatten() }, { status: 400 });
   }
   // Sanitize and validate content
-  const sanitizedContent = DOMPurify.sanitize(parsed.data.content, {
+  let sanitizedContent = DOMPurify.sanitize(parsed.data.content, {
     ALLOWED_TAGS: [
       'a', 'b', 'i', 'u', 's', 'em', 'strong', 'blockquote', 'ul', 'ol', 'li', 'pre', 'code', 'img', 'table',
-      'thead', 'tbody', 'tr', 'th', 'td', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'br', 'p', 'span'
+      'thead', 'tbody', 'tr', 'th', 'td', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'br', 'p', 'span',
+      'label', 'input'
     ],
     ALLOWED_ATTR: [
-      'href', 'src', 'alt', 'title', 'target', 'rel', 'class', 'style', 'width', 'height', 'align', 'colspan', 'rowspan'
+      'href', 'src', 'alt', 'title', 'target', 'rel', 'class', 'style', 'width', 'height', 'align', 'colspan', 'rowspan',
+      'type', 'checked', 'data-checked', 'name', 'value', 'disabled'
     ],
     ALLOW_DATA_ATTR: true
   });
+  sanitizedContent = enforceSafeCheckboxInputs(sanitizedContent);
+  console.log('Sanitized comment HTML:', sanitizedContent);
   if (!isMeaningfulHtml(sanitizedContent)) {
     return NextResponse.json({ error: "Comment cannot be empty." }, { status: 400 });
   }

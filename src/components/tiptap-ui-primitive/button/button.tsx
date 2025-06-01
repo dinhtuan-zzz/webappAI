@@ -79,7 +79,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     ref
   ) => {
     if (process.env.NODE_ENV === "development" && type !== "button") {
-      // eslint-disable-next-line no-console
+       
       console.warn("[Button] type prop should be 'button' to prevent form submission. Received:", type);
     }
     const isMac = React.useMemo(

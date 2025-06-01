@@ -1,7 +1,7 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import CommentEditor from './CommentEditor';
+import dynamic from 'next/dynamic';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 
 // Utility to check if HTML content is truly empty (no text, only tags/whitespace)
@@ -11,6 +11,8 @@ function isHtmlMeaningful(html: string): boolean {
   const text = html.replace(/<[^>]+>/g, '').replace(/&nbsp;/g, ' ').replace(/\s+/g, ' ').trim();
   return text.length > 0;
 }
+
+const CommentEditor = dynamic(() => import('./CommentEditor'), { ssr: false });
 
 export function CommentForm({
   onSubmit,
@@ -174,7 +176,6 @@ export function CommentForm({
           placeholder="Write a comment..."
           readOnly={!canEdit || loading}
           autoFocus={autoFocus}
-          onImageUpload={handleImageUpload}
         />
         <div
           ref={liveRegionRef}

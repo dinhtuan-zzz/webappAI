@@ -8,13 +8,7 @@ import { useEffect, useState, useSyncExternalStore } from 'react';
 import { useTiptapEditor } from "@/hooks/use-tiptap-editor"
 
 // --- Icons ---
-import { BoldIcon } from "@/components/tiptap-icons/bold-icon"
-import { Code2Icon } from "@/components/tiptap-icons/code2-icon"
-import { ItalicIcon } from "@/components/tiptap-icons/italic-icon"
-import { StrikeIcon } from "@/components/tiptap-icons/strike-icon"
-import { SubscriptIcon } from "@/components/tiptap-icons/subscript-icon"
-import { SuperscriptIcon } from "@/components/tiptap-icons/superscript-icon"
-import { UnderlineIcon } from "@/components/tiptap-icons/underline-icon"
+import { Bold, Italic, Underline, Strikethrough, Superscript, Subscript } from 'lucide-react';
 
 // --- Lib ---
 import { isMarkInSchema } from "@/lib/tiptap-utils"
@@ -52,13 +46,13 @@ export interface MarkButtonProps extends Omit<ButtonProps, "type"> {
 }
 
 export const markIcons = {
-  bold: BoldIcon,
-  italic: ItalicIcon,
-  underline: UnderlineIcon,
-  strike: StrikeIcon,
-  code: Code2Icon,
-  superscript: SuperscriptIcon,
-  subscript: SubscriptIcon,
+  bold: Bold,
+  italic: Italic,
+  underline: Underline,
+  strike: Strikethrough,
+  code: null,
+  superscript: Superscript,
+  subscript: Subscript,
 }
 
 export const markShortcutKeys: Partial<Record<Mark, string>> = {
@@ -251,7 +245,7 @@ export const MarkButton = React.forwardRef<HTMLButtonElement, MarkButtonProps>(
       >
         {children || (
           <>
-            <Icon className="tiptap-button-icon" />
+            {Icon && <Icon className="tiptap-button-icon" />}
             {text && <span className="tiptap-button-text">{text}</span>}
           </>
         )}

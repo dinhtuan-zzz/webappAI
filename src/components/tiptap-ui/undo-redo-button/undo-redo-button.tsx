@@ -7,8 +7,7 @@ import { type Editor } from "@tiptap/react"
 import { useTiptapEditor } from "@/hooks/use-tiptap-editor"
 
 // --- Icons ---
-import { Redo2Icon } from "@/components/tiptap-icons/redo2-icon"
-import { Undo2Icon } from "@/components/tiptap-icons/undo2-icon"
+import { Undo2, Redo2 } from 'lucide-react';
 
 // --- UI Primitives ---
 import type { ButtonProps } from "@/components/tiptap-ui-primitive/button"
@@ -35,8 +34,8 @@ export interface UndoRedoButtonProps extends ButtonProps {
 }
 
 export const historyIcons = {
-  undo: Undo2Icon,
-  redo: Redo2Icon,
+  undo: Undo2,
+  redo: Redo2,
 }
 
 export const historyShortcutKeys: Partial<Record<HistoryAction, string>> = {

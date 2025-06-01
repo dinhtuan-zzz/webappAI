@@ -3,6 +3,7 @@
 import * as React from "react"
 import { Separator } from "@/components/tiptap-ui-primitive/separator"
 import "@/components/tiptap-ui-primitive/toolbar/toolbar.scss"
+import { Type, Text } from 'lucide-react'
 
 type BaseProps = React.HTMLAttributes<HTMLDivElement>
 
