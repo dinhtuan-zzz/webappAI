@@ -84,6 +84,30 @@ A modern, robust manga blog platform built with **Next.js**, **Prisma**, **Postg
   - All changes follow best practices for maintainability, accessibility, and modern UI/UX.
   - Solutions are reusable and extensible for future needs.
 
+## 🎨 Text Color Picker UX & Accessibility Improvements (2024-06)
+
+- **Manga-Style Color Picker:**
+  - Beautiful, high-contrast popover with bold, comic-style outlines and hand-drawn flair.
+  - Color swatch grid with a wide palette, clear selected state, and hover/focus effects.
+- **HEX Input & Preview:**
+  - HEX input is pre-filled with the current color for quick editing.
+  - Live color preview updates with both swatch and hex input.
+  - OK button applies a new color if a valid hex is entered, or keeps the current color if unchanged.
+- **Keyboard & Mouse Accessibility:**
+  - All swatches, HEX input, and action buttons are reachable via Tab.
+  - Arrow keys move between swatches; Enter/Space selects a color.
+  - Focus ring and hover effects for accessibility and clarity.
+  - Escape key closes the popover.
+- **ARIA & Screen Reader Support:**
+  - ARIA roles and labels for all interactive elements.
+  - Swatch grid uses `role="listbox"`, each swatch uses `role="option"` and `aria-selected`.
+  - Popover uses `role="dialog"` and descriptive labels.
+- **General UX:**
+  - Clicking OK with no changes keeps the current color (no accidental resets).
+  - Swatch selection and hex input are always in sync.
+  - Reset button only removes color, not other styles, and provides visual feedback.
+  - Fully responsive and mobile-friendly.
+
 ---
 
 ## 🛠️ Tech Stack

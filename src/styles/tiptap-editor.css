@@ -382,14 +382,7 @@
   margin-left: 0em;
 }
 
-/* Style disabled checkboxes in comment display for visual consistency */
 
-
-/* Make checkboxes in comment display non-interactive and blue
-.comment-readonly.tiptap-editor ul[data-type="taskList"] > li > label > input[type="checkbox"] {
-  border-color: #2563eb !important;
-  outline: none;
-} */
 
 /* --- Task List (Checkbox List, Comment Readonly) --- */
 .comment-readonly.tiptap-editor ul[data-type="taskList"] > li {
