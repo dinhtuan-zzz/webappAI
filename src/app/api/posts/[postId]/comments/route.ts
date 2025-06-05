@@ -10,16 +10,24 @@ import DOMPurify from 'isomorphic-dompurify';
 import { isMeaningfulHtml, enforceSafeCheckboxInputs } from '@/lib/htmlUtils';
 
 const commentCreateSchema = z.object({
-  content: z.string().min(1).max(2000),
+  content: z.any(), // Accept any JSON (Tiptap doc)
   parentId: z.string().optional().nullable(),
 });
 
-// Utility to extract mentioned usernames from content
-function extractMentions(content: string): string[] {
-  const matches = content.match(/@([a-zA-Z0-9_]+)/g);
-  if (!matches) return [];
-  // Remove the @ and deduplicate
-  return Array.from(new Set(matches.map(m => m.slice(1).toLowerCase())));
+// Utility to extract mentioned usernames from Tiptap JSON content
+function extractMentionsFromTiptap(content: any): string[] {
+  const usernames = new Set<string>();
+  function traverse(node: any) {
+    if (!node) return;
+    if (node.type === 'mention' && node.attrs?.label) {
+      usernames.add(node.attrs.label.toLowerCase());
+    }
+    if (Array.isArray(node.content)) {
+      node.content.forEach(traverse);
+    }
+  }
+  traverse(content);
+  return Array.from(usernames);
 }
 
 function getTestSession(req: Request) {
@@ -70,28 +78,14 @@ export async function POST(req: Request, { params }: { params: { postId: string 
   if (!parsed.success) {
     return NextResponse.json({ error: "Invalid input", details: parsed.error.flatten() }, { status: 400 });
   }
-  // Sanitize and validate content
-  let sanitizedContent = DOMPurify.sanitize(parsed.data.content, {
-    ALLOWED_TAGS: [
-      'a', 'b', 'i', 'u', 's', 'em', 'strong', 'blockquote', 'ul', 'ol', 'li', 'pre', 'code', 'img', 'table',
-      'thead', 'tbody', 'tr', 'th', 'td', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'br', 'p', 'span',
-      'label', 'input'
-    ],
-    ALLOWED_ATTR: [
-      'href', 'src', 'alt', 'title', 'target', 'rel', 'class', 'style', 'width', 'height', 'align', 'colspan', 'rowspan',
-      'type', 'checked', 'data-checked', 'name', 'value', 'disabled'
-    ],
-    ALLOW_DATA_ATTR: true
-  });
-  sanitizedContent = enforceSafeCheckboxInputs(sanitizedContent);
-  console.log('Sanitized comment HTML:', sanitizedContent);
-  if (!isMeaningfulHtml(sanitizedContent)) {
+  // Validate Tiptap JSON: must be a doc with at least one content node
+  if (!parsed.data.content || parsed.data.content.type !== 'doc' || !Array.isArray(parsed.data.content.content) || parsed.data.content.content.length === 0) {
     return NextResponse.json({ error: "Comment cannot be empty." }, { status: 400 });
   }
   try {
     const comment = await prisma.comment.create({
       data: {
-        content: sanitizedContent,
+        content: parsed.data.content,
         postId,
         authorId: session.user.id,
         parentId: parsed.data.parentId || null,
@@ -141,8 +135,8 @@ export async function POST(req: Request, { params }: { params: { postId: string 
       }
     }
 
-    // Mention notification logic
-    const mentionedUsernames = extractMentions(parsed.data.content);
+    // Mention notification logic (Tiptap JSON)
+    const mentionedUsernames = extractMentionsFromTiptap(parsed.data.content);
     if (mentionedUsernames.length > 0) {
       // Find users by username (case-insensitive)
       const mentionedUsers = await prisma.user.findMany({

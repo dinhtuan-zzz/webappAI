@@ -1,0 +1,47 @@
+.spoiler {
+  background: #111;
+  color: transparent;
+  border-radius: 8px;
+  border: 2.5px solid #111;
+  position: relative;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border 0.2s;
+  user-select: none;
+  outline: none;
+  min-width: 2em;
+  min-height: 1.2em;
+  display: inline-block;
+  font-family: inherit;
+  box-shadow: 2px 2px 0 #111;
+  /* Hand-drawn effect */
+  border-radius: 10px 12px 8px 14px/12px 10px 14px 8px;
+}
+.spoiler::after {
+  content: 'Spoiler';
+  color: #fff;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 0.9em;
+  letter-spacing: 0.05em;
+  pointer-events: none;
+  font-family: 'Comic Sans MS', 'Comic Neue', 'Noto Sans JP', Arial, sans-serif;
+  opacity: 0.85;
+}
+.spoiler[aria-expanded="true"] {
+  background: #fef9c3;
+  color: #111;
+  border: 2.5px solid #facc15;
+}
+.spoiler[aria-expanded="true"]::after {
+  content: '';
+}
+.spoiler:focus {
+  outline: 2px solid #6366f1;
+  outline-offset: 2px;
+  z-index: 1;
+}
+.spoiler:hover {
+  border-color: #6366f1;
+} 

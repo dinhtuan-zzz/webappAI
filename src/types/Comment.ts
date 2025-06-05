@@ -1,6 +1,6 @@
 export interface Comment {
   id: string;
-  content: string;
+  content: any; // Tiptap JSON
   createdAt: string | Date;
   parentId?: string | null;
   author: {

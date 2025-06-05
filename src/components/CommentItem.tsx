@@ -8,8 +8,46 @@ import { Avatar } from "@/components/Avatar";
 import type { Comment } from "@/types/Comment";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import CollapsibleComment from './CollapsibleComment';
+import { TiptapJsonRenderer } from './tiptap-ui/TiptapJsonRenderer';
+import StarterKit from '@tiptap/starter-kit';
+import Underline from '@tiptap/extension-underline';
+import Link from '@tiptap/extension-link';
+import ImageExtension from '@tiptap/extension-image';
+import TextStyle from '@tiptap/extension-text-style';
+import Color from '@tiptap/extension-color';
+import FontFamily from '@tiptap/extension-font-family';
+import Highlight from '@tiptap/extension-highlight';
+import TaskList from '@tiptap/extension-task-list';
+import TaskItem from '@tiptap/extension-task-item';
+import Table from '@tiptap/extension-table';
+import TableRow from '@tiptap/extension-table-row';
+import TableCell from '@tiptap/extension-table-cell';
+import TableHeader from '@tiptap/extension-table-header';
+import Youtube from '@tiptap/extension-youtube';
+import TextAlign from '@tiptap/extension-text-align';
+import SpoilerBlock from '@/components/tiptap-ui/spoiler-block';
 
 const sanitize = DOMPurify.sanitize || (DOMPurify as any).default?.sanitize;
+
+const tiptapExtensions = [
+  StarterKit,
+  Underline,
+  Link,
+  ImageExtension,
+  TextStyle,
+  Color,
+  FontFamily,
+  Highlight,
+  TaskList,
+  TaskItem,
+  Table,
+  TableRow,
+  TableCell,
+  TableHeader,
+  Youtube,
+  TextAlign,
+  SpoilerBlock,
+];
 
 export function CommentItem({
   comment,
@@ -138,7 +176,7 @@ export function CommentItem({
         )}
         {editMode ? (
           <CommentForm
-            key={`edit-${comment.id}`}
+            key={`edit-${comment.id}-${editMode}`}
             initialContent={comment.content}
             onSubmit={async (content) => {
               setLoading(true);
@@ -155,23 +193,9 @@ export function CommentItem({
           />
         ) : (
           <CollapsibleComment maxHeight={300}>
-            <div
-              id={`comment-content-${comment.id}`}
-              className="prose prose-editor tiptap-editor max-w-none mb-2 comment-readonly"
-              dangerouslySetInnerHTML={{
-                __html: sanitize(comment.content || '', {
-                  ALLOWED_TAGS: [
-                    'a', 'b', 'i', 'u', 's', 'em', 'strong', 'blockquote', 'ul', 'ol', 'li', 'pre', 'code', 'img', 'table', 'thead', 'tbody', 'tr', 'th', 'td', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'br', 'p', 'span',
-                    'label', 'input'
-                  ],
-                  ALLOWED_ATTR: [
-                    'href', 'src', 'alt', 'title', 'target', 'rel', 'class', 'style', 'width', 'height', 'align', 'colspan', 'rowspan',
-                    'type', 'checked', 'data-checked', 'name', 'value', 'disabled'
-                  ],
-                  ALLOW_DATA_ATTR: true
-                })
-              }}
-            />
+            <div id={`comment-content-${comment.id}`}>
+              <TiptapJsonRenderer content={comment.content} />
+            </div>
           </CollapsibleComment>
         )}
         <div className="flex gap-2 text-xs mt-1">
@@ -212,6 +236,7 @@ export function CommentItem({
           <div className="mt-2">
             <CommentForm
               key={`reply-${comment.id}`}
+              initialContent=""
               onSubmit={async (content) => {
                 setLoading(true);
                 await onReply(content);
@@ -221,6 +246,7 @@ export function CommentItem({
               onCancel={() => setReplyMode(false)}
               loading={loading}
               submitLabel="Reply"
+              canEdit={isAuthor}
               contextKey={`reply-${comment.id}`}
               autoFocus={true}
             />
@@ -229,4 +255,4 @@ export function CommentItem({
       </div>
     </div>
   );
-} 
+}

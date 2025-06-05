@@ -1,34 +1,64 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import dynamic from 'next/dynamic';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
+import { EditorContent, useEditor } from '@tiptap/react';
+import { generateHTML } from '@tiptap/core';
+import DOMPurify from 'isomorphic-dompurify';
+import StarterKit from '@tiptap/starter-kit';
+import Underline from '@tiptap/extension-underline';
+import Link from '@tiptap/extension-link';
+import ImageExtension from '@tiptap/extension-image';
+import TextStyle from '@tiptap/extension-text-style';
+import Color from '@tiptap/extension-color';
+import FontFamily from '@tiptap/extension-font-family';
+import Highlight from '@tiptap/extension-highlight';
+import TaskList from '@tiptap/extension-task-list';
+import TaskItem from '@tiptap/extension-task-item';
+import Table from '@tiptap/extension-table';
+import TableRow from '@tiptap/extension-table-row';
+import TableCell from '@tiptap/extension-table-cell';
+import TableHeader from '@tiptap/extension-table-header';
+import Youtube from '@tiptap/extension-youtube';
+import TextAlign from '@tiptap/extension-text-align';
+import SpoilerBlock from '@/components/tiptap-ui/spoiler-block';
+import CommentEditor from './CommentEditor';
 
-// Utility to check if HTML content is truly empty (no text, only tags/whitespace)
-function isHtmlMeaningful(html: string): boolean {
-  if (!html) return false;
-  // Remove tags, decode entities, trim
-  const text = html.replace(/<[^>]+>/g, '').replace(/&nbsp;/g, ' ').replace(/\s+/g, ' ').trim();
-  return text.length > 0;
-}
-
-const CommentEditor = dynamic(() => import('./CommentEditor'), { ssr: false });
+const tiptapExtensions = [
+  StarterKit,
+  Underline,
+  Link,
+  ImageExtension,
+  TextStyle,
+  Color,
+  FontFamily,
+  Highlight,
+  TaskList,
+  TaskItem,
+  Table,
+  TableRow,
+  TableCell,
+  TableHeader,
+  Youtube,
+  TextAlign,
+  SpoilerBlock,
+];
 
 export function CommentForm({
   onSubmit,
   onCancel,
-  initialContent = "",
+  initialContent = {},
   loading = false,
   submitLabel = "Post",
   requireAuth = false,
   onRequireAuth,
   canEdit = true,
-  contextKey = "default", // new prop for draft key context
+  contextKey = "default",
   autoFocus = false,
 }: {
-  onSubmit: (content: string) => void;
+  onSubmit: (content: any) => void;
   onCancel?: () => void;
-  initialContent?: string;
+  initialContent?: any;
   loading?: boolean;
   submitLabel?: string;
   requireAuth?: boolean;
@@ -43,6 +73,9 @@ export function CommentForm({
   const liveRegionRef = useRef<HTMLDivElement>(null);
   const draftKey = `comment-draft-${contextKey}`;
   const [showConfirm, setShowConfirm] = useState(false);
+  const [showPreview, setShowPreview] = useState(false);
+  const [showEditor, setShowEditor] = useState(true);
+  const [mounted, setMounted] = useState(false);
 
   // Restore draft on mount
   useEffect(() => {
@@ -52,23 +85,6 @@ export function CommentForm({
     }
     // eslint-disable-next-line
   }, [draftKey]);
-
-  // Save draft on change (debounced)
-  useEffect(() => {
-    if (dirty && isHtmlMeaningful(content)) {
-      const handler = setTimeout(() => {
-        localStorage.setItem(draftKey, content);
-      }, 400);
-      return () => clearTimeout(handler);
-    } else if (!isHtmlMeaningful(content)) {
-      localStorage.removeItem(draftKey);
-    }
-  }, [content, dirty, draftKey]);
-
-  // Track dirty state
-  useEffect(() => {
-    setDirty(content !== initialContent && isHtmlMeaningful(content));
-  }, [content, initialContent]);
 
   // Navigation warning
   useEffect(() => {
@@ -82,6 +98,10 @@ export function CommentForm({
     window.addEventListener("beforeunload", beforeUnload);
     return () => window.removeEventListener("beforeunload", beforeUnload);
   }, [dirty]);
+
+  useEffect(() => {
+    setMounted(true); // Only mount editor on client
+  }, []);
 
   const handleCancel = () => {
     if (dirty) {
@@ -123,12 +143,12 @@ export function CommentForm({
       onRequireAuth();
       return;
     }
-    if (!isHtmlMeaningful(content)) {
+    if (!content || !content.content || content.content.length === 0) {
       setError("Comment cannot be empty.");
       return;
     }
     try {
-      await onSubmit(content.trim());
+      await onSubmit(content);
       setContent(initialContent); // Reset to initial after submit
       setDirty(false);
       setError(null);
@@ -167,16 +187,41 @@ export function CommentForm({
   // Debug log for canEdit and readOnly
   console.log('CommentForm canEdit:', canEdit, 'readOnly:', !canEdit || loading);
 
+  // Deferred remount logic with microtask
+  const handlePreviewToggle = () => {
+    if (showPreview) {
+      setShowEditor(false);
+      setShowPreview(false);
+      queueMicrotask(() => setShowEditor(true)); // Use microtask for remount
+    } else {
+      setShowPreview(true);
+      setShowEditor(false);
+    }
+  };
+
   return (
     <>
       <form onSubmit={handleSubmit} className="flex flex-col gap-2" aria-label="Comment form">
-        <CommentEditor
-          value={content}
-          onChange={setContent}
-          placeholder="Write a comment..."
-          readOnly={!canEdit || loading}
-          autoFocus={autoFocus}
-        />
+        <div className="flex gap-2 justify-end mb-2">
+          <Button type="button" variant="outline" onClick={handlePreviewToggle}>
+            {showPreview ? 'Edit' : 'Preview'}
+          </Button>
+        </div>
+        {showPreview ? (
+          <div className="tiptap-preview tiptap-editor p-4 min-h-[120px] border rounded bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100">
+            <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(generateHTML(content || { type: 'doc', content: [] }, tiptapExtensions)) }} />
+          </div>
+        ) : (
+          mounted && showEditor && (
+            <CommentEditor
+              value={content}
+              onChange={setContent}
+              placeholder="Write a comment..."
+              readOnly={!canEdit || loading}
+              autoFocus={autoFocus}
+            />
+          )
+        )}
         <div
           ref={liveRegionRef}
           aria-live="assertive"
@@ -191,7 +236,7 @@ export function CommentForm({
           <Button type="button" variant="outline" onClick={handleCancel} disabled={loading}>
             Cancel
           </Button>
-          <Button type="submit" disabled={loading || !isHtmlMeaningful(content)}>
+          <Button type="submit" disabled={loading || !content || !content.content || content.content.length === 0}>
             {loading ? <span className="inline-flex items-center gap-1"><span className="animate-spin h-4 w-4 border-2 border-t-transparent border-current rounded-full"></span>Submitting...</span> : submitLabel}
           </Button>
         </div>
@@ -210,4 +255,13 @@ export function CommentForm({
       </Dialog>
     </>
   );
-} 
+}
+
+// Client-only wrapper to avoid SSR/hydration issues with Tiptap
+const ClientOnlyCommentForm = (props: any) => {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  if (!mounted) return null;
+  return <CommentForm {...props} />;
+};
+export default ClientOnlyCommentForm; 

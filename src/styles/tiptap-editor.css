@@ -404,3 +404,9 @@
 .comment-readonly.tiptap-editor ul[data-type="taskList"] ul[data-type="taskList"] {
   margin-left: 1.3em;
 }
+
+/* Remove excessive min-height for read-only comment display */
+.tiptap-editor.comment-readonly,
+.tiptap-editor-readonly {
+  min-height: 0 !important;
+}

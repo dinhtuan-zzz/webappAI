@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Underline from '@tiptap/extension-underline';
@@ -37,7 +37,7 @@ import { ColorButton } from '@/components/tiptap-ui/color-button/color-button';
 import { HighlightButton } from '@/components/tiptap-ui/highlight-button/highlight-button';
 import { SpoilerButton } from '@/components/tiptap-ui/spoiler-button/spoiler-button';
 import { Palette, Highlighter, EyeOff } from 'lucide-react';
-import Spoiler from '@/components/tiptap-ui/spoiler-mark';
+import SpoilerBlock from '@/components/tiptap-ui/spoiler-block';
 import { Toolbar, ToolbarGroup, ToolbarSeparator } from '@/components/tiptap-ui-primitive/toolbar';
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import BulletList from '@tiptap/extension-bullet-list';
@@ -45,14 +45,55 @@ import OrderedList from '@tiptap/extension-ordered-list';
 import ListItem from '@tiptap/extension-list-item';
 import { keymap } from 'prosemirror-keymap';
 import { sinkListItem, liftListItem } from 'prosemirror-schema-list';
+import { generateHTML } from '@tiptap/core';
+import DOMPurify from 'isomorphic-dompurify';
+import { TextSelection, NodeSelection } from 'prosemirror-state';
+import { Extension } from '@tiptap/core';
+import { Plugin, PluginKey } from 'prosemirror-state';
 
 interface CommentEditorProps {
-  value: string;
-  onChange: (val: string) => void;
+  value: any; // Tiptap JSON
+  onChange: (val: any) => void;
   placeholder?: string;
   readOnly?: boolean;
   autoFocus?: boolean;
 }
+
+const InsertParagraphAboveFirstBlock = Extension.create({
+  name: 'insertParagraphAboveFirstBlock',
+  addKeyboardShortcuts() {
+    return {
+      ArrowUp: ({ editor }) => {
+        const { state, view } = editor;
+        const { selection, doc } = state;
+        // Log selection info for debugging
+        console.log('ArrowUp handler fired', selection, selection.from, selection.empty, selection.$from.parentOffset, doc.firstChild?.type.name);
+        // Handle both TextSelection and NodeSelection at the very start or start of first block
+        const isAtStart =
+          (
+            selection instanceof TextSelection &&
+            (selection.$from.pos === 1 || selection.$from.pos === 2) &&
+            selection.empty &&
+            selection.$from.parentOffset === 0
+          ) ||
+          (selection instanceof NodeSelection && selection.from === 1);
+        if (
+          isAtStart &&
+          doc.childCount > 0 &&
+          doc.firstChild &&
+          doc.firstChild.type.name !== 'paragraph'
+        ) {
+          const paragraph = state.schema.nodes.paragraph.create();
+          let tr = state.tr.insert(0, paragraph);
+          tr = tr.setSelection(TextSelection.near(tr.doc.resolve(1)));
+          view.dispatch(tr);
+          return true;
+        }
+        return false;
+      },
+    };
+  },
+});
 
 const CommentEditor: React.FC<CommentEditorProps> = ({
   value,
@@ -61,6 +102,10 @@ const CommentEditor: React.FC<CommentEditorProps> = ({
   readOnly = false,
   autoFocus = false,
 }) => {
+  const [showPreview, setShowPreview] = useState(false);
+  const [moreBarMode, setMoreBarMode] = useState<null | 'text' | 'other'>(null);
+  const shouldReduceMotion = useReducedMotion();
+
   const extensions = [
     StarterKit.configure({
       bulletList: false,
@@ -138,16 +183,17 @@ const CommentEditor: React.FC<CommentEditorProps> = ({
     TableHeader,
     Youtube,
     TextAlign.configure({ types: ['heading', 'paragraph'] }),
-    Spoiler,
+    SpoilerBlock,
+    InsertParagraphAboveFirstBlock,
   ];
+
   const editor = useEditor({
     extensions,
     content: value,
-    editable: !readOnly,
+    editable: !readOnly && !showPreview,
     immediatelyRender: false,
     onUpdate: ({ editor }) => {
-      console.log('Editor HTML:', editor.getHTML());
-      onChange(editor.getHTML());
+      onChange(editor.getJSON());
     },
     editorProps: {
       attributes: {
@@ -156,6 +202,28 @@ const CommentEditor: React.FC<CommentEditorProps> = ({
         'aria-label': placeholder,
       },
       handleClickOn(view, pos, node, nodePos, event, direct) {
+        if (event.target instanceof HTMLElement) {
+          if (event.target.classList.contains('voz-spoiler-label')) {
+            view.dispatch(
+              view.state.tr.setNodeMarkup(nodePos, undefined, {
+                ...node.attrs,
+                revealed: true,
+              })
+            );
+            event.preventDefault();
+            return true;
+          }
+          if (event.target.classList.contains('voz-spoiler-hide-btn')) {
+            view.dispatch(
+              view.state.tr.setNodeMarkup(nodePos, undefined, {
+                ...node.attrs,
+                revealed: false,
+              })
+            );
+            event.preventDefault();
+            return true;
+          }
+        }
         if (
           event.target instanceof HTMLAnchorElement &&
           (event.ctrlKey || event.metaKey)
@@ -171,11 +239,11 @@ const CommentEditor: React.FC<CommentEditorProps> = ({
 
   // Keep editor content in sync with value prop (for edit mode)
   useEffect(() => {
-    if (editor && value !== editor.getHTML()) {
-      editor.commands.setContent(value || '<p></p>', false);
+    if (editor && JSON.stringify(value) !== JSON.stringify(editor.getJSON())) {
+      editor.commands.setContent(value || { type: 'doc', content: [] }, false);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [value]);
+     
+  }, [value, editor]);
 
   // Auto-focus on mount if requested
   useEffect(() => {
@@ -183,10 +251,6 @@ const CommentEditor: React.FC<CommentEditorProps> = ({
       editor.commands.focus('end');
     }
   }, [editor, autoFocus]);
-
-  const [showPreview, setShowPreview] = React.useState(false);
-  const [moreBarMode, setMoreBarMode] = React.useState<null | 'text' | 'other'>(null);
-  const shouldReduceMotion = useReducedMotion();
 
   return (
     <div className="tiptap-editor-wrapper">
@@ -294,10 +358,10 @@ const CommentEditor: React.FC<CommentEditorProps> = ({
         </AnimatePresence>
       </div>
       {!showPreview ? (
-        <EditorContent editor={editor} />
+        <EditorContent key="editor" editor={editor} />
       ) : (
-        <div className="tiptap-preview tiptap-editor p-4 min-h-[120px] border rounded bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100">
-          <div dangerouslySetInnerHTML={{ __html: editor?.getHTML() || '' }} />
+        <div key="preview" className="tiptap-preview tiptap-editor p-4 min-h-[120px] border rounded bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100">
+          <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(generateHTML(value || { type: 'doc', content: [] }, extensions)) }} />
         </div>
       )}
     </div>

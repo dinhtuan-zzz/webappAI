@@ -8,7 +8,7 @@ import DOMPurify from 'isomorphic-dompurify';
 import { isMeaningfulHtml, enforceSafeCheckboxInputs } from '@/lib/htmlUtils';
 
 const commentUpdateSchema = z.object({
-  content: z.string().min(1).max(2000),
+  content: z.any(), // Accept any JSON
 });
 
 /**
@@ -35,31 +35,14 @@ export async function PUT(req: Request, { params }: { params: { commentId: strin
   if (!parsed.success) {
     return NextResponse.json({ error: "Invalid input", details: parsed.error.flatten() }, { status: 400 });
   }
-  // Sanitize and validate content
-  let sanitizedContent = DOMPurify.sanitize(parsed.data.content, {
-    ALLOWED_TAGS: [
-      'a', 'b', 'i', 'u', 's', 'em', 'strong', 'blockquote', 'ul', 'ol', 'li', 'pre', 'code', 'img', 'table',
-      'thead', 'tbody', 'tr', 'th', 'td', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'br', 'p', 'span',
-      'label', 'input'
-    ],
-    ALLOWED_ATTR: [
-      'href', 'src', 'alt', 'title', 'target', 'rel', 'class', 'style', 'width', 'height', 'align', 'colspan', 'rowspan',
-      'type', 'checked', 'data-checked', 'name', 'value', 'disabled'
-    ],
-    ALLOW_DATA_ATTR: true
-  });
-  sanitizedContent = enforceSafeCheckboxInputs(sanitizedContent);
-  console.log('Sanitized comment HTML:', sanitizedContent);
-  if (!isMeaningfulHtml(sanitizedContent)) {
-    return NextResponse.json({ error: "Comment cannot be empty." }, { status: 400 });
-  }
+  // No HTML sanitization needed for JSON
   // Check author
   const comment = await prisma.comment.findUnique({ where: { id: commentId } });
   if (!comment || comment.authorId !== session.user.id) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
   try {
-    const updated = await prisma.comment.update({ where: { id: commentId }, data: { content: sanitizedContent } });
+    const updated = await prisma.comment.update({ where: { id: commentId }, data: { content: parsed.data.content } });
     const result: Pick<Comment, "id" | "content"> = { id: updated.id, content: updated.content };
     return NextResponse.json({ comment: result });
   } catch (error) {

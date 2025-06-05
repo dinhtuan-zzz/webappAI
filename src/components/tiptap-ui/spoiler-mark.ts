@@ -1,4 +1,6 @@
+// DEPRECATED: Use spoilerBlock node instead of this inline spoiler mark for all new spoilers. This file is retained for legacy content only.
 import { Mark, mergeAttributes } from '@tiptap/core';
+import './spoiler-mark.scss';
 
 const Spoiler = Mark.create({
   name: 'spoiler',

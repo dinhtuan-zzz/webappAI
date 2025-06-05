@@ -175,7 +175,7 @@ model Comment {
   postId    String
   authorId  String
   parentId  String?
-  content   String
+  content   Json
   status    CommentStatus @default(APPROVED)
   createdAt DateTime      @default(now())
   updatedAt DateTime      @updatedAt

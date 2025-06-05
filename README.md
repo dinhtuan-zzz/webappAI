@@ -84,6 +84,12 @@ A modern, robust manga blog platform built with **Next.js**, **Prisma**, **Postg
   - All changes follow best practices for maintainability, accessibility, and modern UI/UX.
   - Solutions are reusable and extensible for future needs.
 
+- **Spoiler Block/Block Node ArrowUp UX**
+  - Added a robust keyboard shortcut: pressing **ArrowUp** at the start of a spoiler block (or any non-paragraph block) at the top of the editor inserts a new paragraph above.
+  - Handles both text and node selections at the start, ensuring the shortcut works regardless of selection type or cursor mode.
+  - Iteratively debugged and improved the logic, including logging, to ensure reliability across all edge cases.
+  - Result: users can always add a line above a spoiler block at the top by pressing ArrowUp, matching modern Notion/Medium-like editor UX.
+
 ## 🎨 Text Color Picker UX & Accessibility Improvements (2024-06)
 
 - **Manga-Style Color Picker:**
