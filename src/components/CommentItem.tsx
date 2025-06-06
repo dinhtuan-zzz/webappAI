@@ -193,9 +193,11 @@ export function CommentItem({
           />
         ) : (
           <CollapsibleComment maxHeight={300}>
-            <div id={`comment-content-${comment.id}`}>
-              <TiptapJsonRenderer content={comment.content} />
-            </div>
+            {injectOnToggle => (
+              <div id={`comment-content-${comment.id}`}>
+                <TiptapJsonRenderer content={comment.content} injectOnToggle={injectOnToggle} />
+              </div>
+            )}
           </CollapsibleComment>
         )}
         <div className="flex gap-2 text-xs mt-1">

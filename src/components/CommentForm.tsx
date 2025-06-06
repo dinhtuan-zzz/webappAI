@@ -44,6 +44,13 @@ const tiptapExtensions = [
   SpoilerBlock,
 ];
 
+function normalizeTiptapContent(content: any) {
+  if (!content || typeof content !== 'object' || !content.type) {
+    return { type: 'doc', content: [] };
+  }
+  return content;
+}
+
 export function CommentForm({
   onSubmit,
   onCancel,
@@ -67,7 +74,7 @@ export function CommentForm({
   contextKey?: string;
   autoFocus?: boolean;
 }) {
-  const [content, setContent] = useState(initialContent);
+  const [content, setContent] = useState(normalizeTiptapContent(initialContent));
   const [dirty, setDirty] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const liveRegionRef = useRef<HTMLDivElement>(null);
@@ -202,14 +209,9 @@ export function CommentForm({
   return (
     <>
       <form onSubmit={handleSubmit} className="flex flex-col gap-2" aria-label="Comment form">
-        <div className="flex gap-2 justify-end mb-2">
-          <Button type="button" variant="outline" onClick={handlePreviewToggle}>
-            {showPreview ? 'Edit' : 'Preview'}
-          </Button>
-        </div>
         {showPreview ? (
           <div className="tiptap-preview tiptap-editor p-4 min-h-[120px] border rounded bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100">
-            <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(generateHTML(content || { type: 'doc', content: [] }, tiptapExtensions)) }} />
+            <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(generateHTML(normalizeTiptapContent(content), tiptapExtensions)) }} />
           </div>
         ) : (
           mounted && showEditor && (

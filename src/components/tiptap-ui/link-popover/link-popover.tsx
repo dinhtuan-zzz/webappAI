@@ -332,10 +332,8 @@ export function LinkPopover({
   })
 
   const isDisabled = React.useMemo(() => {
-    if (!editor) return true
-    if (editor.isActive("codeBlock")) return true
-    return !editor.can().setLink?.({ href: "" })
-  }, [editor])
+    return !editor || !editor.isEditable;
+  }, [editor]);
 
   const canSetLink = React.useMemo(() => {
     if (!editor) return false
